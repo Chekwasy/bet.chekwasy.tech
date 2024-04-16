@@ -1,0 +1,2 @@
+//to get front end data using request.body.key. key can be any key
+npm install body-parser

@@ -1,0 +1,37 @@
+//for js only
+npm install mongodb 
+
+
+
+//all for python
+pip3 install pymongo
+
+
+//for all
+//digital ocean
+curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+
+sudo apt update
+
+sudo apt install mongodb-org
+
+sudo systemctl start mongod.service
+
+sudo systemctl status mongod
+
+sudo systemctl enable mongod
+
+
+// Potential issue if documents creation doesn’t work or this error: Data directory /data/db not found., terminating (source and source)///
+
+ sudo mkdir -p /data/db
+
+// Or if /etc/init.d/mongod is missing, please find here an example of the file:
+
+//copy a file called monn from current dir to here
+/etc/init.d/mongod
+
+//unistall mongoo
+sudo apt-get purge mongodb*
+sudo rm -r /etc/mongod.conf
+sudo rm -r /var/log/mongodb

@@ -1,0 +1,8 @@
+curl 0.0.0.0:5000/status ; echo ""
+
+curl 0.0.0.0:5000/stats ; echo ""
+
+curl 0.0.0.0:5000/users -XPOST -H "Content-Type: application/json" -d '{ "email": "bob@dylan.com", "password": "toto1234!" }' ; echo ""
+
+echo 'db.users.find()' | mongosh files_manager
+

@@ -1,0 +1,7 @@
+.all {
+    display: flex;
+    width: 100vw;
+    height: auto;
+    flex-direction: column;
+    color: white;
+}

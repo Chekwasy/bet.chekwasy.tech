@@ -1,0 +1,1 @@
+To install Node. js 20 on Ubuntu 20.04 LTS, run the following commands in a terminal window: sudo apt update , sudo apt upgrade , sudo apt install -y curl , curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - , and sudo apt install -y nodejs . Verify the version with node --version .

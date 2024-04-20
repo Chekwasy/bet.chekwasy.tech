@@ -1,0 +1,68 @@
+.nav {
+    width: 100vw;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: black;
+}
+.nav_logo {
+    width: 10rem;
+    height: 3rem;
+    display: flex;
+}
+.nav_menu {
+    width: 25rem;
+    height: 3rem;
+}
+.nav_menu_ctr {
+    width: 15rem;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.nav_link {
+    color: white;
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+.nav_menu_item {
+    height: 1.5rem;
+    width: 4rem;
+    display: flex;
+    border: 1px solid white;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+}
+.nav_info {
+    width: 40rem;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+}
+.nav_info_ctr {
+    width: 10rem;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.nav_info_item {
+    height: 1.5rem;
+    width: 4rem;
+    display: flex;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+}

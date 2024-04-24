@@ -4,4 +4,12 @@
     height: auto;
     flex-direction: column;
     color: white;
+    background-color: black;
+}
+.container {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }

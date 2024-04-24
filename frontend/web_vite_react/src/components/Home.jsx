@@ -1,21 +1,16 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import Main_bar from '../Main_bar.jsx';
 
-function Profile() {
+function Home() {
+    const params = useParams();
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/login">login</Link>
-        </li>
-        <li>
-          <Link to="/reg">reg</Link>
-        </li>
-      </ul>
-    </nav>
+    <div>
+      <div className='profile'>
+        <Main_bar />
+      </div>
+    </div>
   );
 }
 
-export default Profile;
+export default Home;

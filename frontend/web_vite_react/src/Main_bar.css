@@ -1,0 +1,112 @@
+.main_bar {
+    width: 70vw;
+    height: 88%;
+    background-color: black;
+    border: 1px solid green;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    font-size: 2vh;
+}
+.main_head {
+    width: 70vw;
+    height: 12vh;
+    border-bottom: 1px solid green;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.mh_type {
+    width: 40vw;
+    height: 12vh;
+    display: flex;
+    align-items: center;
+}
+.mh_date {
+    width: 20vw;
+    height: 12vh;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.mh_select {
+    background-color: black;
+    color: white;
+    border: 1px solid green;
+    border-radius: 5px;
+    font-size: 2vh;
+}
+.mh_select:hover {
+    background-color: rgb(80, 77, 77);
+}
+.mb_body {
+    width: 70vw;
+    display: flex;
+}
+.mb_all_country {
+    list-style: none;
+}
+.mb_all_league {
+    list-style: none;
+    font-size: 2vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.mb_country {
+    width: 65vw;
+    height: auto;
+    display: flex;
+    padding-bottom: 2vh;
+    padding-top: 2vh;
+    align-items: center;
+    border-top: 1px solid green;
+    border-bottom: 1px solid green;
+    border-radius: 5px;
+    justify-self: center;
+    font-size: 2.5vh;
+    color: green;
+}
+.mb_league {
+    color: white;
+    border: 2px;
+}
+.mb_event {
+    width: 50vw;
+    height: 4vh;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    background-color: green;
+    align-items: center;
+    justify-self: center;
+    border: 2px solid black;
+}
+.mb_event_head {
+    width: 40vw;
+    display: flex;
+    list-style: none;
+}
+.mb_event_odds {
+    width: 10vw;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-evenly;
+}
+.mb_event_odds li {
+    display: inline-block;
+}
+.mb_event_odd_bt {
+    width: 5vw;
+    height: 3vh;
+    display: flex;
+    background-color: black;
+    border-radius: 5px;
+}

@@ -4,19 +4,16 @@ import { useParams } from 'react-router-dom';
 function About() {
     const params = useParams();
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/login">login</Link>
-        </li>
-        <li>
-          <Link to="/reg">reg</Link>
-        </li>
-      </ul>
-    </nav>
+    <div className='about_comp'>
+      <div className='about_box'>
+        <h3>bet.chekwasy</h3>
+        <div>A classic and unique platform to play bet but without real funds
+          Test your betting skills to earn more with betting sites. <br />
+          Support us in any way to expand betting types to Over/Under, and others
+          including other sports
+        </div>
+      </div>
+    </div>
   );
 }
 

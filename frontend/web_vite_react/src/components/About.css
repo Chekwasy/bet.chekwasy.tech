@@ -1,0 +1,17 @@
+.about_comp {
+    width: 70vw;
+    height: auto;
+    display: flex;
+    font-size: 2vh;
+    justify-content: center;
+    border: 1px solid green;
+    border-radius: 5px;
+}
+.about_box {
+    width: 35vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

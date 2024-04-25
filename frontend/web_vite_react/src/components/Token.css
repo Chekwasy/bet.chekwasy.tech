@@ -1,0 +1,60 @@
+.token_comp {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vh;
+    color: white;
+}
+.token_container {
+    width: 20rem;
+    height: 13rem;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid green;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-evenly;
+}
+.token_form_item {
+    width: 17rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.token_form_item input {
+    width: 15rem;
+    height: 1.5rem;
+    border-radius: 5px;
+}
+.token_form_item input:focus {
+    outline: none;
+    border: 1px solid green;
+    border-radius: 5px;
+    box-shadow: 0 0 5px green;
+}
+.token_form_item h3 {
+    width: 17rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.token_form_item button {
+    width: 15rem;
+    height: 2rem;
+    display: flex;
+    background-color: green;
+    border: 1px solid green;
+    border-radius: 5px;
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+.token_form_item button:hover {
+    background-color: lightgreen;
+    color: black;
+}

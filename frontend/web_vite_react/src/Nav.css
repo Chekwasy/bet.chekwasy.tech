@@ -70,7 +70,7 @@
     align-items: center;
 }
 .nav_hover:hover {
-    background-color: rgb(80, 77, 77);
+    color: rgb(80, 77, 77);
 }
 .nav_active {
     color: green;

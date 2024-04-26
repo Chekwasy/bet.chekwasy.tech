@@ -17,10 +17,10 @@ let transporter = nodemailer.createTransport({
 
 //creating new queue with same queue name as in filecontroller file
 const fileQueue = new Queue('create thumbnails');
-const userQueue = new Queue('Sending Email');
+const tokenQueue = new Queue('Sending Token');
 
 
-//processing the job
+//processing the job for file thumbnail
 fileQueue.process( async (job, done) => {
 	const fileId = job.data.fileId;
 	const userId = job.data.userId;
@@ -71,27 +71,24 @@ fileQueue.process( async (job, done) => {
 	done();
 });
 
-userQueue.process(async (job, done) => {
-	const userId = job.data.userId;
-	if (!userId) {
-		throw new Error("Missing userId");
+//job to send user token for password reset
+tokenQueue.process(async (job, done) => {
+	const email = job.data.email;
+	const token = job.data.token;
+	if (!email || !token) {
+		throw new Error("Missing email or token");
 	}
-	console.log('Processing', job.data.name || '');
-	const user = await (await dbClient.client.db().collection('users'))
-	.findOne({ "_id": ObjectID(userId) });
-	if (!user) { 
-		throw new Error("User not found");
-	}
-	console.log(`Welcome ${user.email}`);
+	console.log('Processing', email);
 
 	//Data of email to be sent
 	let mailOptions = {
 		from: 'chekwasybuildex@gmail.com',
-		to: user.email,
-		subject: 'Welcome to bet.chekwasy.tech',
+		to: email,
+		subject: 'Reset password token',
 		html: `<div>
-		<h2>Hello ${user.email},</h2>
-		Thank you for joining.
+		<h2>Your reset password token is ${token},</h2>
+		<p>Your password token will expire in 10minutes</>.
+		<h2>bet.chekwasy.tech</h2>
 		</div>`
 	}
 	transporter.sendMail(mailOptions, (err, info) => {

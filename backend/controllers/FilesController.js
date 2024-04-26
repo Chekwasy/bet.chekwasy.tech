@@ -8,7 +8,7 @@ const { promisify } = require('util');
 const mkdirp = require('mkdirp');
 const FS = require('fs');
 const { ObjectID } = require('mongodb');
-const path = process.env.FOLDER_PATH || '/tmp/files_manager';
+const path = process.env.FOLDER_PATH || '/tmp/bet_chekwasy';
 
 /**
  * Contains files miscellanous handlers

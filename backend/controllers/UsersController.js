@@ -5,48 +5,92 @@ import redisClient from '../utils/redis';
 const { ObjectID } = require('mongodb')
 
 /**
- * Contains user miscellanous handlers
+ * Contains user miscellanous handlers for users i.e signup
  */
 class UsersController {
   static async postNew(req, res) {
-		const email = req.body.email || null;
-		const password = req.body.password || null;
-		if (!email) {
-			res.status(400).json({"error": "Missing email"});
-			return;
-		}
-		if (!password) {
-			res.status(400).json({'error': 'Missing password'});
-			return;
-		}
-		const user = await (await dbClient.client.db().collection('users'))
-		.findOne({ "email": email });
-		if (user) {
-			res.status(400).json({'error': 'Already exist'});
-			return;
-		}
-		const result = await (await dbClient.client.db().collection('users'))
-		.insertOne({"email": email, "password": sha1(password)});
-		const usrId = result.insertedId.toString();
+	//add new user
+	const email = req.body.email || null;
+	const password = req.body.password || null;
+	if (!email) {
+		res.status(400).json({"error": "Missing email"});
+		return;
+	}
+	if (!password) {
+		res.status(400).json({'error': 'Missing password'});
+		return;
+	}
+	const user = await (await dbClient.client.db().collection('users'))
+	.findOne({ "email": email });
+	if (user) {
+		res.status(400).json({'error': 'Already exist'});
+		return;
+	}
+	const result = await (await dbClient.client.db().collection('users'))
+	.insertOne({"email": email, "password": sha1(password),
+	"account_balance": 100000, "first_name": '', "last_name": '', "phone": '', });
+	const usrId = result.insertedId.toString();
 
-		//creating a queue and job to handle sending email to a user
-		const userQueue = new Queue('Sending Email');
-		const userJob = await userQueue.add({"userId": usrId, "name": usrId});
-		res.status(201).json({ "id": usrId, "email": email });
+
+	res.status(201).json({ "id": usrId, "email": email });
   }
 
   static async getMe(req, res) {
+	//check if user is logged in
   	const x_tok = req.headers['x-token'];
-		if (!x_tok) { res.json(); return;}
-		const usr_id = await redisClient.get(`auth_${x_tok}`);
-		if (!usr_id) {
-			res.status(401).json({"error": "Unauthorized"});
-			return;
-		}
-		const user = await (await dbClient.client.db().collection('users'))
-		.findOne({ "_id": ObjectID(usr_id) });
-		if (!user) { res.json(); return;}
-		res.json({'id': usr_id, 'email': user.email});
+	if (!x_tok) { res.json(); return;}
+	const usr_id = await redisClient.get(`auth_${x_tok}`);
+	if (!usr_id) {
+		res.status(401).json({"error": "Unauthorized"});
+		return;
+	}
+	const user = await (await dbClient.client.db().collection('users'))
+	.findOne({ "_id": ObjectID(usr_id) });
+	if (!user) { res.json(); return;}
+	res.json({'id': usr_id, 'email': user.email, 'account_balance': user.account_balance,
+		'first_name': user.first_name, 'last_name': user.last_name,
+		'phone': user.phone
+	});
+  }
+
+  static async putBalance(req, res) {
+	//reset balance to the default balance
+	const x_tok = req.headers['x-token'];
+	if (!x_tok) { res.json(); return;}
+	const usr_id = await redisClient.get(`auth_${x_tok}`);
+	if (!usr_id) {
+		res.status(401).json({"error": "Unauthorized"});
+		return;
+	}
+	const user = await (await dbClient.client.db().collection('users'))
+	.findOne({ "_id": ObjectID(usr_id) });
+	if (!user) { res.json(); return;}
+	await (await dbClient.client.db().collection('users'))
+		.updateOne({ "_id": ObjectID(usr_id) },
+		{ $set: { "account_balance": 100000 } });
+	res.json({'id': usr_id, 'email': user.email, 'status': 'done'});
+  }
+
+  static async putUpdate(req, res) {
+	//to update user information (first and last name and phone)
+	const x_tok = req.headers['x-token'];
+	if (!x_tok) { res.json(); return;}
+	const usr_id = await redisClient.get(`auth_${x_tok}`);
+	if (!usr_id) {
+		res.status(401).json({"error": "Unauthorized"});
+		return;
+	}
+	const user = await (await dbClient.client.db().collection('users'))
+	.findOne({ "_id": ObjectID(usr_id) });
+	if (!user) { res.json(); return;}
+	const first_name = req.body.first_name;
+	const last_name = req.body.last_name;
+	const phone = req.body.phone;
+	if (!first_name || !last_name || !phone) { res.status(400).json({"error": "missing data"}); return;}
+	await (await dbClient.client.db().collection('users'))
+		.updateOne({ "_id": ObjectID(usr_id) },
+		{ $set: { "first_name": first_name, "last_name": last_name, "phone": phone} });
+	res.status(200).json({"status": "ok"});
   }
 }
 

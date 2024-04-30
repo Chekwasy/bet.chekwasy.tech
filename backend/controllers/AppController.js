@@ -24,8 +24,9 @@ class AppController {
 	  	(async () => {
 	  		val1 = await dbClient.nbUsers();
 	   		val2 = await dbClient.nbFiles();
+			val3 = await dbClient.nbGames();
 	   	})();
-    	res.status(200).json({ "users": val1, "files": val2 });
+    	res.status(200).json({ "users": val1, "files": val2, "games": val3 });
 	}
   }
 }

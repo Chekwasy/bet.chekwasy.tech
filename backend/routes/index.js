@@ -22,11 +22,17 @@ const mapRoute = (app) => {
   app.put('/api/v1/files/:id/unpublish', FilesController.putUnpublish);
   app.get('/api/v1/files/:id/data', FilesController.getFile);
   app.get('/api/v1/games/:date', GamesController.getGames);
+  app.get('/api/v1/odds/:date', GamesController.getOdds);
   app.put('/api/v1/bal_res', UsersController.putBalance);
   app.post('/api/v1/send_tok', AuthController.postSend_tok);
   app.post('/api/v1/pwdreset', AuthController.postPwdreset);
   app.post('/api/v1/checktoken', AuthController.postChecktoken);
   app.put('/api/v1/update', UsersController.putUpdate);
+  app.post('/api/v1/bet', GamesController.postBet);
+  app.get('/api/v1/openbet/:pg', GamesController.getOpenbet);
+  app.get('/api/v1/closebet/:pg', GamesController.getClosebet);
+  app.post('/api/v1/postodds/:date', GamesController.postOdds);
+
 };
 
 export default mapRoute;

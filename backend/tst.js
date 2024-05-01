@@ -1,9 +1,6 @@
-const str = '/tmp/filemanager/djfjfjfj555';
-const str_lst = str.split('/');
-const pathLen = str_lst.length - 1;
-let savePath = '';
-for (let val = 1; val < pathLen; val++) {
-	savePath = savePath + '/' + str_lst[val];
-}
-savePath = savePath + '/';
-console.log(savePath);
+let today = new Date();
+const nex = new Date(today.getTime() + (0 * 24 * 60 * 60 * 1000));
+let options = {'timeZone': 'CET'};
+let dateLst = nex.toLocaleDateString(options).split('/');
+let date_ = dateLst[2] + dateLst[1] + dateLst[0];
+console.log(date_)

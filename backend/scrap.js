@@ -25,7 +25,7 @@ const scrap = async () => {
 	// 				EidLstDit['drawodd'] = 3;
 	// 				eventDit[gamesJson.Stages[i].Events[j].Eid].push(EidLstDit);
 	// 			}
-	// 		}
+	// 		} 
 	// 	}
 	// }
 	// oddLst.push(eventDit);
@@ -35,7 +35,8 @@ const scrap = async () => {
 		let today = new Date();
 		for (let i = 0; i < 8; i++) {
 			const nex = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
-			let dateLst = nex.toLocaleDateString().split('/');
+			let options = {'timeZone': 'CET'};
+			let dateLst = nex.toLocaleDateString(options).split('/');
 			let date_ = dateLst[2] + dateLst[1] + dateLst[0];
 			console.log(date_);
 			let getDate = await (await dbClient.client.db().collection('dates'))

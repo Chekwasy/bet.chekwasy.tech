@@ -1,0 +1,16 @@
+[0;1;31m●[0m mongod.service - MongoDB Database Server
+     Loaded: loaded (/lib/systemd/system/mongod.service; enabled; vendor preset: enabled)
+     Active: [0;1;31mfailed[0m (Result: exit-code) since Thu 2024-05-16 23:07:20 WAT; 11min ago
+       Docs: https://docs.mongodb.org/manual
+   Main PID: 913 (code=exited, status=1/FAILURE)
+
+May 16 23:07:20 chekwasy mongod[913]:   Frame: {"a":"555EDC5FA75B","b":"555ED7CD0000","o":"492A75B","s":"_ZN5mongo18WiredTigerKVEngineC1EPNS_16OperationContextERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESA_PNS_11ClockSourceESA_mmbb","C":"mongo::WiredTigerKVEngine::WiredTigerKVEngine(mongo::OperationContext*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, mongo::ClockSource*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned long, unsigned long, bool, bool)","s+":"B8B"}
+May 16 23:07:20 chekwasy mongod[913]:   Frame: {"a":"555EDB7E596D","b":"555ED7CD0000","o":"3B1596D","s":"_ZNK5mongo12_GLOBAL__N_117WiredTigerFactory6createEPNS_16OperationContextERKNS_19StorageGlobalParamsEPKNS_21StorageEngineLockFileE","C":"mongo::(anonymous namespace)::WiredTigerFactory::create(mongo::OperationContext*, mongo::StorageGlobalParams const&, mongo::StorageEngineLockFile const*) const","s+":"15D"}
+May 16 23:07:20 chekwasy mongod[913]:   Frame: {"a":"555EDCD4DEEF","b":"555ED7CD0000","o":"507DEEF","s":"_ZN5mongo23initializeStorageEngineEPNS_16OperationContextENS_22StorageEngineInitFlagsEPNS_14BSONObjBuilderE","C":"mongo::initializeStorageEngine(mongo::OperationContext*, mongo::StorageEngineInitFlags, mongo::BSONObjBuilder*)","s+":"8BF"}
+May 16 23:07:20 chekwasy mongod[913]:   Frame: {"a":"555EDB728236","b":"555ED7CD0000","o":"3A58236","s":"_ZN5mongo12_GLOBAL__N_114_initAndListenEPNS_14ServiceContextEi.constprop.0","C":"mongo::(anonymous namespace)::_initAndListen(mongo::ServiceContext*, int) [clone .constprop.0]","s+":"586"}
+May 16 23:07:20 chekwasy mongod[913]:   Frame: {"a":"555EDB72CB97","b":"555ED7CD0000","o":"3A5CB97","s":"_ZN5mongo11mongod_mainEiPPc","C":"mongo::mongod_main(int, char**)","s+":"1127"}
+May 16 23:07:20 chekwasy mongod[913]:   Frame: {"a":"555EDB724D35","b":"555ED7CD0000","o":"3A54D35","s":"main","s+":"C"}
+May 16 23:07:20 chekwasy mongod[913]:   Frame: {"a":"7FC53D2CB083","b":"7FC53D2A7000","o":"24083","s":"__libc_start_main","s+":"F3"}
+May 16 23:07:20 chekwasy mongod[913]:   Frame: {"a":"555EDB724C6E","b":"555ED7CD0000","o":"3A54C6E","s":"_start","s+":"2E"}
+May 16 23:07:20 chekwasy systemd[1]: [0;1;39m[0;1;31m[0;1;39mmongod.service: Main process exited, code=exited, status=1/FAILURE[0m
+May 16 23:07:20 chekwasy systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mmongod.service: Failed with result 'exit-code'.[0m

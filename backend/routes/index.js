@@ -3,10 +3,14 @@ import UsersController from '../controllers/UsersController';
 import AuthController from '../controllers/AuthController';
 import FilesController from '../controllers/FilesController';
 import GamesController from '../controllers/GamesController';
+const cors = require('cors');
 const bodyParser = require('body-parser');
 
 
 const mapRoute = (app) => {
+  app.use(cors({
+    origin: 'http://localhost:5173'
+  }))
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.get('/api/v1/status', AppController.getStatus);
@@ -32,7 +36,8 @@ const mapRoute = (app) => {
   app.get('/api/v1/openbet/:pg', GamesController.getOpenbet);
   app.get('/api/v1/closebet/:pg', GamesController.getClosebet);
   app.post('/api/v1/postodds/:date', GamesController.postOdds);
-
+  app.get('/api/v1/savedgames/:id', GamesController.getSavedgames);
+  app.post('/api/v1/savedgames/', GamesController.postSavedgames);
 };
 
 export default mapRoute;

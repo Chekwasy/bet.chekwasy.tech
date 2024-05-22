@@ -22,7 +22,8 @@ class GamesController {
                 let getDate = await (await dbClient.client.db().collection('dates'))
                 .findOne({ "date": date_ });
                 if (getDate) {
-                    res.status(200).json({"games": getDate.games});            
+                    res.status(200).json({"games": getDate.games});
+                    return;            
                 }
             }
 		}
@@ -189,6 +190,23 @@ class GamesController {
             }
 		}
         res.json({}); return;
+    }
+
+    static async getSavedgames( req, res) {
+        const id_ = req.params.id;
+        if (!id_) {res.json({}); return;}
+        const savdgm = await redisClient.get(id_);
+        if (!savdgm) {res.json({"savedgames": {}}); return;}
+        //console.log(savdgm);
+        res.status(200).json({"savedgames": JSON.parse(savdgm)});
+    }
+
+    static async postSavedgames( req, res) {
+        const id_ = req.body.id_;
+        const data = req.body.savedgames;
+        if (!id_ || !data) {res.json({}); return;}
+        redisClient.set(id_, JSON.stringify(data), 24 * 60 * 60);
+        res.status(200).json({"status": "ok"});
     }
 }
 

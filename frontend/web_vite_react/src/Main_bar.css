@@ -74,7 +74,7 @@
 }
 .mb_event {
     width: 50vw;
-    height: 4vh;
+    height: 5vh;
     list-style: none;
     display: flex;
     flex-direction: row;
@@ -90,7 +90,7 @@
     list-style: none;
 }
 .mb_event_odds {
-    width: 10vw;
+    width: 15vw;
     list-style: none;
     display: flex;
     flex-direction: row;
@@ -109,4 +109,10 @@
     display: flex;
     background-color: black;
     border-radius: 5px;
+}
+.oddSelected {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    border: color(black);
 }

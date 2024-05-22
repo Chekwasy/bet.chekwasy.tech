@@ -8,7 +8,8 @@ function Nav() {
   if (!loggedin) {logged = (<div className='nav_info_ctr'>
   <div className='nav_info_item'><NavLink className='nav_link nav_hover' to="/login">Login</NavLink></div>
   <div className='nav_info_item'><NavLink className='nav_link nav_hover' to="/reg">Register</NavLink></div>
-</div>)} 
+</div>)}
+  
   return (
     <div className='nav'>
       <NavLink className='nav_logo' to="/"></NavLink>

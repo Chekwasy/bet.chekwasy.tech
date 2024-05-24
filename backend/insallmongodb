@@ -1,0 +1,58 @@
+for ubuntu 24
+
+
+Update and Upgrade Ubuntu
+
+sudo apt update
+
+sudo apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common
+
+download mongo db files from mongo db site and run the file as going to the download folder
+the file name mongodb-org-server_7.0.11_amd64.deb
+
+what are below are files to be downloaded
+
+sudo dpkg -i mongodb-org-server_7.0.11_amd64.deb // for server
+sudo dpkg -i mongodb-org-mongos_7.0.11_amd64.deb // not important
+sudo dpkg -i mongodb-mongosh_2.2.6_amd64.deb // for shell
+sudo dpkg -i mongodb-compass_1.43.0_amd64.deb // for compass which is gui 
+
+sudo systemctl status mongod
+sudo systemctl start mongod
+sudo systemctl enable mongod
+
+
+<!-- sudo wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+
+$try and wait for the above
+
+
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+
+sudo apt-get update
+
+sudo apt-get install -y mongodb-org -->
+
+
+Start MongoDB
+- Run sudo systemctl start mongod to start MongoDB.
+- Run sudo systemctl daemon-reload to reload the systemd daemon.
+- Run sudo systemctl status mongod to check the status of MongoDB.
+
+Enable MongoDB to Start Automatically
+- Run sudo systemctl enable mongod to enable MongoDB to start automatically on boot.
+
+Start Mongosh
+- Run mongosh to start the MongoDB shell.
+
+Create a Database
+- Run use <database_name> to create a new database or switch to an existing one.
+- Run db.collection.insert({name: "<name>", year: <year>}) to add a document to the database.
+
+Check Error Logs
+- Run sudo tail -f /var/log/mongodb/mongod.log to check the error logs.
+
+Uninstall MongoDB
+- Run sudo service mongod stop to stop MongoDB.
+- Run sudo apt purge "mongodb-org*" to uninstall MongoDB and remove all configuration files.
+- Run sudo rm -r /var/log/mongodb and sudo rm -r /var/lib/mongodb to remove the MongoDB log and data directories.

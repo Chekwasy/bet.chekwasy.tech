@@ -17,7 +17,9 @@ class GamesController {
 		for (let i = 0; i < 8; i++) {
 			const nex = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
 			let dateLst = nex.toLocaleDateString().split('/');
-			let date_ = dateLst[2] + dateLst[1] + dateLst[0];
+            if (dateLst[0].length === 1) {dateLst[0] = '0' + dateLst[0];}
+            if (dateLst[1].length === 1) {dateLst[1] = '0' + dateLst[1];}
+			let date_ = dateLst[2] + dateLst[0] + dateLst[1];
             if (date === date_) {
                 let getDate = await (await dbClient.client.db().collection('dates'))
                 .findOne({ "date": date_ });
@@ -135,7 +137,9 @@ class GamesController {
 		for (let i = 0; i < 8; i++) {
 			const nex = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
 			let dateLst = nex.toLocaleDateString().split('/');
-			let date_ = dateLst[2] + dateLst[1] + dateLst[0];
+            if (dateLst[0].length === 1) {dateLst[0] = '0' + dateLst[0];}
+            if (dateLst[1].length === 1) {dateLst[1] = '0' + dateLst[1];}
+			let date_ = dateLst[2] + dateLst[0] + dateLst[1];
             if (date === date_) {
                 let getOdds = await (await dbClient.client.db().collection('odds'))
                 .findOne({ "date": date_ });
@@ -172,7 +176,9 @@ class GamesController {
         for (let i = 0; i < 8; i++) {
 			const nex = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
 			let dateLst = nex.toLocaleDateString().split('/');
-			let date_ = dateLst[2] + dateLst[1] + dateLst[0];
+            if (dateLst[0].length === 1) {dateLst[0] = '0' + dateLst[0];}
+            if (dateLst[1].length === 1) {dateLst[1] = '0' + dateLst[1];}
+			let date_ = dateLst[2] + dateLst[0] + dateLst[1];
             if (date === date_) {
                 let getOdds = await (await dbClient.client.db().collection('odds'))
                 .findOne({ "date": date });

@@ -37,11 +37,14 @@ const scrap = async () => {
 			const nex = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
 			let options = {'timeZone': 'CET'};
 			let dateLst = nex.toLocaleDateString(options).split('/');
-			let date_ = dateLst[2] + dateLst[1] + dateLst[0];
+			if (dateLst[0].length === 1) {dateLst[0] = '0' + dateLst[0];}
+			if (dateLst[1].length === 1) {dateLst[1] = '0' + dateLst[1];}
+			let date_ = dateLst[2] + dateLst[0] + dateLst[1];
 			console.log(date_);
 			let getDate = await (await dbClient.client.db().collection('dates'))
         	.findOne({ "date": date_ });
 			if (!getDate) {
+				console.log(date_);
 				let response = await axios.get(`https://prod-public-api.livescore.com/v1/api/app/date/soccer/${date_}/1?countryCode=NG&locale=en&MD=1`);
 				let gamesJson = response.data;
 				let insertDate = await (await dbClient.client.db().collection('dates'))
@@ -81,7 +84,9 @@ const scrap = async () => {
 		//form date string
 		let exp_today = new Date(today.getTime());
 		let exp_dateLst = exp_today.toLocaleDateString().split('/');
-		let dateStr = exp_dateLst[2] + exp_dateLst[1] + exp_dateLst[0];
+		if (exp_dateLst[0].length === 1) {exp_dateLst[0] = '0' + exp_dateLst[0];}
+		if (exp_dateLst[1].length === 1) {exp_dateLst[1] = '0' + exp_dateLst[1];}
+		let dateStr = exp_dateLst[2] + exp_dateLst[0] + exp_dateLst[1];
 
 		//get games object to work on
 		let response = await axios.get(`https://prod-public-api.livescore.com/v1/api/app/date/soccer/${dateStr}/1?countryCode=NG&locale=en&MD=1`);

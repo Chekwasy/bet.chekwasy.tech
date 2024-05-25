@@ -1,0 +1,4 @@
+sudo npm install --global vite
+npm install
+
+//thats all

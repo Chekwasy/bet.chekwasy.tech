@@ -26,12 +26,14 @@
     align-items: center;
 }
 .sb_list_item {
-    width: 20vw;
+    width: 27vw;
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
 }
 .sb_li_choice {
-    width: 15vw;
+    width: 13vw;
     display: flex;
     flex-direction: column;
 }
@@ -40,6 +42,16 @@
     display: flex;
     justify-content: end;
 
+}
+.sidebar_remove {
+    color: red;
+    width: 3vw;
+    height: 1.5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid green;
+    border-radius: 5px;
 }
 .sb_stake {
     width: 30vw;
@@ -98,6 +110,10 @@
 }
 .sb_bet_button:hover {
     background-color: rgb(80, 77, 77);
+}
+.sidebar_remove:hover {
+    color: white;
+    border: 1px solid red;
 }
 .input_bet_amt {
     background-color: rgb(46, 41, 41);

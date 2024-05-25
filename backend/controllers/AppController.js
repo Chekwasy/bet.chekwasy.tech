@@ -21,6 +21,7 @@ class AppController {
   	if (dbClient.isAlive()) {
   		let val1 = 0;
   		let val2 = 0;
+		let val3 = 0;
 	  	(async () => {
 	  		val1 = await dbClient.nbUsers();
 	   		val2 = await dbClient.nbFiles();

@@ -38,15 +38,15 @@ class UsersController {
   static async getMe(req, res) {
 	//check if user is logged in
   	const x_tok = req.headers['x-token'];
-	if (!x_tok) { res.json(); return;}
+	if (!x_tok) { res.json({}); return;}
 	const usr_id = await redisClient.get(`auth_${x_tok}`);
 	if (!usr_id) {
-		res.status(401).json({"error": "Unauthorized"});
+		res.json({});
 		return;
 	}
 	const user = await (await dbClient.client.db().collection('users'))
 	.findOne({ "_id": ObjectID(usr_id) });
-	if (!user) { res.json(); return;}
+	if (!user) { res.json({}); return;}
 	res.json({'id': usr_id, 'email': user.email, 'account_balance': user.account_balance,
 		'first_name': user.first_name, 'last_name': user.last_name,
 		'phone': user.phone

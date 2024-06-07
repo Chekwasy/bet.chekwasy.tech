@@ -10,7 +10,7 @@
 }
 .reg_container {
     width: 20rem;
-    height: 18rem;
+    height: 25rem;
     display: flex;
     flex-direction: column;
     border: 2px solid green;
@@ -58,4 +58,52 @@
 .reg_form_item button:hover {
     background-color: lightgreen;
     color: black;
+}
+.errorshade {
+    border: 2px solid red;
+    border-radius: 5px;
+}
+.reginvalid {
+    color: red;
+    font-size: small;
+    width: 21vw;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+}
+.regvalid {
+    color: green;
+    width: 21vw;
+    display: flex;
+    flex-direction: column;
+    font-size: small;
+    background-color: lightgreen;
+    border-radius: 5px;
+}
+.regposterror {
+    color: red;
+    width: 21vw;
+    display: flex;
+    flex-direction: column;
+    font-size: small;
+    border-radius: 5px;
+}
+.signupbtn {
+    cursor: pointer;
+    display: flex;
+    width: 22vw;
+    height: 2rem;
+    background-color: green;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+}
+.signupbtn:hover {
+    background-color: lightgreen;
+    display: flex;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
 }

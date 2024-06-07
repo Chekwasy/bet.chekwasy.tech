@@ -7,6 +7,7 @@
     border: 1px solid green;
     border-radius: 10px;
     background-color: black;
+    font-size: 2vh;
 }
 .nav_logo {
     width: 15vw;
@@ -21,7 +22,7 @@
     height: 3rem;
 }
 .nav_menu_ctr {
-    width: 27vw;
+    width: 35vw;
     height: 3rem;
     display: flex;
     flex-direction: row;
@@ -74,4 +75,50 @@
 }
 .nav_active {
     color: green;
+}
+.nav_loggedin {
+    width: 25vw;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.nav_profilepic {
+    width: 2vw;
+    height: 4vh;
+    display: flex;
+    background-image: url(../assets/logo.png);
+    background-size: 2vw 4vw;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    border: 1px solid green;
+}
+.nav_reloadaccountbal {
+    height: 1rem;
+    width: 3vw;
+    font-size: xx-small;
+    display: flex;
+    border: 1px solid green;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+}
+.nav_reloadaccountbal:hover {
+    color: rgb(80, 77, 77);
+    cursor: pointer;
+}
+.logout {
+    height: 1rem;
+    width: 3vw;
+    font-size: xx-small;
+    display: flex;
+    border: 1px solid green;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+}
+.logout:hover {
+    color: rgb(80, 77, 77);
+    cursor: pointer;
 }

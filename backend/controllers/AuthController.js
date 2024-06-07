@@ -23,7 +23,7 @@ class AuthController {
 			return;
 		}
 		const auth_token = v4();
-		redisClient.set(`auth_${auth_token}`, user._id.toString(), 24 * 60 * 60);
+		redisClient.set(`auth_${auth_token}`, user._id.toString(), 7 * 24 * 60 * 60);
 		res.status(200).json({ "token": auth_token });
 	}
 

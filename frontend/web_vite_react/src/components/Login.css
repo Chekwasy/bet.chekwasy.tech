@@ -59,3 +59,34 @@
     background-color: lightgreen;
     color: black;
 }
+.errorshade {
+    border: 2px solid red;
+    border-radius: 5px;
+}
+.logininvalid {
+    color: red;
+    font-size: small;
+}
+.loginposterror {
+    color: red;
+    font-size: small;
+}
+.loginbtn {
+    cursor: pointer;
+    display: flex;
+    width: 22vw;
+    height: 2rem;
+    background-color: green;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+}
+.loginbtn:hover {
+    background-color: lightgreen;
+    display: flex;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+}

@@ -7,6 +7,7 @@ import store from './store.js';
 import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
 import Profile from './components/Profile.jsx';
+import Ocgames from './components/Ocgames.jsx';
 import About from './components/About.jsx';
 import Register from './components/Register.jsx';
 import Fpwd from './components/Fpwd.jsx';
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: '/home',
         element: <Home />,
+      },
+      {
+        path: '/ocgames',
+        element: <Ocgames />,
       },
       {
         path: '/profile',

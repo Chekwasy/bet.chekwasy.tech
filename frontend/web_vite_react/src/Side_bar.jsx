@@ -14,6 +14,7 @@ function Side_bar() {
   const [stakeamt, setStakeamt] = useState(1);
   const [toWinamt, setToWinamt] = useState(1);
   const [totalodd, setTotalodd] = useState(1);
+  const [removeallwarning, setRemoveallwarning] = useState(false);
 
   const handleInputChange = (evt1) => {
     setStakeamt(evt1.target.value);
@@ -58,7 +59,39 @@ function Side_bar() {
         console.log('error');
       }
     });
-  }
+  };
+
+  //to bring popup via a click on remove all (games)
+  const removeAllclicked = () => {
+    if (Object.keys(mainbar.gamesSelected).length > 1) {
+      setRemoveallwarning(true);
+    }
+  };
+  const notoremoveAllclicked = () => {
+    setRemoveallwarning(false);
+  };
+  const yestoremoveAllclicked = () => {
+    const newdt = {};
+    for (const key in mainbar.gamesSelected) {
+      const chsel = document.querySelector(`[data-key="${key + ":" + mainbar.gamesSelected[key].staketype}"]`);
+      if (chsel) {chsel.classList.remove('oddSelected');}
+    }
+    dispatch(mainbarUpdate({'gamesSelected': newdt, setalloddsFunction: false}));
+    const to_save = {'id_': gcookieid, 'savedgames': newdt};
+    $.ajax({
+      type: 'POST',
+      url: urlNS + 'localhost:5000/api/v1/savedgames',
+      data: JSON.stringify(to_save),
+      contentType: 'application/json',
+      success: function(res) {
+        console.log('okay');
+      },
+      error: function(err) {
+        console.log('error');
+      }
+    });
+    setRemoveallwarning(false);
+  };
 
   return (
     <div className='side_bar'>
@@ -66,8 +99,19 @@ function Side_bar() {
         <div className='sb_head'>
           <div><p>Selected games</p></div>
           <div></div>
-          <div><p>Remove all</p></div>
+          <div><div className='sb_removeallbutton' onClick={removeAllclicked}>Remove all</div></div>
         </div>
+          {removeallwarning && (
+            <div className='sb_removeallwanringparent'>
+              <div className='sb_removeallwarning'>
+                <div>Are you sure you want to continue</div>
+                <div className='sb_removechoice'>
+                  <button className='sb_choiceclick' onClick={yestoremoveAllclicked}>Yes</button>
+                  <button className='sb_choiceclick' onClick={notoremoveAllclicked}>No</button>
+                </div>
+              </div>
+            </div>
+          )}
         <div className='sb_choice'>
           <ul className='sidebarLst'>{Object.keys(mainbar.gamesSelected).map((evt_id) => (
             <li data-key={evt_id} key={evt_id}>

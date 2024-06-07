@@ -77,7 +77,7 @@ function Main_bar() {
       const dayy = timeLst[2].substring(6, 8);
       const givendate = dayy + "/" + monthh + "/" + yearr;
       //const gaOdddt = document.querySelector(`[data-key="${stkey + ':0'}"]`);
-      if ((displayDate.includes(givendate)) && (hrss >= curhrs)) {
+      if ((displayDate.includes(givendate))) {
         if ((hrss === curhrs) && (minss > curmins)) {
           const chsel = document.querySelector(`[data-key="${stkey + ":" + stvalue.staketype}"]`);
           if (chsel) {chsel.classList.add('oddSelected');}

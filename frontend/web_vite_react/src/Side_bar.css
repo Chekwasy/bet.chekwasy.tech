@@ -135,3 +135,42 @@
     border-radius: 5px;
     box-shadow: 0 0 5px green;
 }
+.sb_removeallwanringparent {
+    width: 30vw;
+    height: 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sb_removeallwarning {
+    width: 18vw;
+    height: 4vw;
+    display: flex;
+    border: 1px solid red;
+    border-radius: 5px;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.sb_removechoice {
+    width: 10vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.sb_choiceclick {
+    cursor: pointer;
+    display: flex;
+    width: 3vw;
+    border: 1px solid green;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+}
+.sb_removeallbutton:hover {
+    cursor: pointer;
+    border: 1px solid red;
+    border-radius: 5px;
+    padding: 2px;
+}

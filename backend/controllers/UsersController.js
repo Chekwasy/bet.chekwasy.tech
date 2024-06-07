@@ -10,8 +10,13 @@ const { ObjectID } = require('mongodb')
 class UsersController {
   static async postNew(req, res) {
 	//add new user
-	const email = req.body.email || null;
-	const password = req.body.password || null;
+	const usr_det = req.body.emailpwd;
+	if (!usr_det) {res.json({}); return;}
+	const encoded_usr_str = (usr_det.split(" "))[1];
+	const decoded_usr_str = Buffer.from(encoded_usr_str, 'base64').toString('utf-8');
+	const usr_details = decoded_usr_str.split(':');
+	const password = usr_details[1];
+	const email = usr_details[0];
 	if (!email) {
 		res.status(400).json({"error": "Missing email"});
 		return;
@@ -23,7 +28,7 @@ class UsersController {
 	const user = await (await dbClient.client.db().collection('users'))
 	.findOne({ "email": email });
 	if (user) {
-		res.status(400).json({'error': 'Already exist'});
+		res.status(401).json({'error': 'Already exist'});
 		return;
 	}
 	const result = await (await dbClient.client.db().collection('users'))
@@ -32,7 +37,7 @@ class UsersController {
 	const usrId = result.insertedId.toString();
 
 
-	res.status(201).json({ "id": usrId, "email": email });
+	res.status(201).json({ "email": email });
   }
 
   static async getMe(req, res) {
@@ -41,13 +46,13 @@ class UsersController {
 	if (!x_tok) { res.json({}); return;}
 	const usr_id = await redisClient.get(`auth_${x_tok}`);
 	if (!usr_id) {
-		res.json({});
+		res.status(400).json({});
 		return;
 	}
 	const user = await (await dbClient.client.db().collection('users'))
 	.findOne({ "_id": ObjectID(usr_id) });
-	if (!user) { res.json({}); return;}
-	res.json({'id': usr_id, 'email': user.email, 'account_balance': user.account_balance,
+	if (!user) { res.status(400).json({}); return;}
+	res.json({'email': user.email, 'account_balance': user.account_balance,
 		'first_name': user.first_name, 'last_name': user.last_name,
 		'phone': user.phone
 	});

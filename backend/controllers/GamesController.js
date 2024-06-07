@@ -48,7 +48,7 @@ class GamesController {
 
         const stakeAmt = req.body.stakeAmt;
         const betTime = req.body.betTime;
-        const gameStatus = 'open';
+        const gameStatus = req.body.gameStatus;
         const outcome = req.body.outcome;
         const totalOdd = req.body.totalOdd;
         const expReturns = req.body.expReturns;

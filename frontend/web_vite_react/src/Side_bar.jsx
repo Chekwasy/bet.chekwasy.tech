@@ -5,6 +5,7 @@ import { mainbarUpdate } from './State/mainbarState';
 import { useSelector } from 'react-redux';
 import Cookie from 'js-cookie';
 
+let cookietoken = Cookie.get('x-token') || '';
 let gcookieid = Cookie.get('savedgamesid');
 const urlNS = 'http://'; //for making change to https easy
 
@@ -14,7 +15,13 @@ function Side_bar() {
   const [stakeamt, setStakeamt] = useState(1);
   const [toWinamt, setToWinamt] = useState(1);
   const [totalodd, setTotalodd] = useState(1);
+  const [placebet, setPlacebet] = useState('Book bet');
+  const [displayamtentry, setDisplayamtentry] = useState(false);
   const [removeallwarning, setRemoveallwarning] = useState(false);
+  const [removeallbtn, setRemoveallbtn] = useState(false);
+  const [betplaced, setBetplaced] = useState(false);
+  const [betnotplaced, setBetnotplaced] = useState(false);
+
 
   const handleInputChange = (evt1) => {
     setStakeamt(evt1.target.value);
@@ -38,6 +45,16 @@ function Side_bar() {
   };
   useEffect(() => {
     handleLoadchange();
+    if (Object.keys(mainbar.gamesSelected).length === 0) {
+      setDisplayamtentry(false);
+      setPlacebet('Book bet');
+    }
+    if (Object.keys(mainbar.gamesSelected).length > 1) {
+      setRemoveallbtn(true);
+    }
+    if (Object.keys(mainbar.gamesSelected).length < 2) {
+      setRemoveallbtn(false);
+    }
   }, [mainbar, stakeamt]);
   const removegame = (evt) => {
     const evt_id = evt.target.closest('li').dataset.key;
@@ -93,13 +110,83 @@ function Side_bar() {
     setRemoveallwarning(false);
   };
 
+  const betplacedfunc = async () => {
+    setBetplaced(true);
+    await new Promise(resolve => setTimeout(resolve, 5 * 1000));
+    setBetplaced(false);
+  };
+
+  const betnotplacedfunc = async () => {
+    setBetnotplaced(true);
+    await new Promise(resolve => setTimeout(resolve, 5 * 1000));
+    setBetnotplaced(false);
+  };
+
+  const placebetfunc = async () => {
+    if ((placebet === 'Book bet') && (!displayamtentry) && (Object.keys(mainbar.gamesSelected).length > 0)) {
+      setDisplayamtentry(true);
+      setPlacebet('Place bet');
+    }
+    if ((placebet === 'Place bet') && (displayamtentry) && (Object.keys(mainbar.gamesSelected).length > 0)) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      const curdt = new Date();
+      const hr = curdt.getHours().toString().padStart(2, '0');
+      const mt = curdt.getMinutes().toString().padStart(2, '0');
+      const dy = curdt.getDate().toString().padStart(2, '0');
+      const month = (curdt.getMonth() + 1).toString().padStart(2, '0');
+      const year = curdt.getFullYear().toString();
+
+      const tobet = {
+        stakeAmt: stakeamt,
+        betTime: hr + ':' + mt + '_' + dy + '/' + month + '/' + year,
+        gameStatus: 'open',
+        outcome: 'na',
+        totalOdd: totalodd,
+        expReturns: toWinamt,
+        games: mainbar.gamesSelected
+      }
+      $.ajax({
+        type: 'POST',
+        url: urlNS + 'localhost:5000/api/v1/bet',
+        contentType: 'application/json',
+        data: JSON.stringify(tobet),
+        headers: {
+          'x-token': cookietoken,
+        },
+        success: function(res) {
+          dispatch(mainbarUpdate({'gamesSelected': {}, setalloddsFunction: false}));
+          const to_save = {'id_': gcookieid, 'savedgames': {}};
+          $.ajax({
+            type: 'POST',
+            url: urlNS + 'localhost:5000/api/v1/savedgames',
+            data: JSON.stringify(to_save),
+            contentType: 'application/json',
+            success: function(res) {
+              console.log('okay');
+            },
+            error: function(err) {
+              console.log('error');
+            }
+          });
+          betplacedfunc();
+        },
+        error: function(res, status, err) {
+          betnotplaced();
+        }
+      });
+      
+      // setDisplayamtentry(true);
+      // setPlacebet('Place bet');
+    }
+  };
+
   return (
     <div className='side_bar'>
       <form>
         <div className='sb_head'>
           <div><p>Selected games</p></div>
           <div></div>
-          <div><div className='sb_removeallbutton' onClick={removeAllclicked}>Remove all</div></div>
+          <div>{ removeallbtn && (<div className='sb_removeallbutton' onClick={removeAllclicked}>Remove all</div>)}</div>
         </div>
           {removeallwarning && (
             <div className='sb_removeallwanringparent'>
@@ -129,6 +216,14 @@ function Side_bar() {
             </li>
           ))}
           </ul>
+          <div className='betplaced1'>{betplaced && (
+            <div className='betplaced'>Selected games has been placed successfully</div>
+          )}</div>
+          <div className='betnotplaced1'>{betnotplaced && (
+            <div className='betnotplaced'>Selected games not placed. <br />
+                Login or create an account to place bet
+            </div>
+          )}</div>
         </div>
         <div className='sb_stake'>
           <div className='sb_stake_sub'>
@@ -136,14 +231,14 @@ function Side_bar() {
             <div>Total odd</div>
             <div>Potential Winning</div>
           </div>
-          <div className='sb_stake_ent'>
+          <div className='sb_stake_ent'>{ displayamtentry && (<div className='sb_stake_ent'>
             <div className='sb_stake_input'><div>NGN</div><input className='input_bet_amt' style={{width: '4vw', height: '3vh'}} type="number" value={stakeamt} onChange={handleInputChange}/></div>
             <div className='sb_stake_odd'>{totalodd}</div>
             <div className='sb_stake_odd'>{toWinamt}</div>
-          </div>
+          </div>)}</div>
         </div>
         <div className='sb_submit'>
-          <button className='sb_bet_button' type='submit'>Place bet</button>
+          <div className='sb_bet_button' onClick={placebetfunc}>{placebet}</div>
         </div>
       </form>
     </div>

@@ -103,6 +103,9 @@
 .mb_event_odds li {
     display: inline-block;
 }
+.mb_event_odds li button {
+    cursor: pointer;
+}
 .mb_event_odd_bt {
     width: 5vw;
     height: 3vh;

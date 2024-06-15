@@ -61,7 +61,7 @@ const router = createBrowserRouter([
     element: <Fpwd />,
   },
   {
-    path: '/token',
+    path: '/lkjhgfdsfghjkljhgfzsdxfcgvhbjnkkljhgfdsfghjkhjghgfghjjkkgkjhkhkjkkkjkkhjgfdrtdtrewe',
     element: <Token />,
   },
 ]);

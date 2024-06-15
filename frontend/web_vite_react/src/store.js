@@ -9,10 +9,12 @@
 // })
 import { configureStore } from '@reduxjs/toolkit';
 import mainBarReducer from './State/mainbarState';
+import navBarReducer from './State/navbarState';
 
 const store = configureStore({
     reducer: {
         mainbarState: mainBarReducer,
+        navbarState: navBarReducer
     },
 });
 

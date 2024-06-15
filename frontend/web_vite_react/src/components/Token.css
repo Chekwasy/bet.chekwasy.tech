@@ -10,7 +10,7 @@
 }
 .token_container {
     width: 20rem;
-    height: 13rem;
+    height: 19rem;
     display: flex;
     flex-direction: column;
     border: 2px solid green;
@@ -57,4 +57,8 @@
 .token_form_item button:hover {
     background-color: lightgreen;
     color: black;
+}
+.errorshade {
+    border: 2px solid red;
+    border-radius: 5px;
 }

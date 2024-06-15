@@ -2,13 +2,18 @@ import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import $ from 'jquery';
 import Cookie from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { navbarUpdate } from './State/navbarState';
+import { useSelector } from 'react-redux';
+
 let cookietoken = Cookie.get('x-token') || '';
 const urlNS = 'http://'; //for making change to https easy
 
 
 function Nav() {
+  const dispatch = useDispatch();
+  const navbar = useSelector(state => state.navbarState);
   const [loggedin, setLoggedin] = useState(false);
-  const [getme, setGetme] = useState({});
   useEffect(() => {
     $.ajax({
       type: 'GET',
@@ -19,7 +24,7 @@ function Nav() {
       },
       success: function(res) {
         setLoggedin(true);
-        setGetme({...res});
+        dispatch(navbarUpdate({'usr': {...res}}));
       },
       error: function(err) {
         setLoggedin(false);
@@ -36,7 +41,7 @@ function Nav() {
         'x-token': cookietoken,
       },
       success: function(res) {
-        setGetme({...res});
+        dispatch(navbarUpdate({'usr': {...res}}));
       },
       error: function(err) {
         setLoggedin(false);
@@ -49,6 +54,7 @@ function Nav() {
       type: 'PUT',
       url: urlNS + 'localhost:5000/api/v1/bal_res',
       contentType: 'application/json',
+      data: JSON.stringify({newbal: 100000}),
       headers: {
         'x-token': cookietoken,
       },
@@ -96,7 +102,7 @@ function Nav() {
         {loggedin && (
           <div className='nav_loggedin'>
             <div className='nav_profilepic'></div>
-            <div className='nav_accountbal'>NGN {Intl.NumberFormat('en-US').format(getme.account_balance)}</div>
+            <div className='nav_accountbal'>NGN {Intl.NumberFormat('en-US').format(navbar.usr.account_balance)}</div>
             <div className='nav_reloadaccountbal' onClick={bal_res}>Reload</div>
             <div className='logout' onClick={logout}>Logout</div>
           </div>

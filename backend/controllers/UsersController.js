@@ -70,11 +70,14 @@ class UsersController {
 	const user = await (await dbClient.client.db().collection('users'))
 	.findOne({ "_id": ObjectID(usr_id) });
 	if (!user) { res.json(); return;}
+	const nwbal = req.body.newbal;
+	if (!nwbal) { res.json(); return;}
 	await (await dbClient.client.db().collection('users'))
 		.updateOne({ "_id": ObjectID(usr_id) },
-		{ $set: { "account_balance": 100000 } });
+		{ $set: { "account_balance": nwbal } });
 	res.json({'id': usr_id, 'email': user.email, 'status': 'done'});
   }
+
 
   static async putUpdate(req, res) {
 	//to update user information (first and last name and phone)

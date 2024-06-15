@@ -6,7 +6,7 @@ const thumbnail = require('image-thumbnail');
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
-
+ 
 let transporter = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
@@ -76,6 +76,7 @@ fileQueue.process( async (job, done) => {
 tokenQueue.process(async (job, done) => {
 	const email = job.data.email;
 	const token = job.data.token;
+
 	if (!email || !token) {
 		throw new Error("Missing email or token");
 	}

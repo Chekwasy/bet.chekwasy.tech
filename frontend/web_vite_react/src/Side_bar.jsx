@@ -4,6 +4,7 @@ import $ from 'jquery';
 import { mainbarUpdate } from './State/mainbarState';
 import { useSelector } from 'react-redux';
 import Cookie from 'js-cookie';
+import { navbarUpdate } from './State/navbarState';
 
 let cookietoken = Cookie.get('x-token') || '';
 let gcookieid = Cookie.get('savedgamesid');
@@ -12,6 +13,7 @@ const urlNS = 'http://'; //for making change to https easy
 function Side_bar() {
   const dispatch = useDispatch();
   const mainbar = useSelector(state => state.mainbarState);
+  const navbar = useSelector(state => state.navbarState);
   const [stakeamt, setStakeamt] = useState(1);
   const [toWinamt, setToWinamt] = useState(1);
   const [totalodd, setTotalodd] = useState(1);
@@ -21,6 +23,7 @@ function Side_bar() {
   const [removeallbtn, setRemoveallbtn] = useState(false);
   const [betplaced, setBetplaced] = useState(false);
   const [betnotplaced, setBetnotplaced] = useState(false);
+  const [balancesmall, setBalancesmall] = useState(false);
 
 
   const handleInputChange = (evt1) => {
@@ -87,6 +90,11 @@ function Side_bar() {
   const notoremoveAllclicked = () => {
     setRemoveallwarning(false);
   };
+  const balancesmallfunc = async () => {
+    setBalancesmall(true);
+    await new Promise(resolve => setTimeout(resolve, 5 * 1000));
+    setBalancesmall(false);
+  };
   const yestoremoveAllclicked = () => {
     const newdt = {};
     for (const key in mainbar.gamesSelected) {
@@ -112,7 +120,7 @@ function Side_bar() {
 
   const betplacedfunc = async () => {
     setBetplaced(true);
-    await new Promise(resolve => setTimeout(resolve, 5 * 1000));
+    await new Promise(resolve => setTimeout(resolve, 10 * 1000));
     setBetplaced(false);
   };
 
@@ -135,6 +143,7 @@ function Side_bar() {
       const dy = curdt.getDate().toString().padStart(2, '0');
       const month = (curdt.getMonth() + 1).toString().padStart(2, '0');
       const year = curdt.getFullYear().toString();
+      const usrbal = navbar.usr.account_balance;
 
       const tobet = {
         stakeAmt: stakeamt,
@@ -145,35 +154,59 @@ function Side_bar() {
         expReturns: toWinamt,
         games: mainbar.gamesSelected
       }
-      $.ajax({
-        type: 'POST',
-        url: urlNS + 'localhost:5000/api/v1/bet',
-        contentType: 'application/json',
-        data: JSON.stringify(tobet),
-        headers: {
-          'x-token': cookietoken,
-        },
-        success: function(res) {
-          dispatch(mainbarUpdate({'gamesSelected': {}, setalloddsFunction: false}));
-          const to_save = {'id_': gcookieid, 'savedgames': {}};
-          $.ajax({
-            type: 'POST',
-            url: urlNS + 'localhost:5000/api/v1/savedgames',
-            data: JSON.stringify(to_save),
-            contentType: 'application/json',
-            success: function(res) {
-              console.log('okay');
-            },
-            error: function(err) {
-              console.log('error');
+
+      if (stakeamt <= usrbal) {
+        $.ajax({
+          type: 'POST',
+          url: urlNS + 'localhost:5000/api/v1/bet',
+          contentType: 'application/json',
+          data: JSON.stringify(tobet),
+          headers: {
+            'x-token': cookietoken,
+          },
+          success: function(res) {
+            for (const stkey in mainbar.gamesSelected) {
+              const stvalue = mainbar.gamesSelected[stkey];
+              const chsel = document.querySelector(`[data-key="${stkey + ":" + stvalue.staketype}"]`);
+              if (chsel) {chsel.classList.remove('oddSelected');}
             }
-          });
-          betplacedfunc();
-        },
-        error: function(res, status, err) {
-          betnotplaced();
-        }
-      });
+            dispatch(mainbarUpdate({'gamesSelected': {}, setalloddsFunction: false}));
+            const newbal = parseFloat(navbar.usr.account_balance) - parseFloat(stakeamt);
+            $.ajax({
+              type: 'PUT',
+              url: urlNS + 'localhost:5000/api/v1/bal_res',
+              contentType: 'application/json',
+              data: JSON.stringify({newbal: newbal}),
+              headers: {
+                'x-token': cookietoken,
+              },
+              success: function(res) {
+                dispatch(navbarUpdate({'usr': {...(navbar.usr), ['account_balance']: newbal}}));
+              }
+            });
+            const to_save = {'id_': gcookieid, 'savedgames': {}};
+            $.ajax({
+              type: 'POST',
+              url: urlNS + 'localhost:5000/api/v1/savedgames',
+              data: JSON.stringify(to_save),
+              contentType: 'application/json',
+              success: function(res) {
+                console.log('okay');
+              },
+              error: function(err) {
+                console.log('error');
+              }
+            });
+            betplacedfunc();
+          },
+          error: function(res, status, err) {
+            betnotplaced();
+          }
+        });
+      }
+      if (stakeamt > usrbal) {
+        balancesmallfunc();
+      }
       
       // setDisplayamtentry(true);
       // setPlacebet('Place bet');
@@ -222,6 +255,10 @@ function Side_bar() {
           <div className='betnotplaced1'>{betnotplaced && (
             <div className='betnotplaced'>Selected games not placed. <br />
                 Login or create an account to place bet
+            </div>
+          )}</div>
+          <div className='betnotplaced1'>{balancesmall && (
+            <div className='betnotplaced'>Balance not sufficient.
             </div>
           )}</div>
         </div>

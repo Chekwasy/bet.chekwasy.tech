@@ -10,7 +10,7 @@ const navbarSlice = createSlice({
   initialState: firstState_navbar,
   reducers: {
     navbarUpdate(state, action) {
-            state.usr = action.payload.usr;
+      state.usr = action.payload.usr;
     }
   },
 });

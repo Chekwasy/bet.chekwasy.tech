@@ -63,7 +63,8 @@ function Main_bar() {
   
 
   //function to set all odds selected
-  const setallodd = () => {
+  const setallodd = async () => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
     let newdt = {...(mainbar.gamesSelected)};
     let chk = false;
     for (const stkey in mainbar.gamesSelected) {
@@ -134,7 +135,7 @@ function Main_bar() {
       con_dit[con][gamdd.Stages[i].Snm] = gamdd.Stages[i].Events;
     }
     setCountry_lea(con_dit);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    //await new Promise(resolve => setTimeout(resolve, 1000));
     setallodd();
   };
   //function to handle a date selected
@@ -171,6 +172,9 @@ function Main_bar() {
   useEffect(() => {
     setallodd();
   }, [mainbar]);
+  // useEffect(() => {
+  //   setallodd();
+  // }, []);
   const gameTime = (tm) => {
     if (tm) {
       return tm.toString().slice(-6,-4) + ':' + tm.toString().slice(-4,-2);

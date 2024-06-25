@@ -22,6 +22,11 @@ function Fpwd() {
     return /^[\x00-\x7F]*$/.test(str);
   };
 
+  document.addEventListener('keypress', (evt) => {
+    if (evt.key === 'Enter') {
+    }
+  });
+
   const fpwderrfunc = async () => {
     setFpwderr(true);
     await new Promise(resolve => setTimeout(resolve, 6 * 1000));

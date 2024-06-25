@@ -37,7 +37,7 @@ class GamesController {
     static async postBet(req, res) {
         //post a new bet that is played
         const x_tok = req.headers['x-token'];
-        if (!x_tok) { res.json(); return;}
+        if (!x_tok) { res.status(400).json(); return;}
         const usr_id = await redisClient.get(`auth_${x_tok}`);
         if (!usr_id) {
             res.status(401).json({"error": "Unauthorized"});
@@ -45,7 +45,7 @@ class GamesController {
         }
         const user = await (await dbClient.client.db().collection('users'))
         .findOne({ "_id": ObjectID(usr_id) });
-        if (!user) { res.json(); return;}
+        if (!user) { res.status(400).json(); return;}
 
         const stakeAmt = req.body.stakeAmt;
         const betTime = req.body.betTime;
@@ -71,7 +71,7 @@ class GamesController {
     static async getOpenbet(req, res) {
         //get open bets for a user with pagination
         const x_tok = req.headers['x-token'];
-        if (!x_tok) { res.json(); return;}
+        if (!x_tok) { res.status(400).json(); return;}
         const usr_id = await redisClient.get(`auth_${x_tok}`);
         if (!usr_id) {
             res.status(401).json({"error": "Unauthorized"});
@@ -79,7 +79,7 @@ class GamesController {
         }
         const user = await (await dbClient.client.db().collection('users'))
         .findOne({ "_id": ObjectID(usr_id) });
-        if (!user) { res.json(); return;}
+        if (!user) { res.status(400).json(); return;}
 
         const page = parseInt(req.params.pg);
         if (isNaN(page)) {res.status(400).json({"error": "wrong page value"})}
@@ -87,13 +87,13 @@ class GamesController {
         let count = 0;
         if (page === 1) {
             const count = await (await dbClient.client.db().collection('games'))
-            .countDocuments({"userId": usr_id, "gameStatus": 'open'});
+            .countDocuments({"userId": ObjectID(usr_id), "gameStatus": 'open'});
         }
 
         const pageSize = 10;
         const skip = (page - 1) * pageSize;
         const opengames = await (await dbClient.client.db().collection('games'))
-        .find({"userId": usr_id, "gameStatus": 'open'}).skip(skip).limit(pageSize).toArray();
+        .find({"userId": ObjectID(usr_id), "gameStatus": 'open'}).skip(skip).limit(pageSize).toArray();
 
         res.status(200).json({"count": count, "opengames": opengames});
     }
@@ -101,7 +101,7 @@ class GamesController {
     static async getClosebet(req, res) {
         //get closed bets for a user with pagination
         const x_tok = req.headers['x-token'];
-        if (!x_tok) { res.json(); return;}
+        if (!x_tok) { res.status(400).json(); return;}
         const usr_id = await redisClient.get(`auth_${x_tok}`);
         if (!usr_id) {
             res.status(401).json({"error": "Unauthorized"});
@@ -109,7 +109,7 @@ class GamesController {
         }
         const user = await (await dbClient.client.db().collection('users'))
         .findOne({ "_id": ObjectID(usr_id) });
-        if (!user) { res.json(); return;}
+        if (!user) { res.status(400).json(); return;}
 
         const page = parseInt(req.params.pg);
         if (isNaN(page)) {res.status(400).json({"error": "wrong page value"})}
@@ -117,13 +117,13 @@ class GamesController {
         let count = 0;
         if (page === 1) {
             count = await (await dbClient.client.db().collection('games'))
-            .countDocuments({"userId": usr_id, "gameStatus": 'close'});
+            .countDocuments({"userId": ObjectID(usr_id), "gameStatus": 'close'});
         }
 
         const pageSize = 10;
         const skip = (page - 1) * pageSize;
         const closegames = await (await dbClient.client.db().collection('games'))
-        .find({"userId": usr_id, "gameStatus": 'close'}).skip(skip).limit(pageSize).toArray();
+        .find({"userId": ObjectID(usr_id), "gameStatus": 'close'}).skip(skip).limit(pageSize).toArray();
 
         res.status(200).json({"count": count, "closegames": closegames});
     }
@@ -158,7 +158,7 @@ class GamesController {
     static async postOdds(req, res) {
         //post odds. for admin only
         const x_tok = req.headers['x-token'];
-        if (!x_tok) { res.json(); return;}
+        if (!x_tok) { res.status(400).json(); return;}
         const usr_id = await redisClient.get(`auth_${x_tok}`);
         if (!usr_id) {
             res.status(401).json({"error": "Unauthorized"});
@@ -166,7 +166,7 @@ class GamesController {
         }
         const user = await (await dbClient.client.db().collection('users'))
         .findOne({ "_id": ObjectID(usr_id) });
-        if (!user) { res.json(); return;}
+        if (!user) { res.status(400).json(); return;}
         if (user.email !== 'richardchekwas@gmail.com') {
             res.status(403).json({'error': 'Access completely denied'});
             return;
@@ -202,9 +202,9 @@ class GamesController {
 
     static async getSavedgames( req, res) {
         const id_ = req.params.id;
-        if (!id_) {res.json({}); return;}
+        if (!id_) {res.status(400).json({}); return;}
         const savdgm = await redisClient.get(id_);
-        if (!savdgm) {res.json({"savedgames": {}}); return;}
+        if (!savdgm) {res.status(400).json({"savedgames": {}}); return;}
         //console.log(savdgm);
         res.status(200).json({"savedgames": JSON.parse(savdgm)});
     }

@@ -25,6 +25,10 @@ function Side_bar() {
   const [betnotplaced, setBetnotplaced] = useState(false);
   const [balancesmall, setBalancesmall] = useState(false);
 
+  document.addEventListener('keypress', (evt) => {
+    if (evt.key === 'Enter') {
+    }
+  });
 
   const handleInputChange = (evt1) => {
     setStakeamt(evt1.target.value);

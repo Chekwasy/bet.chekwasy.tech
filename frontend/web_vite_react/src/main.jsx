@@ -10,8 +10,8 @@ import Profile from './components/Profile.jsx';
 import Ocgames from './components/Ocgames.jsx';
 import About from './components/About.jsx';
 import Register from './components/Register.jsx';
+import './components/Ocgames.css';
 import Fpwd from './components/Fpwd.jsx';
-import Token from './components/Token.jsx';
 import './index.css';
 import './Nav.css';
 import './Side_bar.css';
@@ -21,7 +21,7 @@ import './components/About.css';
 import './components/Register.css';
 import './components/Login.css';
 import './components/Fpwd.css';
-import './components/Token.css';
+
 
 
 const router = createBrowserRouter([
@@ -59,10 +59,6 @@ const router = createBrowserRouter([
   {
     path: '/fpwd',
     element: <Fpwd />,
-  },
-  {
-    path: '/lkjhgfdsfghjkljhgfzsdxfcgvhbjnkkljhgfdsfghjkhjghgfghjjkkgkjhkhkjkkkjkkhjgfdrtdtrewe',
-    element: <Token />,
   },
 ]);
 

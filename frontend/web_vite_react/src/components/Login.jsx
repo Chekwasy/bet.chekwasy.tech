@@ -16,6 +16,11 @@ function Login() {
     return /^[\x00-\x7F]*$/.test(str);
   };
 
+  document.addEventListener('keypress', (evt) => {
+    if (evt.key === 'Enter') {
+    }
+  });
+
   const handleloginemail = (evt) => {
     const nwval = evt.target.value;
     setLoginemail(nwval);

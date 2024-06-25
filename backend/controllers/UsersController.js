@@ -11,7 +11,7 @@ class UsersController {
   static async postNew(req, res) {
 	//add new user
 	const usr_det = req.body.emailpwd;
-	if (!usr_det) {res.json({}); return;}
+	if (!usr_det) {res.status(400).json({}); return;}
 	const encoded_usr_str = (usr_det.split(" "))[1];
 	const decoded_usr_str = Buffer.from(encoded_usr_str, 'base64').toString('utf-8');
 	const usr_details = decoded_usr_str.split(':');
@@ -43,7 +43,7 @@ class UsersController {
   static async getMe(req, res) {
 	//check if user is logged in
   	const x_tok = req.headers['x-token'];
-	if (!x_tok) { res.json({}); return;}
+	if (!x_tok) { res.status(400).json({}); return;}
 	const usr_id = await redisClient.get(`auth_${x_tok}`);
 	if (!usr_id) {
 		res.status(400).json({});
@@ -61,7 +61,7 @@ class UsersController {
   static async putBalance(req, res) {
 	//reset balance to the default balance
 	const x_tok = req.headers['x-token'];
-	if (!x_tok) { res.json(); return;}
+	if (!x_tok) { res.status(400).json(); return;}
 	const usr_id = await redisClient.get(`auth_${x_tok}`);
 	if (!usr_id) {
 		res.status(401).json({"error": "Unauthorized"});
@@ -69,12 +69,14 @@ class UsersController {
 	}
 	const user = await (await dbClient.client.db().collection('users'))
 	.findOne({ "_id": ObjectID(usr_id) });
-	if (!user) { res.json(); return;}
+	if (!user) { res.status(400).json(); return;}
 	const nwbal = req.body.newbal;
-	if (!nwbal) { res.json(); return;}
-	await (await dbClient.client.db().collection('users'))
+	if (!nwbal) { res.status(400).json(); return;}
+	if (user.account_balance < 100000) {
+		await (await dbClient.client.db().collection('users'))
 		.updateOne({ "_id": ObjectID(usr_id) },
 		{ $set: { "account_balance": nwbal } });
+	}
 	res.json({'id': usr_id, 'email': user.email, 'status': 'done'});
   }
 
@@ -82,7 +84,7 @@ class UsersController {
   static async putUpdate(req, res) {
 	//to update user information (first and last name and phone)
 	const x_tok = req.headers['x-token'];
-	if (!x_tok) { res.json(); return;}
+	if (!x_tok) { res.status(400).json(); return;}
 	const usr_id = await redisClient.get(`auth_${x_tok}`);
 	if (!usr_id) {
 		res.status(401).json({"error": "Unauthorized"});
@@ -90,7 +92,7 @@ class UsersController {
 	}
 	const user = await (await dbClient.client.db().collection('users'))
 	.findOne({ "_id": ObjectID(usr_id) });
-	if (!user) { res.json(); return;}
+	if (!user) { res.status(400).json(); return;}
 	const first_name = req.body.first_name;
 	const last_name = req.body.last_name;
 	const phone = req.body.phone;

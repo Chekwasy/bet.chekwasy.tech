@@ -1,0 +1,153 @@
+.ocgames_comp {
+    width: 70vw;
+    height: 88%;
+    background-color: black;
+    border: 1px solid green;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    font-size: 2vh;
+}
+.ocgames_head {
+    width: 70vw;
+    height: 10vh;
+    border-bottom: 1px solid green;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.ocopen {
+    width: 10vw;
+    height: 3vw;
+    display: flex;
+    border: 1px solid green;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.ocopen:hover {
+    background-color: rgb(39, 36, 36);
+}
+.occlose:hover {
+    background-color: rgb(39, 36, 36);
+}
+.occlose {
+    width: 10vw;
+    cursor: pointer;
+    height: 3vw;
+    display: flex;
+    border: 1px solid green;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+}
+.ocdate {
+    width: 10vw;
+}
+.ocgreen {
+    color: green;
+}
+.ocgames_body {
+    width: 70vw;
+    border-bottom: 1px solid green;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.ocgames_foot {
+    width: 70vw;
+    height: 10vh;
+    border-bottom: 1px solid green;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.ocfootalign {
+    width: 12vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.ocfootalign input {
+    width: 5vw;
+    border-radius: 5px;
+    border: 1px solid green;
+}
+.pginput[type=number]::-webkit-inner-spin-button,
+.pginput[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.pginput[type=number] {
+    -moz-appearance: textfield;
+}
+.ocfootalign input:focus {
+    outline: none;
+    border: 1px solid green;
+    border-radius: 5px;
+    box-shadow: 0 0 5px green;
+}
+.opengamesper {
+    width: 50vw;
+    border-top: 1px solid green;
+    padding-bottom: 15px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.ogperhead {
+    background-color: rgb(46, 42, 42);
+    width: 49vw;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.ogpertitle {
+    color: grey;
+}
+.ogperitem {
+    color: white;
+}
+.ogperbody {
+    width: 70vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.ogperbodycon {
+    width: 40vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-top: 1px solid lightgreen;
+    justify-content: space-evenly;
+}
+.ogperbodyteam {
+    display: flex;
+    flex-direction: column;
+}
+.loadpg {
+    cursor: pointer;
+    height: 1rem;
+    width: 4vw;
+    display: flex;
+    border: 1px solid green;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+}
+.loadpg:hover {
+    background-color: rgb(49, 45, 45);
+}

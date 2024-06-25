@@ -6,12 +6,13 @@ const thumbnail = require('image-thumbnail');
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+//pass: 'ucblaybosshvkvwt'
  
 let transporter = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
-		user: 'chekwasybuildex@gmail.com',
-		pass: 'ucblaybosshvkvwt'
+		user: 'bet.chekwasy@gmail.com',
+		pass: 'dobhplzccqrsxfco'
 	}
 });
 
@@ -84,7 +85,7 @@ tokenQueue.process(async (job, done) => {
 
 	//Data of email to be sent
 	let mailOptions = {
-		from: 'chekwasybuildex@gmail.com',
+		from: 'bet.chekwasy@gmail.com',
 		to: email,
 		subject: 'Reset password token',
 		html: `<div>

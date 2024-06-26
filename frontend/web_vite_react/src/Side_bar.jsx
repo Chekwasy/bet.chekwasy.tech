@@ -9,6 +9,7 @@ import { navbarUpdate } from './State/navbarState';
 let cookietoken = Cookie.get('x-token') || '';
 let gcookieid = Cookie.get('savedgamesid');
 const urlNS = 'http://'; //for making change to https easy
+const local = '167.99.194.130';
 
 function Side_bar() {
   const dispatch = useDispatch();
@@ -73,7 +74,7 @@ function Side_bar() {
     const to_save = {'id_': gcookieid, 'savedgames': newdt};
     $.ajax({
       type: 'POST',
-      url: urlNS + 'localhost:5000/api/v1/savedgames',
+      url: urlNS + `${local}/api/v1/savedgames`,
       data: JSON.stringify(to_save),
       contentType: 'application/json',
       success: function(res) {
@@ -109,7 +110,7 @@ function Side_bar() {
     const to_save = {'id_': gcookieid, 'savedgames': newdt};
     $.ajax({
       type: 'POST',
-      url: urlNS + 'localhost:5000/api/v1/savedgames',
+      url: urlNS + `${local}/api/v1/savedgames`,
       data: JSON.stringify(to_save),
       contentType: 'application/json',
       success: function(res) {
@@ -162,7 +163,7 @@ function Side_bar() {
       if (stakeamt <= usrbal) {
         $.ajax({
           type: 'POST',
-          url: urlNS + 'localhost:5000/api/v1/bet',
+          url: urlNS + `${local}/api/v1/bet`,
           contentType: 'application/json',
           data: JSON.stringify(tobet),
           headers: {
@@ -178,7 +179,7 @@ function Side_bar() {
             const newbal = parseFloat(navbar.usr.account_balance) - parseFloat(stakeamt);
             $.ajax({
               type: 'PUT',
-              url: urlNS + 'localhost:5000/api/v1/bal_res',
+              url: urlNS + `${local}/api/v1/bal_res`,
               contentType: 'application/json',
               data: JSON.stringify({newbal: newbal}),
               headers: {
@@ -191,7 +192,7 @@ function Side_bar() {
             const to_save = {'id_': gcookieid, 'savedgames': {}};
             $.ajax({
               type: 'POST',
-              url: urlNS + 'localhost:5000/api/v1/savedgames',
+              url: urlNS + `${local}/api/v1/savedgames`,
               data: JSON.stringify(to_save),
               contentType: 'application/json',
               success: function(res) {

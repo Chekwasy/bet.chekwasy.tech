@@ -2,6 +2,7 @@ import { useState } from 'react';
 import $ from 'jquery';
 
 const urlNS = 'http://'; //for making change to https easy
+const local = '167.99.194.130';
 
 function Fpwd() {
   const [fpwdemail, setFpwdemail] = useState('');
@@ -67,7 +68,7 @@ function Fpwd() {
       if (!fpwdtoken) { 
         $.ajax({
           type: 'POST',
-          url: urlNS + 'localhost:5000/api/v1/send_tok',
+          url: urlNS + `${local}/api/v1/send_tok`,
           contentType: 'application/json',
           data: JSON.stringify({'email': fpwdemail}),
           success: function(res) {
@@ -83,7 +84,7 @@ function Fpwd() {
       if (fpwdtoken && fpwdtxt === 'Verify token') {
         $.ajax({
           type: 'POST',
-          url: urlNS + 'localhost:5000/api/v1/checktoken',
+          url: urlNS + `${local}/api/v1/checktoken`,
           contentType: 'application/json',
           data: JSON.stringify({'email': fpwdemail, 'token': fpwdtokentxt}),
           success: function(res) {
@@ -100,7 +101,7 @@ function Fpwd() {
         const encodestr = btoa(email + ':' + pwd);
         $.ajax({
           type: 'POST',
-          url: urlNS + 'localhost:5000/api/v1/pwdreset',
+          url: urlNS + `${local}/api/v1/pwdreset`,
           contentType: 'application/json',
           data: JSON.stringify({'token': fpwdtokentxt.trimEnd()}),
           headers: {

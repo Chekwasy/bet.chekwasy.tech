@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 let cookietoken = Cookie.get('x-token') || '';
 const urlNS = 'http://'; //for making change to https easy
-
+const local = '167.99.194.130';
 
 function Nav() {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ function Nav() {
   useEffect(() => {
     $.ajax({
       type: 'GET',
-      url: urlNS + 'localhost:5000/api/v1/users/me',
+      url: urlNS + `${local}/api/v1/users/me`,
       contentType: 'application/json',
       headers: {
         'x-token': cookietoken,
@@ -35,7 +35,7 @@ function Nav() {
   const applybal_res = () => {
     $.ajax({
       type: 'GET',
-      url: urlNS + 'localhost:5000/api/v1/users/me',
+      url: urlNS + `${local}/api/v1/users/me`,
       contentType: 'application/json',
       headers: {
         'x-token': cookietoken,
@@ -52,7 +52,7 @@ function Nav() {
   const bal_res = () => {
     $.ajax({
       type: 'PUT',
-      url: urlNS + 'localhost:5000/api/v1/bal_res',
+      url: urlNS + `${local}/api/v1/bal_res`,
       contentType: 'application/json',
       data: JSON.stringify({newbal: 100000}),
       headers: {
@@ -67,7 +67,7 @@ function Nav() {
   const logout = () => {
     $.ajax({
       type: 'GET',
-      url: urlNS + 'localhost:5000/api/v1/disconnect',
+      url: urlNS + `${local}/api/v1/disconnect`,
       contentType: 'application/json',
       headers: {
         'x-token': cookietoken,

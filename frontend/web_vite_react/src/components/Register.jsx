@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { NavLink } from 'react-router-dom';
 
 const urlNS = 'http://'; //for making change to https easy
+const local = '167.99.194.130';
 
 function Register() {
   const [regemail, setRegemail] = useState('');
@@ -101,7 +102,7 @@ function Register() {
       const encodestr = btoa(email + ':' + pwd1);
       $.ajax({
         type: 'POST',
-        url: urlNS + 'localhost:5000/api/v1/users',
+        url: urlNS + `${local}/api/v1/users`,
         contentType: 'application/json',
         data: JSON.stringify({
           emailpwd: `encoded ${encodestr}`,

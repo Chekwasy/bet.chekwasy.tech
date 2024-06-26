@@ -3,6 +3,7 @@ import $ from 'jquery';
 import Cookie from 'js-cookie';
 
 const urlNS = 'http://'; //for making change to https easy
+const local = '167.99.194.130';
 
 function Login() {
   const [loginemail, setLoginemail] = useState('');
@@ -72,7 +73,7 @@ function Login() {
       const encodestr = btoa(email + ':' + pwd); 
       $.ajax({
         type: 'GET',
-        url: urlNS + 'localhost:5000/api/v1/connect',
+        url: urlNS + `${local}/api/v1/connect`,
         contentType: 'application/json',
         headers: {
           authorization: `encoded ${encodestr}`,

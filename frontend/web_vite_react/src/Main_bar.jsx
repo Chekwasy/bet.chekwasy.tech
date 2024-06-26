@@ -7,6 +7,8 @@ import { useDispatch } from 'react-redux';
 import { mainbarUpdate } from './State/mainbarState';
 import { useSelector } from 'react-redux';
 
+const local = '167.99.194.130';
+
 
 //setting date items
 let today = new Date();
@@ -41,8 +43,8 @@ if (!gcookieid) {
 }
   //let savedgamesapi = {}; //saved games from backend which was saved
 //let gamesSelected = {}; //all selected games
-const url = urlNS + `localhost:5000/api/v1/games/`; //url for getting games
-const url2 = urlNS + `localhost:5000/api/v1/odds/`; //url for getting odds
+const url = urlNS + `${local}/api/v1/games/`; //url for getting games
+const url2 = urlNS + `${local}/api/v1/odds/`; //url for getting odds
 
 //main bar component
 function Main_bar() {
@@ -99,7 +101,7 @@ function Main_bar() {
       dispatch(mainbarUpdate({'gamesSelected': newdt, setalloddsFunction: false}));
       $.ajax({
         type: 'POST',
-        url: urlNS + 'localhost:5000/api/v1/savedgames',
+        url: urlNS + `${local}/api/v1/savedgames`,
         data: JSON.stringify(to_save),
         contentType: 'application/json',
         success: function(res) {
@@ -115,7 +117,7 @@ function Main_bar() {
   const displayFetched = async (url, url2) => {
     let response = await axios.get(url);
     let response2 = await axios.get(url2);
-    const sgapi = await axios.get(urlNS + `localhost:5000/api/v1/savedgames/${gcookieid}`);
+    const sgapi = await axios.get(urlNS + `${local}/api/v1/savedgames/${gcookieid}`);
     const savedgamesapi = sgapi.data;
     const gamesselected = (savedgamesapi.savedgames);
     dispatch(mainbarUpdate({'gamesSelected': gamesselected, setalloddsFunction: false}));
@@ -210,7 +212,7 @@ function Main_bar() {
       const to_save = {'id_': gcookieid, 'savedgames': gamesselected};
       $.ajax({
         type: 'POST',
-        url: urlNS + 'localhost:5000/api/v1/savedgames',
+        url: urlNS + `${local}/api/v1/savedgames`,
         data: JSON.stringify(to_save),
         contentType: 'application/json',
         success: function(res) {
@@ -229,7 +231,7 @@ function Main_bar() {
         const to_save = {'id_': gcookieid, 'savedgames': gamesselected};
         $.ajax({
           type: 'POST',
-          url: urlNS + 'localhost:5000/api/v1/savedgames',
+          url: urlNS + `${local}/api/v1/savedgames`,
           data: JSON.stringify(to_save),
           contentType: 'application/json',
           success: function(res) {

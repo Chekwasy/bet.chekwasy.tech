@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 
 const mapRoute = (app) => {
   app.use(cors({
-    origin: 'http://localhost:5173'
+    origin: 'http://167.99.194.130'
   }))
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());

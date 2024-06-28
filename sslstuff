@@ -1,0 +1,28 @@
+sudo apt install haproxy certbot
+
+sudo certbot certonly -d bet.cheekwasy.tech -d www.bet.chekwasy.tech
+'using -d for each'
+
+
+sudo cat /etc/letsencrypt/live/bet.chekwasy.tech/cert.pem /etc/letsencrypt/live/bet.chekwasy.tech/privkey.pem
+
+copy that outcome to 
+sudo nano /etc/letsencrypt/live/bet.chekwasy.tech/all.pem
+
+copy the file 1-haproxy_ssl_termination from alx-system-engeneering-develops from ox10-https-ssl to the below and accord some changes
+sudo nano /etc/haproxy/haproxy.cfg
+
+
+sudo systemctl start haproxy
+
+sudo systemctl start nginx
+
+sudo systemctl stop nginx
+
+'finish with ngnix first and start it before haproxy'
+
+sudo nano /etc/nginx/sites-enabled/flask_app
+
+sudo systemctl start haproxy
+
+

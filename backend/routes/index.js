@@ -9,8 +9,8 @@ const bodyParser = require('body-parser');
 
 const mapRoute = (app) => {
   app.use(cors({
-    origin: 'http://167.99.194.130'
-  }))
+    origin: '*'
+  }));
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.get('/api/v1/status', AppController.getStatus);

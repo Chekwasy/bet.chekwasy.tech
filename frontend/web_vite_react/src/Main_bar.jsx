@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { mainbarUpdate } from './State/mainbarState';
 import { useSelector } from 'react-redux';
 
-const local = '167.99.194.130';
+const local = 'bet.chekwasy.tech';
 
 
 //setting date items
@@ -114,9 +114,9 @@ function Main_bar() {
     }
   };
   //display fetched data from api
-  const displayFetched = async (url, url2) => {
-    let response = await axios.get(url);
-    let response2 = await axios.get(url2);
+  const displayFetched = async (urll, urll2) => {
+    let response = await axios.get(urll);
+    let response2 = await axios.get(urll2);
     const sgapi = await axios.get(urlNS + `${local}/api/v1/savedgames/${gcookieid}`);
     const savedgamesapi = sgapi.data;
     const gamesselected = (savedgamesapi.savedgames);

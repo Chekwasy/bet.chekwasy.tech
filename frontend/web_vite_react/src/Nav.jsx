@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 let cookietoken = Cookie.get('x-token') || '';
 const urlNS = 'http://'; //for making change to https easy
-const local = '167.99.194.130';
+const local = 'bet.chekwasy.tech';
 
 function Nav() {
   const dispatch = useDispatch();

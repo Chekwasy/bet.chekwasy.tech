@@ -1,6 +1,6 @@
 .main_bar {
     width: 70vw;
-    height: 88%;
+    height: auto;
     background-color: black;
     border: 1px solid green;
     border-radius: 5px;

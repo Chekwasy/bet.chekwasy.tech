@@ -6,8 +6,8 @@ import $, { event } from 'jquery';
 import { useSelector } from 'react-redux';
 
 let cookietoken = Cookie.get('x-token') || '';
-const urlNS = 'http://'; //for making change to https easy
-const local = '167.99.194.130';
+const urlNS = 'https://'; //for making change to https easy
+const local = 'bet.chekwasy.tech';
 
 
 function Ocgames() {

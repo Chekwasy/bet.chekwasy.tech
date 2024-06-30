@@ -8,7 +8,7 @@ import { navbarUpdate } from './State/navbarState';
 
 let cookietoken = Cookie.get('x-token') || '';
 let gcookieid = Cookie.get('savedgamesid');
-const urlNS = 'http://'; //for making change to https easy
+const urlNS = 'https://'; //for making change to https easy
 const local = 'bet.chekwasy.tech';
 
 function Side_bar() {

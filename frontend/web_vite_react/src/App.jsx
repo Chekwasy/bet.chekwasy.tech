@@ -4,7 +4,6 @@ import Nav from './Nav.jsx';
 import Side_bar from './Side_bar.jsx';
 
 
-
 function App() {
   return (
     <div className='all'>

@@ -8,6 +8,7 @@ const urlNS = 'http://'; //for making change to https easy
 
 function Profile() {
   const navbar = useSelector(state => state.navbarState);
+  const navv = {usr: {email: '', first_name: '', last_name: '', phone: '', account_balance: '' }};
   return (
     <div className='profile_comp'>
         <div className='p_pic_display'>

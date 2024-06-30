@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Nav from './Nav.jsx';
 import Side_bar from './Side_bar.jsx';
 
 
 function App() {
-  const location = useLocation();
-  if (location.pathname === '/') {
-    return <NavLink to="/home" />;
-  }
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate('/home', {replace: true});
+  }, []);
   return (
     <div className='all'>
       <Nav />

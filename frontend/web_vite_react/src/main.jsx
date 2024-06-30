@@ -31,6 +31,10 @@ const router = createBrowserRouter([
     errorElement: <div>Not Found</div>,
     children: [
       {
+        path: '/home',
+        element: <Home />,
+      },
+      {
         path: '/ocgames',
         element: <Ocgames />,
       },

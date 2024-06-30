@@ -15,6 +15,21 @@ function Nav() {
   const navbar = useSelector(state => state.navbarState);
   const [loggedin, setLoggedin] = useState(false);
   useEffect(() => {
+    $.ajax({
+      type: 'GET',
+      url: urlNS + `${local}/api/v1/users/me`,
+      contentType: 'application/json',
+      headers: {
+        'x-token': cookietoken,
+      },
+      success: function(res) {
+        setLoggedin(true);
+        dispatch(navbarUpdate({'usr': {...res}}));
+      },
+      error: function(err) {
+        setLoggedin(false);
+      }
+    });
   }, []);
 
   const applybal_res = () => {

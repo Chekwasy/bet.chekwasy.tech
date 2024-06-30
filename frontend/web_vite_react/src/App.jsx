@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { NavLink, Outlet, UseHistory } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import Nav from './Nav.jsx';
 import Side_bar from './Side_bar.jsx';
 
 
 function App() {
-  const history = UseHistory();
-  history.push('/home');
+  const location = useLocation();
+  if (location.pathname === '/') {
+    return <NavLink to="/home" />;
+  }
   return (
     <div className='all'>
       <Nav />

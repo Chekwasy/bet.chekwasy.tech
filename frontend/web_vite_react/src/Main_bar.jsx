@@ -115,9 +115,27 @@ function Main_bar() {
   };
   //display fetched data from api
   const displayFetched = async (urll, urll2) => {
-    let response = await axios.get(urll);
-    let response2 = await axios.get(urll2);
-    const sgapi = await axios.get(urlNS + `${local}/api/v1/savedgames/${gcookieid}`);
+    let response = {};
+    await axios.get(urll)
+    .then(resp => {
+      response = resp;
+    })
+    .catch(err => {
+    });
+    let response2 = {}; 
+    await axios.get(urll2)
+    .then(resp => {
+      response2 = resp;
+    })
+    .catch(err => {
+    });
+    let sgapi = {};
+    await axios.get(urlNS + `${local}/api/v1/savedgames/${gcookieid}`)
+    .then(resp => {
+      sgapi = resp;
+    })
+    .catch(err => {
+    });
     const savedgamesapi = sgapi.data;
     const gamesselected = (savedgamesapi.savedgames);
     dispatch(mainbarUpdate({'gamesSelected': gamesselected, setalloddsFunction: false}));

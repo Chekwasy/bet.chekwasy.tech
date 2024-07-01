@@ -204,7 +204,7 @@ class GamesController {
         const id_ = req.params.id;
         if (!id_) {res.status(400).json({}); return;}
         const savdgm = await redisClient.get(id_);
-        if (!savdgm) {res.status(400).json({"savedgames": {}}); return;}
+        if (!savdgm) {res.status(200).json({"savedgames": {}}); return;}
         //console.log(savdgm);
         res.status(200).json({"savedgames": JSON.parse(savdgm)});
     }

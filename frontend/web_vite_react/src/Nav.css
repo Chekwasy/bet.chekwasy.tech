@@ -1,29 +1,29 @@
 .nav {
     width: 100vw;
-    height: 3rem;
+    height: 5vw;
     display: flex;
     flex-direction: row;
     align-items: center;
     border: 1px solid green;
     border-radius: 10px;
     background-color: black;
-    font-size: 2vh;
+    font-size: 1.2vw;
 }
 .nav_logo {
     width: 15vw;
-    height: 20vh;
+    height: 15vw;
     display: flex;
     background-image: url(assets/logo.png);
     background-repeat: no-repeat;
-    background-size: 17vw 20vh;
+    background-size: 15vw 15vw;
 }
 .nav_menu {
     width: 50vw;
-    height: 3rem;
+    height: 5vw;
 }
 .nav_menu_ctr {
     width: 35vw;
-    height: 3rem;
+    height: 5vw;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -33,10 +33,9 @@
 .nav_link {
     color: white;
     text-decoration: none;
-    font-size: 2vh;
 }
 .nav_menu_item {
-    height: 1.5rem;
+    height: 2vw;
     width: 7vw;
     display: flex;
     border: 1px solid green;
@@ -46,7 +45,7 @@
 }
 .nav_info {
     width: 22vw;
-    height: 3rem;
+    height: 5vw;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -54,7 +53,7 @@
 }
 .nav_info_ctr {
     width: 17vw;
-    height: 3rem;
+    height: 5vw;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -62,7 +61,7 @@
     justify-content: space-evenly;
 }
 .nav_info_item {
-    height: 1.5rem;
+    height: 2vw;
     width: 7vw;
     display: flex;
     border: 1px solid green;
@@ -78,7 +77,7 @@
 }
 .nav_loggedin {
     width: 25vw;
-    height: 3rem;
+    height: 5vw;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -86,7 +85,7 @@
 }
 .nav_profilepic {
     width: 2vw;
-    height: 4vh;
+    height: 4vw;
     display: flex;
     background-image: url(../assets/logo.png);
     background-size: 2vw 4vw;
@@ -95,9 +94,9 @@
     border: 1px solid green;
 }
 .nav_reloadaccountbal {
-    height: 1rem;
+    height: 1.5vw;
     width: 3vw;
-    font-size: xx-small;
+    font-size: 0.9vw;
     display: flex;
     border: 1px solid green;
     border-radius: 5px;
@@ -109,9 +108,9 @@
     cursor: pointer;
 }
 .logout {
-    height: 1rem;
+    height: 1.5vw;
     width: 3vw;
-    font-size: xx-small;
+    font-size: 0.9vw;
     display: flex;
     border: 1px solid green;
     border-radius: 5px;

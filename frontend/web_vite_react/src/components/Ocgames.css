@@ -1,16 +1,16 @@
 .ocgames_comp {
     width: 70vw;
-    height: 88%;
+    height: auto;
     background-color: black;
     border: 1px solid green;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-    font-size: 2vh;
+    font-size: 1.2vw;
 }
 .ocgames_head {
     width: 70vw;
-    height: 10vh;
+    height: 6vw;
     border-bottom: 1px solid green;
     border-radius: 5px;
     display: flex;
@@ -60,7 +60,7 @@
 }
 .ocgames_foot {
     width: 70vw;
-    height: 10vh;
+    height: 6vw;
     border-bottom: 1px solid green;
     border-radius: 5px;
     display: flex;
@@ -77,6 +77,7 @@
 }
 .ocfootalign input {
     width: 5vw;
+    height: 2vw;
     border-radius: 5px;
     border: 1px solid green;
 }
@@ -140,7 +141,7 @@
 }
 .loadpg {
     cursor: pointer;
-    height: 1rem;
+    height: 2vw;
     width: 4vw;
     display: flex;
     border: 1px solid green;

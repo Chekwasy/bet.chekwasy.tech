@@ -1,15 +1,15 @@
 .profile_comp {
     width: 70vw;
-    height: 70vh;
+    height: 50vw;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    font-size: 2vh;
+    font-size: 1.2vw;
 }
 .p_pic_display {
     width: 60vw;
-    height: 24vh;
+    height: 15vw;
     display: flex;
     flex-direction: column;
     border: 1px solid green;
@@ -20,7 +20,7 @@
 }
 .p_user {
     width: 60vw;
-    height: 45vh;
+    height: 30vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,17 +30,17 @@
 }
 .profile_pic {
     width: 8vw;
-    height: 15vh;
+    height: 9vw;
     display: flex;
     background-image: url(../assets/logo.png);
-    background-size: 8vw 15vh;
+    background-size: 8vw 9vw;
     background-repeat: no-repeat;
     border-radius: 50%;
     border: 1px solid green;
 }
 .p_user_info {
     width: 50vw;
-    height: 40vh;
+    height: 40vw;
     display: flex;
     flex-direction: column;
     align-self: center;
@@ -49,18 +49,19 @@
 }
 .user_ {
     width: 30vw;
-    height: 3vh;
+    height: 3vw;
     display: flex;
     background-color: green;
     border-radius: 5px;
     align-items: center;
-    padding-left: 1vh ;
+    padding-left: 1vw ;
 }
 .p_user_update {
     width: 50vw;
+    padding-bottom: 1vw;
 }
 .p_user_update button {
-    height: 1.5rem;
+    height: 2vw;
     width: 7vw;
     display: flex;
     border: 1px solid green;
@@ -69,7 +70,7 @@
     align-items: center;
     background-color: black;
     color: white;
-    font-size: 2vh;
+    font-size: 1.2vw;
 }
 .p_user_update button:hover {
     background-color: rgb(80, 77, 77);

@@ -9,27 +9,26 @@
     color: white;
 }
 .reg_container {
-    width: 20rem;
-    height: 25rem;
+    width: 50vh;
+    height: 50vh;
     display: flex;
     flex-direction: column;
     border: 2px solid green;
     border-radius: 5px;
     align-items: center;
-    justify-content: center;
     justify-content: space-evenly;
 }
 .reg_form_item {
-    width: 17rem;
-    height: 3rem;
+    width: 40vh;
+    height: 8vh;
     display: flex;
     align-items: center;
     justify-content: center;
 
 }
 .reg_form_item input {
-    width: 17rem;
-    height: 1.5rem;
+    width: 40vh;
+    height: 3.5vh;
     border-radius: 5px;
 }
 .reg_form_item input:focus {
@@ -39,14 +38,14 @@
     box-shadow: 0 0 5px green;
 }
 .reg_form_item h3 {
-    width: 17rem;
+    width: 40vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .reg_form_item button {
-    width: 15rem;
-    height: 2rem;
+    width: 12vh;
+    height: 3.5vh;
     display: flex;
     background-color: green;
     border: 1px solid green;
@@ -66,14 +65,14 @@
 .reginvalid {
     color: red;
     font-size: small;
-    width: 21vw;
+    width: 38vh;
     display: flex;
     flex-direction: column;
     border-radius: 5px;
 }
 .regvalid {
     color: green;
-    width: 21vw;
+    width: 38vh;
     display: flex;
     flex-direction: column;
     font-size: small;
@@ -82,7 +81,7 @@
 }
 .regposterror {
     color: red;
-    width: 21vw;
+    width: 38vh;
     display: flex;
     flex-direction: column;
     font-size: small;
@@ -91,8 +90,8 @@
 .signupbtn {
     cursor: pointer;
     display: flex;
-    width: 22vw;
-    height: 2rem;
+    width: 40vh;
+    height: 5vh;
     background-color: green;
     border-radius: 5px;
     align-items: center;

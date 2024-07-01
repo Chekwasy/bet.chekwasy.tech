@@ -9,8 +9,8 @@
     color: white;
 }
 .login_container {
-    width: 20rem;
-    height: 17rem;
+    width: 50vh;
+    height: 50vh;
     display: flex;
     flex-direction: column;
     border: 2px solid green;
@@ -20,16 +20,16 @@
     justify-content: space-evenly;
 }
 .login_form_item {
-    width: 17rem;
-    height: 3rem;
+    width: 40vh;
+    height: 7vh;
     display: flex;
     align-items: center;
     justify-content: center;
 
 }
 .login_form_item input {
-    width: 17rem;
-    height: 1.5rem;
+    width: 40vh;
+    height: 3.5vh;
     border-radius: 5px;
 }
 .login_form_item input:focus {
@@ -39,14 +39,14 @@
     box-shadow: 0 0 5px green;
 }
 .login_form_item h3 {
-    width: 17rem;
+    width: 40vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .login_form_item button {
-    width: 15rem;
-    height: 2rem;
+    width: 40vh;
+    height: 3.5vh;
     display: flex;
     background-color: green;
     border: 1px solid green;
@@ -74,8 +74,8 @@
 .loginbtn {
     cursor: pointer;
     display: flex;
-    width: 22vw;
-    height: 2rem;
+    width: 40vh;
+    height: 5vh;
     background-color: green;
     border-radius: 5px;
     align-items: center;

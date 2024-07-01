@@ -9,8 +9,8 @@
     color: white;
 }
 .fpwd_container {
-    width: 20rem;
-    height: 22rem;
+    width: 50vh;
+    height: 50vh;
     display: flex;
     flex-direction: column;
     border: 2px solid green;
@@ -20,15 +20,15 @@
     justify-content: space-evenly;
 }
 .fpwd_form_item {
-    width: 17rem;
-    height: 3rem;
+    width: 40vh;
+    height: 7vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .fpwd_form_item input {
-    width: 15rem;
-    height: 1.5rem;
+    width: 35vh;
+    height: 3.5vh;
     border-radius: 5px;
 }
 .fpwd_form_item input:focus {
@@ -38,14 +38,14 @@
     box-shadow: 0 0 5px green;
 }
 .fpwd_form_item h3 {
-    width: 17rem;
+    width: 40vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .fpwd_form_item button {
-    width: 15rem;
-    height: 2rem;
+    width: 35vh;
+    height: 5vh;
     display: flex;
     background-color: green;
     border: 1px solid green;
@@ -61,8 +61,8 @@
 .fpwdbtn {
     cursor: pointer;
     display: flex;
-    width: 19vw;
-    height: 2rem;
+    width: 35vh;
+    height: 5vh;
     background-color: green;
     border-radius: 5px;
     align-items: center;
@@ -82,17 +82,17 @@
     border-radius: 5px;
 }
 .fpwderror1 {
-    width: 16vw;
+    width: 30vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 3px;
 }
 .fpwderror {
-    width: 19vw;
+    width: 30vh;
     display: flex;
-    font-size: x-small;
-    height: 4vw;
+    font-size: 1.6vh;
+    height: 7vh;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -101,17 +101,17 @@
     color: red;
 }
 .fpwdsuccess1 {
-    width: 16vw;
+    width: 27vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 3px;
 }
 .fpwdsuccess {
-    width: 19vw;
+    width: 35vh;
     display: flex;
     font-size: x-small;
-    height: 4vw;
+    height: 7vh;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -121,7 +121,7 @@
 }
 .resendtok {
     color: blue;
-    width: 10vw;
+    width: 18vh;
     border: 1px solid green;
     display: flex;
     align-items: center;

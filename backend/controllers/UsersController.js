@@ -46,12 +46,12 @@ class UsersController {
 	if (!x_tok) { res.status(400).json({}); return;}
 	const usr_id = await redisClient.get(`auth_${x_tok}`);
 	if (!usr_id) {
-		res.status(400).json({});
+		res.status(200).json({});
 		return;
 	}
 	const user = await (await dbClient.client.db().collection('users'))
 	.findOne({ "_id": ObjectID(usr_id) });
-	if (!user) { res.status(400).json({}); return;}
+	if (!user) { res.status(200).json({}); return;}
 	res.json({'email': user.email, 'account_balance': user.account_balance,
 		'first_name': user.first_name, 'last_name': user.last_name,
 		'phone': user.phone

@@ -123,11 +123,12 @@
     border-radius: 5px;
     border: color(black);
 }
-@media (max-width: 600) {
+@media only screen and (min-width: 300px) and (max-width: 480px) {
     ul {
         margin-left: -11vw;
-    }
+    }    
 }
+
 .mb_event_odds li {
     margin-left: 0vw;
 }

@@ -125,13 +125,15 @@
 }
 @media only screen and (min-width: 300px) and (max-width: 480px) {
     ul {
-        margin-left: -11vw;
+        margin-left: -7vh;
     }    
 }
-
+/* ul {
+    margin-left: 0vh;
+}
 .mb_event_odds li {
     margin-left: 0vw;
-}
+} */
 /* .mb_all_country {
     margin-left: -4vw;
 } */

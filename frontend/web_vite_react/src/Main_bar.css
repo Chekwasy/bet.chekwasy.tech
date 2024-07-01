@@ -123,3 +123,14 @@
     border-radius: 5px;
     border: color(black);
 }
+@media (max-width: 600) {
+    ul {
+        margin-left: -11vw;
+    }
+}
+.mb_event_odds li {
+    margin-left: 0vw;
+}
+/* .mb_all_country {
+    margin-left: -4vw;
+} */

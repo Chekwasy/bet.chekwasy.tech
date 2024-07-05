@@ -20,19 +20,18 @@ const curmonth = today.getMonth + 1;
 const curyear = today.getFullYear;
 for (let i = 0; i < 7; i++) {
   const nex = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
-  let options = {'timeZone': 'CET'};
-  let dateitem = nex.toLocaleDateString(options);
-  let dateLst = dateitem.split('/');
-  if (dateLst[0].length === 1) {dateLst[0] = '0' + dateLst[0];}
-  if (dateLst[1].length === 1) {dateLst[1] = '0' + dateLst[1];}
-  let date_ = dateLst[1] + '/' + dateLst[0] + '/' + dateLst[2];
+  const currday = nex.getDay().toString().padStart(2,'0');
+  const currmonth = (nex.getMonth() + 1).toString().padStart(2,'0');
+  const curryear = nex.getFullYear().toString();
+  let date_ = currday + '/' + currmonth + '/' + curryear;
   displayDate.push(date_);
 }
 
 const curDay = displayDate[0];
 const cookie_id = uuidv4(); //generating uid for saving games selected id
 let fd = ''; //date to use
-let selectDate = curDay[2] + curDay[1] + curDay[0]; //current date
+let selectDate = curDay; //current date
+alert(selectDate);
 const urlNS = ''; //for making change to https easy
 //let country_lea = ''; //help to align all games with respected countries
 //let gameodds = ''; //all games odds obejects

@@ -31,7 +31,6 @@ const curDay = displayDate[0];
 const cookie_id = uuidv4(); //generating uid for saving games selected id
 let fd = ''; //date to use
 let selectDate = curDay; //current date
-alert(selectDate);
 const urlNS = ''; //for making change to https easy
 //let country_lea = ''; //help to align all games with respected countries
 //let gameodds = ''; //all games odds obejects

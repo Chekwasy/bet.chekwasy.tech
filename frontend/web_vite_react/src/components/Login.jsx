@@ -2,8 +2,8 @@ import { useState } from 'react';
 import $ from 'jquery';
 import Cookie from 'js-cookie';
 
-const urlNS = 'https://'; //for making change to https easy
-const local = 'bet.chekwasy.tech';
+const urlNS = ''; //for making change to https easy
+const local = '';
 
 function Login() {
   const [loginemail, setLoginemail] = useState('');

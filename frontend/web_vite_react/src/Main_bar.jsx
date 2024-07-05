@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { mainbarUpdate } from './State/mainbarState';
 import { useSelector } from 'react-redux';
 
-const local = 'bet.chekwasy.tech';
+const local = '';
 
 
 //setting date items
@@ -33,7 +33,7 @@ const curDay = displayDate[0];
 const cookie_id = uuidv4(); //generating uid for saving games selected id
 let fd = ''; //date to use
 let selectDate = curDay[2] + curDay[1] + curDay[0]; //current date
-const urlNS = 'https://'; //for making change to https easy
+const urlNS = ''; //for making change to https easy
 //let country_lea = ''; //help to align all games with respected countries
 //let gameodds = ''; //all games odds obejects
 let gcookieid = Cookie.get('savedgamesid'); //cookie id for getting saved games from backend

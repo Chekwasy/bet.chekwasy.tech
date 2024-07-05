@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import $ from 'jquery';
 
-const urlNS = 'https://'; //for making change to https easy
-const local = 'bet.chekwasy.tech';
+const urlNS = ''; //for making change to https easy
+const local = '';
 
 function Fpwd() {
   const [fpwdemail, setFpwdemail] = useState('');

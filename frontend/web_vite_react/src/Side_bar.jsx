@@ -8,8 +8,8 @@ import { navbarUpdate } from './State/navbarState';
 
 let cookietoken = Cookie.get('x-token') || '';
 let gcookieid = Cookie.get('savedgamesid');
-const urlNS = 'https://'; //for making change to https easy
-const local = 'bet.chekwasy.tech';
+const urlNS = ''; //for making change to https easy
+const local = '';
 
 function Side_bar() {
   const dispatch = useDispatch();

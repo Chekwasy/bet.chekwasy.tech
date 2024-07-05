@@ -53,22 +53,22 @@ const res = async () => {
                         }
                     });
                 });
-                if (ech.games[itm].matchstatus === 'NS') {
-                    const matchday = ech.games[itm].matchtime.split(':')[2].substr(6,8);
-                    const mthr = parseInt(ech.games[itm].matchtime.split(':')[0]);
-                    const td = new Date();
-                    const tod = td.getDate().toString();
-                    if (matchday !== tod && mthr > 1) {
-                        await (await dbClient.client.db().collection('games'))
-                        .updateOne({ "_id": ech._id },
-                        { $set: { 
-                            [`games.${itm}.matchresult`]: 'NR', 
-                            [`games.${itm}.matchstatus`]: 'Void',
-                            [`games.${itm}.outcome`]: 'Void',
-                            [`games.${itm}.result`]: 'Void',
-                        } });
-                    }
-                }
+               // if (ech.games[itm].matchstatus === 'NS') {
+                 //   const matchday = ech.games[itm].matchtime.split(':')[2].substr(6,8);
+                   // const mthr = parseInt(ech.games[itm].matchtime.split(':')[0]);
+             //       const td = new Date();
+               //     const tod = td.getDate().toString();
+                 //   if (matchday !== tod && mthr > 1) {
+                   //     await (await dbClient.client.db().collection('games'))
+                     //   .updateOne({ "_id": ech._id },
+                       // { $set: { 
+                         //   [`games.${itm}.matchresult`]: 'NR', 
+                           // [`games.${itm}.matchstatus`]: 'Void',
+                 //           [`games.${itm}.outcome`]: 'Void',
+                   //         [`games.${itm}.result`]: 'Void',
+                     //   } });
+                    //}
+                //}
             });
         });
 

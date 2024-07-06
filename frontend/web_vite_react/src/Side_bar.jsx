@@ -78,10 +78,10 @@ function Side_bar() {
       data: JSON.stringify(to_save),
       contentType: 'application/json',
       success: function(res) {
-        console.log('okay');
+        //console.log('okay');
       },
       error: function(err) {
-        console.log('error');
+        //console.log('error');
       }
     });
   };
@@ -114,10 +114,10 @@ function Side_bar() {
       data: JSON.stringify(to_save),
       contentType: 'application/json',
       success: function(res) {
-        console.log('okay');
+        //console.log('okay');
       },
       error: function(err) {
-        console.log('error');
+        //console.log('error');
       }
     });
     setRemoveallwarning(false);
@@ -189,7 +189,6 @@ function Side_bar() {
                 dispatch(navbarUpdate({'usr': {...(navbar.usr), ['account_balance']: newbal}}));
               }
             });
-            console.log(newbal, 'newbal');
             const to_save = {'id_': gcookieid, 'savedgames': {}};
             $.ajax({
               type: 'POST',
@@ -197,16 +196,16 @@ function Side_bar() {
               data: JSON.stringify(to_save),
               contentType: 'application/json',
               success: function(res) {
-                console.log('okay');
+                //console.log('okay');
               },
               error: function(err) {
-                console.log('error');
+                //console.log('error');
               }
             });
             betplacedfunc();
           },
           error: function(res, status, err) {
-            betnotplaced();
+            betnotplacedfunc();
           }
         });
       }

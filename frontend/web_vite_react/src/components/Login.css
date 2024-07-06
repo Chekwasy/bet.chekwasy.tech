@@ -65,11 +65,11 @@
 }
 .logininvalid {
     color: red;
-    font-size: small;
+    font-size: 2vh;
 }
 .loginposterror {
     color: red;
-    font-size: small;
+    font-size: 2vh;
 }
 .loginbtn {
     cursor: pointer;

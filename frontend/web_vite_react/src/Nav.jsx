@@ -62,7 +62,7 @@ function Nav() {
         applybal_res();
       }
     });
-    console.log('from nav');
+    //console.log('from nav');
   };
 
   const logout = () => {

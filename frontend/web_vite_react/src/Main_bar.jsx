@@ -48,7 +48,7 @@ const url2 = urlNS + `${local}/api/v1/odds/`; //url for getting odds
 function Main_bar() {
   const dispatch = useDispatch();
   const mainbar = useSelector(state => state.mainbarState);
-  console.log('redux', mainbar.gamesSelected);
+  //console.log('redux', mainbar.gamesSelected);
   //set use state for date games attribute
   //const [selectDate, setSelectDate] = useState(curDay[2] + curDay[1] + curDay[0]);
   const [country_lea, setCountry_lea]  = useState({});
@@ -103,10 +103,10 @@ function Main_bar() {
         data: JSON.stringify(to_save),
         contentType: 'application/json',
         success: function(res) {
-          console.log('okay');
+          //console.log('okay');
         },
         error: function(err) {
-          console.log('error');
+          //console.log('error');
         }
       });
     }
@@ -232,10 +232,10 @@ function Main_bar() {
         data: JSON.stringify(to_save),
         contentType: 'application/json',
         success: function(res) {
-          console.log('okay');
+          //console.log('okay');
         },
         error: function(err) {
-          console.log('error');
+          //console.log('error');
         }
       });
     } else {
@@ -251,10 +251,10 @@ function Main_bar() {
           data: JSON.stringify(to_save),
           contentType: 'application/json',
           success: function(res) {
-            console.log('okay');
+            //console.log('okay');
           },
           error: function(err) {
-            console.log('error');
+            //console.log('error');
           }
         });
       }

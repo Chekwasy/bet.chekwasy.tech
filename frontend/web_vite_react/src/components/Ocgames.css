@@ -52,6 +52,7 @@
 }
 .ocgames_body {
     width: 70vw;
+    height: auto;
     border-bottom: 1px solid green;
     border-radius: 5px;
     display: flex;

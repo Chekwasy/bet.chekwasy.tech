@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { mainbarUpdate } from './State/mainbarState';
 import { useSelector } from 'react-redux';
 
-const local = 'bet.chekwasy.tech';
+const local = '';
 
 
 //setting date items
@@ -20,7 +20,7 @@ const curmonth = today.getMonth + 1;
 const curyear = today.getFullYear;
 for (let i = 0; i < 7; i++) {
   const nex = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
-  const currday = nex.getDay().toString().padStart(2,'0');
+  const currday = nex.getDate().toString().padStart(2,'0');
   const currmonth = (nex.getMonth() + 1).toString().padStart(2,'0');
   const curryear = nex.getFullYear().toString();
   let date_ = currday + '/' + currmonth + '/' + curryear;
@@ -31,7 +31,7 @@ const curDay = displayDate[0];
 const cookie_id = uuidv4(); //generating uid for saving games selected id
 let fd = ''; //date to use
 let selectDate = curDay; //current date
-const urlNS = 'https://'; //for making change to https easy
+const urlNS = ''; //for making change to https easy
 //let country_lea = ''; //help to align all games with respected countries
 //let gameodds = ''; //all games odds obejects
 let gcookieid = Cookie.get('savedgamesid'); //cookie id for getting saved games from backend

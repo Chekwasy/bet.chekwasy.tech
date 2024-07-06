@@ -85,10 +85,10 @@
 }
 .nav_profilepic {
     width: 2vw;
-    height: 4vw;
+    height: 3vw;
     display: flex;
     background-image: url(../assets/logo.png);
-    background-size: 2vw 4vw;
+    background-size: 2vw 3vw;
     background-repeat: no-repeat;
     border-radius: 50%;
     border: 1px solid green;

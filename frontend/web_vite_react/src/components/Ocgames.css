@@ -2,7 +2,8 @@
     width: 70vw;
     height: auto;
     background-color: black;
-    border: 1px solid green;
+    border-right: 1px solid green;
+    border-top: 1px solid green;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -115,6 +116,14 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
+}
+.ogperheadwin {
+    background-color: green;
+    color: white;
+}
+.ogperheadlost {
+    background-color: red;
+    color: white;
 }
 .ogpertitle {
     color: grey;

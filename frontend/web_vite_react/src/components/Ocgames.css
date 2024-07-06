@@ -120,10 +120,24 @@
 .ogperheadwin {
     background-color: green;
     color: white;
+    width: 49vw;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
 }
 .ogperheadlost {
     background-color: red;
     color: white;
+    width: 49vw;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
 }
 .ogpertitle {
     color: grey;

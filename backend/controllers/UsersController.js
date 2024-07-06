@@ -72,8 +72,7 @@ class UsersController {
 	if (!user) { res.status(400).json(); return;}
 	const nwbal = req.body.newbal;
 	if (!nwbal) { res.status(400).json(); return;}
-	console.log('put happened');
-	if (user.account_balance < 100000) {
+	if (user.account_balance <= 100000) {
 		await (await dbClient.client.db().collection('users'))
 		.updateOne({ "_id": ObjectID(usr_id) },
 		{ $set: { "account_balance": nwbal } });

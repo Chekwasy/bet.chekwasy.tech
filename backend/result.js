@@ -50,6 +50,30 @@ const res = async () => {
                                     [`games.${itm}.result`]: winres,
                                 } });
                             }
+                            if (idd.Eps.includes("'") && idd.Tr1 && idd.Tr2) {
+                                const res = idd.Tr1 + ' : ' + idd.Tr2;
+                                // const matchresultky = `games.${itm}.matchresult`;
+                                // const matchstatusky = `games.${itm}.matchstatus`;
+                                await (await dbClient.client.db().collection('games'))
+			                    .updateOne({ "_id": ech._id },
+			                    { $set: { 
+                                    [`games.${itm}.matchresult`]: res, 
+                                    [`games.${itm}.matchstatus`]: 'Ongoing',
+                                } });
+                            }
+                            if ((idd.Eps === 'Canc.') || (idd.Eps === 'Postp.')) {
+                                const res = idd.Eps;
+                                // const matchresultky = `games.${itm}.matchresult`;
+                                // const matchstatusky = `games.${itm}.matchstatus`;
+                                await (await dbClient.client.db().collection('games'))
+			                    .updateOne({ "_id": ech._id },
+			                    { $set: { 
+                                    [`games.${itm}.matchresult`]: res, 
+                                    [`games.${itm}.matchstatus`]: res,
+                                    [`games.${itm}.outcome`]: 'Void',
+                                    [`games.${itm}.result`]: 'Void',
+                                } });
+                            }
                         }
                     });
                 });

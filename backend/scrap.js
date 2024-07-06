@@ -103,9 +103,9 @@ const scrap = async () => {
 						eventDit[games.Stages[i].Events[j].Eid] = [];
 						EidLstDit['hometeam'] = games.Stages[i].Events[j].T1[0].Nm;
 						EidLstDit['awayteam'] = games.Stages[i].Events[j].T2[0].Nm;
-						EidLstDit['homeodd'] = 1.5;
-						EidLstDit['awayodd'] = 1.5;
-						EidLstDit['drawodd'] = 3.0;
+						EidLstDit['homeodd'] = 1.7;
+						EidLstDit['awayodd'] = 1.8;
+						EidLstDit['drawodd'] = 3.1;
 						eventDit[games.Stages[i].Events[j].Eid].push(EidLstDit);
 						// if (games.Stages[i].Events[j].Eps !== "NS") {
 						// 	games.Stages[i].Events.splice(j, 1);

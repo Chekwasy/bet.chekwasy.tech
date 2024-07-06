@@ -189,6 +189,7 @@ function Side_bar() {
                 dispatch(navbarUpdate({'usr': {...(navbar.usr), ['account_balance']: newbal}}));
               }
             });
+            console.log(newbal, 'newbal');
             const to_save = {'id_': gcookieid, 'savedgames': {}};
             $.ajax({
               type: 'POST',

@@ -123,7 +123,17 @@
     border-radius: 5px;
     border: color(black);
 }
-@media only screen and (min-width: 300px) and (max-width: 600px) {
+@media only screen and (min-width: 599px) and (max-width: 849px) {
+    ul {
+        margin-left: -5vh;
+    }    
+}
+@media only screen and (min-width: 400px) and (max-width: 599px) {
+    ul {
+        margin-left: -6vh;
+    }    
+}
+@media only screen and (min-width: 250px) and (max-width: 399px) {
     ul {
         margin-left: -7vh;
     }    

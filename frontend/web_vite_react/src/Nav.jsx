@@ -7,8 +7,8 @@ import { navbarUpdate } from './State/navbarState';
 import { useSelector } from 'react-redux';
 
 let cookietoken = Cookie.get('x-token') || '';
-const urlNS = ''; //for making change to https easy
-const local = '';
+const urlNS = 'https://'; //for making change to https easy
+const local = 'bet.chekwasy.tech';
 
 function Nav() {
   const dispatch = useDispatch();

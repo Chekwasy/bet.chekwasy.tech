@@ -140,7 +140,8 @@
     justify-content: space-evenly;
 }
 .ogpertitle {
-    color: grey;
+    color: rgb(238, 224, 224);
+    font-weight: bold;
 }
 .ogperitem {
     color: white;

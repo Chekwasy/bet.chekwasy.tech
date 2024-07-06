@@ -117,7 +117,7 @@ function Ocgames() {
       <div className='ocgames_body'>
         {opentrue && (<div className='ocgames_body'>{opengames.map((ech) => (
           <div key={ech._id} className='opengamesper'>
-            <div className={ech.outcome === 'won' ? 'ogperheadwin' : ech.outcome === 'lost' ? 'ogperheadlost' : 'ogperhead'} >
+            <div className='ogperhead' >
               <div>
                 <div className='ogpertitle'>Staked time <div className='ogperitem'>{ech.betTime.split('_')[0] + ' ' + ech.betTime.split('_')[1]}</div></div>
                 <div className='ogpertitle'>Staked amount <div className='ogperitem'>{ech.stakeAmt}</div></div>
@@ -153,7 +153,7 @@ function Ocgames() {
         ))}</div>)}
         {closetrue && (<div className='ocgames_body'>{closegames.map((echh) => (
           <div key={echh._id} className='opengamesper'>
-            <div className='ogperhead'>
+            <div className={ech.outcome === 'won' ? 'ogperheadwin' : ech.outcome === 'lost' ? 'ogperheadlost' : 'ogperhead'}>
               <div>
                 <div className='ogpertitle'>Staked time <div className='ogperitem'>{echh.betTime.split('_')[0] + ' ' + echh.betTime.split('_')[1]}</div></div>
                 <div className='ogpertitle'>Staked amount <div className='ogperitem'>{echh.stakeAmt}</div></div>

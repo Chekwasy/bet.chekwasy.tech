@@ -58,10 +58,10 @@ const res = async () => {
 			                    .updateOne({ "_id": ech._id },
 			                    { $set: { 
                                     [`games.${itm}.matchresult`]: res, 
-                                    [`games.${itm}.matchstatus`]: 'Ongoing',
+                                    [`games.${itm}.matchstatus`]: idd.Eps,
                                 } });
                             }
-                            if ((idd.Eps === 'Canc.') || (idd.Eps === 'Postp.')) {
+                            if (((idd.Eps === 'Canc.') || (idd.Eps === 'Postp.')) && ((ech.games[itm].matchstatus !== 'Canc.') || (ech.games[itm].matchstatus !== 'Postp.'))) {
                                 const res = idd.Eps;
                                 // const matchresultky = `games.${itm}.matchresult`;
                                 // const matchstatusky = `games.${itm}.matchstatus`;
@@ -99,41 +99,40 @@ const res = async () => {
         opengames.map(async (each) => {
             const stakeamt = parseFloat(each.stakeAmt);
             let totodd = parseFloat(each.totalOdd);
-            let expreturns = each.expReturns;
-            let chkns = false;
+            let chkns = true;
             let chkoutcome = 'won';
             Object.keys(each.games).map(async (item) => {
                 if (each.games[item].outcome === 'Void') {
                     totodd = totodd / parseFloat(each.games[item].stakeodd);
                 }
-                if (each.games[item].matchstatus === 'NS') {
-                    chkns = true;
+                if (each.games[item].matchstatus === 'NR') {
+                    chkns = false;
                 }
                 if (each.games[item].result === 'lost') {
                     chkoutcome = 'lost';
                 }
             });
 
-            if (!chkns) {
+            if (chkns) {
                 await (await dbClient.client.db().collection('games'))
                 .updateOne({ "_id": each._id },
                 { $set: { 
-                    [`totalOdd`]: totodd.toString(), 
-                    [`expReturns`]: (stakeamt * totodd).toString(),
+                    [`totalOdd`]: totodd.toFixed(2), 
+                    [`expReturns`]: (stakeamt * totodd).toFixed(2),
                     [`gameStatus`]: 'close',
                     [`outcome`]: chkoutcome,
                 } });
+                if (chkoutcome === 'won') {
+                    const user = await (await dbClient.client.db().collection('users'))
+                    .findOne({ "_id": ObjectID(each.userId) });
+                    await (await dbClient.client.db().collection('users'))
+                    .updateOne({ "_id": each.userId },
+                    { $set: { 
+                        [`account_balance`]: (parseFloat(user.account_balance) + (stakeamt * totodd)).toFixed(2),
+                    } });
+                }
             }
 
-            if (each.outcome === 'won') {
-                const user = await (await dbClient.client.db().collection('users'))
-	            .findOne({ "_id": ObjectID(each.userId) });
-                await (await dbClient.client.db().collection('users'))
-                .updateOne({ "_id": each.userId },
-                { $set: { 
-                    [`account_balance`]: parseFloat(user.account_balance) + parseFloat(each.expReturns),
-                } });
-            }
 
         });
 

@@ -153,9 +153,13 @@ const scrap = async () => {
 			await (await dbClient.client.db().collection('dates'))
 			.updateOne({ "date": dateStr },
 			{ $set: { "games":  games} });
-			await (await dbClient.client.db().collection('odds'))
-			.updateOne({ "date": dateStr },
-			{ $set: { "odds":  oddLst} });
+			let dateodds = await (await dbClient.client.db().collection('odds'))
+        	.findOne({ "date": dateStr });
+			if (!dateodds) {
+				await (await dbClient.client.db().collection('odds'))
+				.updateOne({ "date": dateStr },
+				{ $set: { "odds":  oddLst} });
+			}
 			do_update = false;
 		}
 

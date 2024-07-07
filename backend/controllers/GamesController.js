@@ -93,7 +93,7 @@ class GamesController {
         const pageSize = 10;
         const skip = (page - 1) * pageSize;
         const opengames = await (await dbClient.client.db().collection('games'))
-        .find({"userId": ObjectID(usr_id), "gameStatus": 'open'}).skip(skip).limit(pageSize).toArray();
+        .find({"userId": ObjectID(usr_id), "gameStatus": 'open'}).sort({ _id: -1 }).skip(skip).limit(pageSize).toArray();
 
         res.status(200).json({"count": count, "opengames": opengames});
     }
@@ -123,7 +123,7 @@ class GamesController {
         const pageSize = 10;
         const skip = (page - 1) * pageSize;
         const closegames = await (await dbClient.client.db().collection('games'))
-        .find({"userId": ObjectID(usr_id), "gameStatus": 'close'}).skip(skip).limit(pageSize).toArray();
+        .find({"userId": ObjectID(usr_id), "gameStatus": 'close'}).sort({ _id: -1 }).skip(skip).limit(pageSize).toArray();
 
         res.status(200).json({"count": count, "closegames": closegames});
     }

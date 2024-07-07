@@ -103,7 +103,7 @@ function Nav() {
         {loggedin && (
           <div className='nav_loggedin'>
             <div className='nav_profilepic'></div>
-            <div className='nav_accountbal'>NGN {Intl.NumberFormat('en-US').format(navbar.usr.account_balance)}</div>
+            <div className='nav_accountbal'>NGN {Intl.NumberFormat('en-US').format(parseFloat(navbar.usr.account_balance))}</div>
             <div className='nav_reloadaccountbal' onClick={bal_res}>Reload</div>
             <div className='logout' onClick={logout}>Logout</div>
           </div>

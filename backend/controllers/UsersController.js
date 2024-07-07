@@ -33,7 +33,7 @@ class UsersController {
 	}
 	const result = await (await dbClient.client.db().collection('users'))
 	.insertOne({"email": email, "password": sha1(password),
-	"account_balance": 100000, "first_name": '', "last_name": '', "phone": '', });
+	"account_balance": '100000', "first_name": '', "last_name": '', "phone": '', });
 	const usrId = result.insertedId.toString();
 
 
@@ -72,10 +72,10 @@ class UsersController {
 	if (!user) { res.status(400).json(); return;}
 	const nwbal = req.body.newbal;
 	if (!nwbal) { res.status(400).json(); return;}
-	if (user.account_balance <= 100000) {
+	if (parseFloat(user.account_balance) <= 100000) {
 		await (await dbClient.client.db().collection('users'))
 		.updateOne({ "_id": ObjectID(usr_id) },
-		{ $set: { "account_balance": nwbal } });
+		{ $set: { "account_balance": nwbal.toString() } });
 	}
 	res.json({'id': usr_id, 'email': user.email, 'status': 'done'});
   }

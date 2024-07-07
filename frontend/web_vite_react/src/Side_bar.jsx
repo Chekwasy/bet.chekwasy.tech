@@ -165,7 +165,7 @@ function Side_bar() {
         games: mainbar.gamesSelected
       }
 
-      if (stakeamt <= usrbal) {
+      if (parseFloat(stakeamt) <= parseFloat(usrbal)) {
         $.ajax({
           type: 'POST',
           url: urlNS + `${local}/api/v1/bet`,

@@ -186,12 +186,12 @@ function Side_bar() {
               type: 'PUT',
               url: urlNS + `${local}/api/v1/bal_res`,
               contentType: 'application/json',
-              data: JSON.stringify({newbal: newbal}),
+              data: JSON.stringify({newbal: newbal.toString()}),
               headers: {
                 'x-token': cookietoken,
               },
               success: function(res) {
-                dispatch(navbarUpdate({'usr': {...(navbar.usr), ['account_balance']: newbal}}));
+                dispatch(navbarUpdate({'usr': {...(navbar.usr), ['account_balance']: newbal.toString()}}));
               }
             });
             const to_save = {'id_': gcookieid, 'savedgames': {}};

@@ -72,7 +72,7 @@ class UsersController {
 	if (!user) { res.status(400).json(); return;}
 	const nwbal = req.body.newbal;
 	if (!nwbal) { res.status(400).json(); return;}
-	if (parseFloat(user.account_balance) <= 100000) {
+	if (parseFloat(user.account_balance) <= 100000000) {
 		await (await dbClient.client.db().collection('users'))
 		.updateOne({ "_id": ObjectID(usr_id) },
 		{ $set: { "account_balance": nwbal.toString() } });

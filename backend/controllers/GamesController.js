@@ -54,7 +54,7 @@ class GamesController {
         const totalOdd = req.body.totalOdd;
         const expReturns = req.body.expReturns;
         const games = req.body.games;
-        if (stakeAmt > user.account_balance) {res.status(400).json({'error': 'balance insufficient'}); return;}
+        if (parseFloat(stakeAmt) > parseFloat(user.account_balance)) {res.status(400).json({'error': 'balance insufficient'}); return;}
         if (!stakeAmt || !betTime || !gameStatus || !outcome
         || !totalOdd || !expReturns || !games) {res.status(400).json({}); return;}
         const result = await (await dbClient.client.db().collection('games'))

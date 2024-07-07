@@ -214,7 +214,7 @@ function Side_bar() {
           }
         });
       }
-      if (stakeamt > usrbal) {
+      if (parseFloat(stakeamt) > parseFloat(usrbal)) {
         balancesmallfunc();
       }
       

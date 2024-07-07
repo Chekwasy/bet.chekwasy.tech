@@ -38,17 +38,22 @@ function Side_bar() {
     let tot_odd = 1;
     if (mainbar.gamesSelected) {
       Object.keys(mainbar.gamesSelected).map((evt_id) => {
-        tot_odd = tot_odd * mainbar.gamesSelected[evt_id].stakeodd;
+        tot_odd = (parseFloat(tot_odd) * parseFloat(mainbar.gamesSelected[evt_id].stakeodd)).toFixed(2);
       });
-      setTotalodd(tot_odd);
+      setTotalodd(parseFloat(tot_odd));
     } else {
       setTotalodd(1);
     }
-    if (stakeamt === '') {
-      setStakeamt(1);
-    }
+    // if (stakeamt === '') {
+    //   setStakeamt(1);
+    // }
     if (stakeamt !== 0) {
-      setToWinamt(stakeamt * tot_odd);
+      if (stakeamt !== '') {
+        setToWinamt(stakeamt * tot_odd);
+      }
+      if (stakeamt === '') {
+        setToWinamt(0 * tot_odd);
+      }
     }
   };
   useEffect(() => {

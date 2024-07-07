@@ -105,7 +105,7 @@ const res = async () => {
                 if (each.games[item].outcome === 'Void') {
                     totodd = totodd / parseFloat(each.games[item].stakeodd);
                 }
-                if (each.games[item].matchstatus === 'NR') {
+                if (each.games[item].result === 'NR') {
                     chkns = false;
                 }
                 if (each.games[item].result === 'lost') {

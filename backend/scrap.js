@@ -35,7 +35,7 @@ const scrap = async () => {
 		let today = new Date();
 		for (let i = 0; i < 8; i++) {
 			const nex = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
-			let options = {'timeZone': 'CET'};
+			let options = {'timeZone': 'WAT'};
 			let dateLst = nex.toLocaleDateString(options).split('/');
 			if (dateLst[0].length === 1) {dateLst[0] = '0' + dateLst[0];}
 			if (dateLst[1].length === 1) {dateLst[1] = '0' + dateLst[1];}

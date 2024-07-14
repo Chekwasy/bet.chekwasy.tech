@@ -25,11 +25,10 @@ const odd = async () => {
         //console.log(dateodds);
 	let tosave = '';
 	Object.keys(dateodds.odds[0]).map(async (ech) => {
-		tosave = tosave + `${dateodds.odds[0][ech][0].hometeam}_${dateodds.odds[0][ech][0].awayteam}_${dateodds.odds[0][ech][0].homeodd}_${dateodds.odds[0][ech][0].drawodd}_${dateodds.odds[0][ech][0].awayodd}\n`;
+		tosave = tosave + `${ech}_${dateodds.odds[0][ech][0].hometeam}_${dateodds.odds[0][ech][0].awayteam}_${dateodds.odds[0][ech][0].homeodd}_${dateodds.odds[0][ech][0].drawodd}_${dateodds.odds[0][ech][0].awayodd}\n`;
 	});
 	console.log(tosave);
 	writeFile(date_, tosave);
-	break;
     }
 };
 

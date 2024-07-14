@@ -1,6 +1,6 @@
 import dbClient from './utils/db';
 const axios = require('axios');
-const cheerio = require('cheerio');
+const ld = require('lodash');
 
 
 const scrap = async () => {
@@ -155,10 +155,13 @@ const scrap = async () => {
 			{ $set: { "games":  games} });
 			let dateodds = await (await dbClient.client.db().collection('odds'))
         	.findOne({ "date": dateStr });
-			if (1) {//nahere
+			const dodds = dateodds.odds;
+			//console.log(dodds['1295560'][0].hometeam);
+			const oddsave = ld.merge({}, oddLst, dodds);
+			if (1) {
 				await (await dbClient.client.db().collection('odds'))
 				.updateOne({ "date": dateStr },
-				{ $set: { "odds":  oddLst} });
+				{ $set: { "odds":  oddsave} });
 			}
 			do_update = false;
 		}

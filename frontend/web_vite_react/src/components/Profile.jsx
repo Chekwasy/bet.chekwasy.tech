@@ -4,7 +4,7 @@ import $ from 'jquery';
 import Cookie from 'js-cookie';
 import { useSelector } from 'react-redux';
 let cookietoken = Cookie.get('x-token') || '';
-const urlNS = 'http://'; //for making change to https easy
+const urlNS = '167.99.194.130:5001'; //for making change to https easy
 
 function Profile() {
   const navbar = useSelector(state => state.navbarState);

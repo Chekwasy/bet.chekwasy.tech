@@ -6,7 +6,7 @@ import $, { event } from 'jquery';
 import { useSelector } from 'react-redux';
 
 let cookietoken = Cookie.get('x-token') || '';
-const urlNS = '167.99.194.130:5001'; //for making change to https easy
+const urlNS = ''; //for making change to https easy
 const local = '';
 
 

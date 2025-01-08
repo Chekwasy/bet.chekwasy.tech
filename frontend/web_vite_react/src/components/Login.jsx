@@ -2,7 +2,7 @@ import { useState } from 'react';
 import $ from 'jquery';
 import Cookie from 'js-cookie';
 
-const urlNS = ''; //for making change to https easy
+const urlNS = '167.99.194.130:5001'; //for making change to https easy
 const local = '';
 
 function Login() {

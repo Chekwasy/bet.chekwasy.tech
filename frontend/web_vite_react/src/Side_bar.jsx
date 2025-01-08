@@ -8,7 +8,7 @@ import { navbarUpdate } from './State/navbarState';
 
 let cookietoken = Cookie.get('x-token') || '';
 let gcookieid = Cookie.get('savedgamesid');
-const urlNS = ''; //for making change to https easy
+const urlNS = '167.99.194.130:5001'; //for making change to https easy
 const local = '';
 
 function Side_bar() {

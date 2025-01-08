@@ -2,7 +2,7 @@ import express from 'express';
 import mapRoute from './routes/index';
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 mapRoute(app);
 app.listen(PORT, () => {

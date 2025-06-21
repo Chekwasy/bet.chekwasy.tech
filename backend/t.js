@@ -42,7 +42,7 @@ const multiply = (fst, snd) => {
                 }
 	console.log(nwadd);
 	nwadd.forEach((itm) => {
-		if (ans.length > itm.length) {
+		if (ans.length >= itm.length) {
 			ans = adding(ans, itm);
 		}
 		if (ans.length < itm.length) {

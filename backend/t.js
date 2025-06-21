@@ -23,11 +23,78 @@ const multiply = (fst, snd) => {
                                         mul = rem + mul;
 					rem = '';
                                 }
-			console.log(mul);
                         }
                         mul = '_' + mul;
                 }
         }
-        console.log(mul);
+	const addlst = mul.slice(1).split('_');
+	const addln = addlst.length;
+	let zeros = '';
+	let ans = '0';
+	const nwadd = [];
+	if (addln > 1) {
+		for (let i = 0; i < (addln - 1); i++) {
+			zeros = zeros + '0';
+		}
+		for (let i = 0; i < addln; i++) {
+                        nwadd.push(addlst[i] + zeros);
+			zeros = zeros.slice(1);
+                }
+	console.log(nwadd);
+	nwadd.forEach((itm) => {
+		if (ans.length > itm.length) {
+			ans = adding(ans, itm);
+		}
+		if (ans.length < itm.length) {
+			ans = adding(itm, ans);
+		}
+	});
+	let half = (parseFloat('.' + ans.slice(-4)).toFixed(2)).slice(-3);
+	if (half[2] === '0' && half[1] === '0') {
+		half = '';
+	} else if (half[2] === '0') {
+		half = half.slice(0, -1);
+	}
+	return ans.slice(0, -4) + half;
+	}
+	return addlst[0];
 };
-multiply('356', '78');
+const adding = (fst, snd) => {
+	const ln1 = fst.length;
+	const ln2 = snd.length;
+	let snd2 = '';
+	let addval = '';
+	let rem = '';
+	let z = '';
+	if (ln1 > ln2) {
+		const df = ln1 - ln2;
+		for (let i = 0; i < df; i++) {
+			z = z + '0';
+		}
+		snd2 = z + snd;
+	} else {
+		snd2 = snd;
+	}
+	console.log(fst, snd2);
+	for (let i = ln1 - 1; i >= 0; i--) {
+		let a = 0;
+		a = parseInt(fst[i]) + parseInt(snd2[i]);
+		if (rem !== '') {
+			a = a + parseInt(rem);
+			rem = '';
+		}
+		if (a.toString().length === 1) {
+			addval = a.toString() + addval;
+		}
+		if (a.toString().length > 1) {
+			addval = a.toString()[1] + addval;
+			rem = a.toString()[0];
+		}
+		if (i === 0 && rem !== '') {
+			addval = rem + addval;
+			rem = '';
+		}
+	}
+	return addval
+};
+console.log(multiply('356', '78'), 'final');

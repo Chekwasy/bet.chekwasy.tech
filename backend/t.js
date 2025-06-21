@@ -1,10 +1,11 @@
 const multiply = (fst, snd) => {
-        const str1 = (parseFloat(fst) * 100).toString();
-    const str2 = (parseFloat(snd) * 100).toString();
+        const str1 = parseInt((parseFloat(fst) * 100)).toString();
+    const str2 = parseInt((parseFloat(snd) * 100)).toString();
     const ln1 = str1.length;
     const ln2 = str2.length;
     let mul = '';
     let rem = '';
+	console.log(str1, str2);
     if (ln1 >= ln2) {
             for (let i = ln2 - 1; i >= 0; i--) {
                     for (let j = (ln1 - 1); j >= 0; j--) {
@@ -103,4 +104,4 @@ const adding = (fst, snd) => {
 	}
 	return addval
 };
-console.log(multiply('1.7', '1'), 'final');
+console.log(multiply('3.66', '8.96'), 'final');

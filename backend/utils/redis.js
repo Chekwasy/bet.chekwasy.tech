@@ -1,35 +1,37 @@
-import { createClient } from 'redis';
-import { promisify } from 'util'
+import { Redis } from "@upstash/redis";
 
 class RedisClient {
-	constructor() {
-		const client = createClient();
-		this.clientConnected = true;
-		client.on('error', (err) => {
-			console.log(err.toString());
-			this.clientConnected = false;
-		});
-		this.client = client;
-	}
+  constructor() {
+    this.client = new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    });
+  }
 
-	isAlive() {
-		return this.clientConnected;
-	}
+  async isAlive() {
+    try {
+      await this.client.ping();
+      return true;
+    } catch {
+      return false;
+    }
+  }
 
-	async get(key) {
-		return (promisify(this.client.GET).bind(this.client)(key));
-	}
+  async get(key) {
+    return await this.client.get(key);
+  }
 
-	async set(key, value, duration) {
-		(promisify(this.client.SET).bind(this.client)(key, value, 'EX', duration));
-	}
+  async set(key, value, duration) {
+    // duration in seconds
+    return await this.client.set(key, value, {
+      ex: duration,
+    });
+  }
 
-	async del(key) {
-		promisify(this.client.DEL).bind(this.client)(key)
-	}
+  async del(key) {
+    return await this.client.del(key);
+  }
 }
 
-
 const redisClient = new RedisClient();
-
 export default redisClient;

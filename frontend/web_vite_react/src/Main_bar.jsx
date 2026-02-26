@@ -41,8 +41,9 @@ if (!gcookieid) {
 }
   //let savedgamesapi = {}; //saved games from backend which was saved
 //let gamesSelected = {}; //all selected games
-const url = urlNS + `${local}/api/v1/games/`; //url for getting games
-const url2 = urlNS + `${local}/api/v1/odds/`; //url for getting odds
+const url = `${BASE_URL}/games/`; //url for getting games
+const url2 = `${BASE_URL}/odds/`; //url for getting odds
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 //main bar component
 function Main_bar() {
@@ -99,7 +100,7 @@ function Main_bar() {
       dispatch(mainbarUpdate({'gamesSelected': newdt, setalloddsFunction: false}));
       $.ajax({
         type: 'POST',
-        url: urlNS + `${local}/api/v1/savedgames`,
+        url: `${BASE_URL}/savedgames`,
         data: JSON.stringify(to_save),
         contentType: 'application/json',
         success: function(res) {
@@ -128,7 +129,7 @@ function Main_bar() {
     .catch(err => {
     });
     let sgapi = {};
-    await axios.get(urlNS + `${local}/api/v1/savedgames/${gcookieid}`)
+    await axios.get(`${BASE_URL}/savedgames/${gcookieid}`)
     .then(resp => {
       sgapi = resp;
     })
@@ -228,7 +229,7 @@ function Main_bar() {
       const to_save = {'id_': gcookieid, 'savedgames': gamesselected};
       $.ajax({
         type: 'POST',
-        url: urlNS + `${local}/api/v1/savedgames`,
+        url: `${BASE_URL}/savedgames`,
         data: JSON.stringify(to_save),
         contentType: 'application/json',
         success: function(res) {
@@ -247,7 +248,7 @@ function Main_bar() {
         const to_save = {'id_': gcookieid, 'savedgames': gamesselected};
         $.ajax({
           type: 'POST',
-          url: urlNS + `${local}/api/v1/savedgames`,
+          url: `${BASE_URL}/savedgames`,
           data: JSON.stringify(to_save),
           contentType: 'application/json',
           success: function(res) {

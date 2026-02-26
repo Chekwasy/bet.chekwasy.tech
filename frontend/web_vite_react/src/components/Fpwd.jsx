@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import $ from 'jquery';
 
-const urlNS = ''; //for making change to https easy
-const local = '';
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 function Fpwd() {
   const [fpwdemail, setFpwdemail] = useState('');
@@ -68,7 +67,7 @@ function Fpwd() {
       if (!fpwdtoken) { 
         $.ajax({
           type: 'POST',
-          url: urlNS + `${local}/api/v1/send_tok`,
+          url: `${BASE_URL}/send_tok`,
           contentType: 'application/json',
           data: JSON.stringify({'email': fpwdemail}),
           success: function(res) {
@@ -84,7 +83,7 @@ function Fpwd() {
       if (fpwdtoken && fpwdtxt === 'Verify token') {
         $.ajax({
           type: 'POST',
-          url: urlNS + `${local}/api/v1/checktoken`,
+          url: `${BASE_URL}/checktoken`,
           contentType: 'application/json',
           data: JSON.stringify({'email': fpwdemail, 'token': fpwdtokentxt}),
           success: function(res) {
@@ -101,7 +100,7 @@ function Fpwd() {
         const encodestr = btoa(email + ':' + pwd);
         $.ajax({
           type: 'POST',
-          url: urlNS + `${local}/api/v1/pwdreset`,
+          url: `${BASE_URL}/pwdreset`,
           contentType: 'application/json',
           data: JSON.stringify({'token': fpwdtokentxt.trimEnd()}),
           headers: {
@@ -167,7 +166,7 @@ function Fpwd() {
     if (fpwdtoken) {
       $.ajax({
         type: 'POST',
-        url: urlNS + 'localhost:5000/api/v1/send_tok',
+        url: `${BASE_URL}/send_tok`,
         contentType: 'application/json',
         data: JSON.stringify({'email': fpwdemail}),
         error: function(err) {

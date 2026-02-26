@@ -1,21 +1,17 @@
-import express from "express";
-import serverless from "serverless-http";
+import express from 'express'
 
-const app = express();
+const app = express()
 
-app.get("/", (_req, res) => {
-  res.send("Hello Express!");
-});
+app.get('/api', (_req, res) => {
+  res.json('Hello Express!')
+})
 
-app.get("/second", (_req, res) => {
-  res.send("jjklk");
-});
+app.get('/apii', (_req, res) => {
+  res.send('jjklk')
+})
 
-app.get("/posts/:postId/comments/:commentId", (req, res) => {
-  res.json({
-    postId: req.params.postId,
-    commentId: req.params.commentId,
-  });
-});
+app.get('/api/posts/:postId/comments/:commentId', (_req, res) => {
+  res.json({ postId: _req.params.postId, commentId: _req.params.commentId })
+})
 
-export default serverless(app);
+export default app

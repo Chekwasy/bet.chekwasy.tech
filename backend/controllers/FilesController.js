@@ -1,4 +1,4 @@
-import dbClient from "../utils/db.js";
+import dbClient from "../utils/db.ts";
 import redisClient from "../utils/redis.js";
 import { v4 as uuidv4 } from "uuid";
 import { ObjectId } from "mongodb";
@@ -209,3 +209,4 @@ class FilesController {
 }
 
 export default FilesController;
+module.exports = FilesController;

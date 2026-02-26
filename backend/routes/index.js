@@ -1,8 +1,8 @@
-import AppController from '../controllers/AppController';
-import UsersController from '../controllers/UsersController';
-import AuthController from '../controllers/AuthController';
-import FilesController from '../controllers/FilesController';
-import GamesController from '../controllers/GamesController';
+import AppController from '../controllers/AppController.js';
+import UsersController from '../controllers/UsersController.js';
+import AuthController from '../controllers/AuthController.js';
+import FilesController from '../controllers/FilesController.js';
+import GamesController from '../controllers/GamesController.js';
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -41,3 +41,4 @@ const mapRoute = (app) => {
 };
 
 export default mapRoute;
+module.exports = mapRoute;

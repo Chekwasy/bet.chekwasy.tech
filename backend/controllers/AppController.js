@@ -1,5 +1,5 @@
 import redisClient from "../utils/redis.js";
-import dbClient from "../utils/db.js";
+import dbClient from "../utils/db.ts";
 
 /**
  * Contains miscellaneous handlers for site stability
@@ -51,3 +51,4 @@ class AppController {
 }
 
 export default AppController;
+module.exports = AppController;

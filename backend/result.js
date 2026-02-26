@@ -1,4 +1,4 @@
-import dbClient from "./utils/db.js";
+import dbClient from "./utils/db.ts";
 import axios from "axios";
 import { ObjectId } from "mongodb";
 

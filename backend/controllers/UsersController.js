@@ -1,4 +1,4 @@
-import dbClient from "../utils/db.js";
+import dbClient from "../utils/db.ts";
 import sha1 from "sha1";
 import redisClient from "../utils/redis.js";
 import { ObjectId } from "mongodb";
@@ -168,3 +168,4 @@ class UsersController {
 }
 
 export default UsersController;
+module.exports = UsersController;

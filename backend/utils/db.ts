@@ -1,17 +1,15 @@
 import { MongoClient } from "mongodb";
-import { attachDatabasePool } from "@vercel/functions";
 
-// Extend globalThis for caching
+// Extend globalThis properly for TypeScript
 declare global {
   // eslint-disable-next-line no-var
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
-const uri = process.env.MONGO_URI;
-const dbName = process.env.DB_NAME || "bet_chekwasy";
+const uri = process.env.MONGODB_URI;
 
 if (!uri) {
-  throw new Error("Please define MONGO_URI in environment variables");
+  throw new Error("Please define MONGODB_URI in env");
 }
 
 let client: MongoClient;
@@ -20,20 +18,12 @@ let clientPromise: Promise<MongoClient>;
 if (!globalThis._mongoClientPromise) {
   client = new MongoClient(uri);
 
-  // Vercel connection pooling optimization
-  attachDatabasePool(client);
-
   globalThis._mongoClientPromise = client.connect();
 }
 
 clientPromise = globalThis._mongoClientPromise;
 
 class DBClient {
-  async db() {
-    const client = await clientPromise;
-    return client.db(dbName);
-  }
-
   async isAlive(): Promise<boolean> {
     try {
       const db = await this.db();
@@ -44,19 +34,19 @@ class DBClient {
     }
   }
 
+  async db(dbName?: string) {
+    const client = await clientPromise;
+    return client.db(dbName); // optional db name support
+  }
+
   async nbUsers(): Promise<number> {
     const db = await this.db();
     return db.collection("users").estimatedDocumentCount();
   }
 
-  async nbFiles(): Promise<number> {
+  async nbDates(): Promise<number> {
     const db = await this.db();
-    return db.collection("files").estimatedDocumentCount();
-  }
-
-  async nbGames(): Promise<number> {
-    const db = await this.db();
-    return db.collection("games").estimatedDocumentCount();
+    return db.collection("dates").estimatedDocumentCount();
   }
 }
 

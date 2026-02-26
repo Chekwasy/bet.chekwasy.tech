@@ -1,7 +1,7 @@
 import redisClient from "../utils/redis.js";
 import { v4 as uuidv4 } from "uuid";
 import sha1 from "sha1";
-import dbClient from "../utils/db.js";
+import dbClient from "../utils/db.ts";
 import { ObjectId } from "mongodb";
 
 class AuthController {
@@ -159,3 +159,4 @@ class AuthController {
 }
 
 export default AuthController;
+module.exports = AuthController;

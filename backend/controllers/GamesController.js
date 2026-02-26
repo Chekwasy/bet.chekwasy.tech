@@ -2,7 +2,7 @@ import redisClient from "../utils/redis.js";
 import { ObjectId } from "mongodb";
 import scrap from "../scrap.js";
 import resultJob from "../result.js";
-import dbClient from "../utils/db.js";
+import dbClient from "../utils/db.ts";
 
 class GamesController {
   // GET GAMES BY DATE
@@ -215,3 +215,4 @@ class GamesController {
 }
 
 export default GamesController;
+module.exports = GamesController;

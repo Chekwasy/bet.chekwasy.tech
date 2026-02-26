@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Register your existing routes
-mapRoute(app);
+//mapRoute(app);
 
 // Optional test route
 app.get("/", (req, res) => {

@@ -1,40 +1,17 @@
-import express from "express";
-import scrap from "../scrap.js";
-import dbClient from "../utils/db.js";
+import express from 'express'
 
-const app = express();
+const app = express()
 
-app.get("/api/:date", async (req, res) => {
-  const { date } = req.params;
+app.get('/', (_req, res) => {
+  res.send('Hello Express!')
+})
 
-  if (!date || date.length !== 8) {
-    return res.status(400).json({ error: "Invalid date format" });
-  }
+app.get('/api/users/:id', (_req, res) => {
+  res.json({ id: _req.params.id })
+})
 
-  try {
-    const db = await dbClient.db();
-    const today = new Date();
+app.get('/api/posts/:postId/comments/:commentId', (_req, res) => {
+  res.json({ postId: _req.params.postId, commentId: _req.params.commentId })
+})
 
-    for (let i = 0; i < 8; i++) {
-      const nex = new Date(today.getTime() + i * 86400000);
-      const d = nex.toISOString().slice(0, 10).replaceAll("-", "");
-
-      if (date === d) {
-        await scrap();
-
-        const doc = await db.collection("dates").findOne({ date: d });
-
-        if (doc) {
-          return res.status(200).json({ games: doc.games });
-        }
-      }
-    }
-
-    return res.status(400).json({ error: "Date not in range" });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "Server error" });
-  }
-});
-
-export default app;
+export default app

@@ -41,9 +41,10 @@ if (!gcookieid) {
 }
   //let savedgamesapi = {}; //saved games from backend which was saved
 //let gamesSelected = {}; //all selected games
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const url = `${BASE_URL}/games/`; //url for getting games
 const url2 = `${BASE_URL}/odds/`; //url for getting odds
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 
 //main bar component
 function Main_bar() {

@@ -1,5 +1,5 @@
 import express from "express";
-import mapRoute from "../routes/index.js";
+import mapRoute from "../routes/routes.js";
 
 const app = express();
 

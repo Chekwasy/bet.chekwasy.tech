@@ -35,7 +35,6 @@ const mapRoute = (app) => {
   app.post('/v1/bet', GamesController.postBet);
   app.get('/v1/openbet/:pg', GamesController.getOpenbet);
   app.get('/v1/closebet/:pg', GamesController.getClosebet);
-  app.post('/v1/postodds/:date', GamesController.postOdds);
   app.get('/v1/savedgames/:id', GamesController.getSavedgames);
   app.post('/v1/savedgames/', GamesController.postSavedgames);
 };

@@ -7,7 +7,7 @@ app.get('/api', (_req, res) => {
 })
 
 app.get('/api/users/:id', (_req, res) => {
-  res.send({ id: _req.params.id })
+  res.send('jjklk')
 })
 
 app.get('/api/posts/:postId/comments/:commentId', (_req, res) => {

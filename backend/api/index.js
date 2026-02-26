@@ -1,8 +1,10 @@
 import express from 'express'
 import mapRoute from '../routes/routes'
+import GamesController from '../controllers/GamesController';
 
 const app = express()
 
+  app.get('/v1/games/:date', GamesController.getGames);
 mapRoute(app);
 
 app.get('/api', (_req, res) => {

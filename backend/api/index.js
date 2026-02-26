@@ -4,7 +4,7 @@ import GamesController from '../controllers/GamesController';
 
 const app = express()
 
-  app.get('/v1/games/:date', GamesController.getGames);
+  app.get('/games/:date', GamesController.getGames);
 mapRoute(app);
 
 app.get('/api', (_req, res) => {

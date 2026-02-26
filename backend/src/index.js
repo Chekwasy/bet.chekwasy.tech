@@ -1,17 +1,17 @@
-import express from "express";
-import mapRoute from "../routes/routes.js";
+import express from 'express'
 
-const app = express();
+const app = express()
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.get('/', (_req, res) => {
+  res.send('Hello Express!')
+})
 
-// Register your existing routes
-//mapRoute(app);
+app.get('/api/users/:id', (_req, res) => {
+  res.json({ id: _req.params.id })
+})
 
-// Optional test route
-app.get("/", (req, res) => {
-  res.json({ message: "Hello from Express on Vercel!" });
-});
+app.get('/api/posts/:postId/comments/:commentId', (_req, res) => {
+  res.json({ postId: _req.params.postId, commentId: _req.params.commentId })
+})
 
-export default app;
+export default app

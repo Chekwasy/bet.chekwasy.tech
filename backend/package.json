@@ -4,9 +4,6 @@
   "description": "File management API (Serverless version)",
   "type": "module",
   
-  "scripts": {
-    "dev": "node api/index.js"
-  },
   "dependencies": {
     "@upstash/redis": "^1.25.0",
     "@vercel/functions": "^3.4.2",
@@ -23,5 +20,10 @@
     "serverless-http": "^4.0.0",
     "sha1": "^1.1.1",
     "uuid": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.17",
+    "@types/express": "5.0.0",
+    "typescript": "5.8.3"
   }
 }

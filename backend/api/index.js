@@ -1,17 +1,36 @@
-import express from 'express'
+import express from "express";
 
-const app = express()
+const app = express();
 
-app.get('/', (_req, res) => {
-  res.send('Hello Express!')
-})
+app.use((req, res) => {
+  try {
+    const { method, path } = req;
 
-app.get('/api/users/:id', (_req, res) => {
-  res.json({ id: _req.params.id })
-})
+    if (method === "GET" && path === "/") {
+      return res.send("Hello Express!");
+    }
 
-app.get('/api/posts/:postId/comments/:commentId', (_req, res) => {
-  res.json({ postId: _req.params.postId, commentId: _req.params.commentId })
-})
+    if (method === "GET" && path.startsWith("/users/")) {
+      const id = path.split("/")[2];
+      return res.json({ id });
+    }
 
-export default app
+    if (
+      method === "GET" &&
+      path.startsWith("/posts/")
+    ) {
+      const parts = path.split("/");
+      return res.json({
+        postId: parts[2],
+        commentId: parts[4],
+      });
+    }
+
+    return res.status(404).json({ error: "Not Found" });
+
+  } catch (err) {
+    return res.status(500).json({ error: "Server Error" });
+  }
+});
+
+export default app;

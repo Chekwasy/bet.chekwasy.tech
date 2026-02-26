@@ -168,4 +168,4 @@ class UsersController {
 }
 
 export default UsersController;
-module.exports = UsersController;
+//module.exports = UsersController;

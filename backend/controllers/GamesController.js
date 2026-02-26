@@ -215,4 +215,4 @@ class GamesController {
 }
 
 export default GamesController;
-module.exports = GamesController;
+//module.exports = GamesController;

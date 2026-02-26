@@ -188,16 +188,30 @@ class GamesController {
 
   // SAVED GAMES (REDIS)
   static async getSavedgames(req, res) {
-    const { id } = req.params;
-    if (!id)
-      return res.status(400).json({});
+  const { id } = req.params;
+  if (!id)
+    return res.status(400).json({});
 
-    const saved = await redisClient.get(id);
+  const saved = await redisClient.get(id);
 
-    return res.status(200).json({
-      savedgames: saved ? JSON.parse(saved) : {},
-    });
+  let parsed = {};
+
+  if (saved) {
+    try {
+      parsed =
+        typeof saved === "string"
+          ? JSON.parse(saved)
+          : saved;
+    } catch (err) {
+      console.error("Redis parse error:", err);
+      parsed = {};
+    }
   }
+
+  return res.status(200).json({
+    savedgames: parsed,
+  });
+}
 
   static async postSavedgames(req, res) {
     const { id_, savedgames } = req.body;

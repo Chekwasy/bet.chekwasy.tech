@@ -3,8 +3,8 @@ import UsersController from '../controllers/UsersController.js';
 import AuthController from '../controllers/AuthController.js';
 import FilesController from '../controllers/FilesController.js';
 import GamesController from '../controllers/GamesController.js';
-const cors = require('cors');
-const bodyParser = require('body-parser');
+import cors from "cors";
+import bodyParser from "body-parser";
 
 
 const mapRoute = (app) => {

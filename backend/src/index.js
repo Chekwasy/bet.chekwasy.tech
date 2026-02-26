@@ -1,15 +1,17 @@
 import express from "express";
-import serverless from "serverless-http";
 import mapRoute from "../routes/index.js";
 
 const app = express();
 
-// middlewares if any
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// register routes
+// Register your existing routes
 mapRoute(app);
 
+// Optional test route
+app.get("/", (req, res) => {
+  res.json({ message: "Hello from Express on Vercel!" });
+});
 
-export default serverless(app);
+export default app;

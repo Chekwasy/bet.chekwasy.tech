@@ -1,17 +1,13 @@
 import express from 'express'
+import mapRoute from '../routes/routes'
 
 const app = express()
+
+mapRoute(app);
 
 app.get('/api', (_req, res) => {
   res.json('Hello Express!')
 })
 
-app.get('/apii', (_req, res) => {
-  res.send('jjklk')
-})
-
-app.get('/api/posts/:postId/comments/:commentId', (_req, res) => {
-  res.json({ postId: _req.params.postId, commentId: _req.params.commentId })
-})
 
 export default app

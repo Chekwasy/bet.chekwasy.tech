@@ -6,7 +6,7 @@ app.get('/api', (_req, res) => {
   res.send('Hello Express!')
 })
 
-app.get('/api/users/:id', (_req, res) => {
+app.get('/apii', (_req, res) => {
   res.send('jjklk')
 })
 

@@ -1,223 +1,217 @@
-import redisClient from '../utils/redis';
-import { v4 } from 'uuid';
-const { ObjectID } = require('mongodb');
+import redisClient from "../utils/redis.js";
+import { ObjectId } from "mongodb";
+import scrap from "../scrap.js";
+import resultJob from "../result.js";
+import dbClient from "../utils/db.js";
 
-
-import dbClient from '../utils/db';
-/**
- * Contains auth miscellanous handlers for games collection
- */
 class GamesController {
-    static async getGames(req, res) {
-        //get games of a particular date as parameter
-        const date = req.params.date;
-        if (!date) {res.status(400).json({}); return;}
-        if (date.length !== 8) {res.status(400).json({}); return;}
-        //check if date supplied is in range
-        let today = new Date();
-		for (let i = 0; i < 8; i++) {
-			const nex = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
-			let dateLst = nex.toLocaleDateString().split('/');
-            if (dateLst[0].length === 1) {dateLst[0] = '0' + dateLst[0];}
-            if (dateLst[1].length === 1) {dateLst[1] = '0' + dateLst[1];}
-			let date_ = dateLst[2] + dateLst[0] + dateLst[1];
-            if (date === date_) {
-                let getDate = await (await dbClient.client.db().collection('dates'))
-                .findOne({ "date": date_ });
-                if (getDate) {
-                    res.status(200).json({"games": getDate.games});
-                    return;            
-                }
-            }
-		}
-	    res.status(400).json({"error": "Date not in range"});
+  // GET GAMES BY DATE
+  static async getGames(req, res) {
+    const { date } = req.params;
+    if (!date || date.length !== 8)
+      return res.status(400).json({});
+
+    const db = await dbClient.db();
+    const today = new Date();
+
+    for (let i = 0; i < 8; i++) {
+      const nex = new Date(today.getTime() + i * 86400000);
+      const d = nex.toISOString().slice(0, 10).replaceAll("-", "");
+
+      if (date === d) {
+        await scrap();
+
+        const doc = await db.collection("dates").findOne({ date: d });
+
+        if (doc)
+          return res.status(200).json({ games: doc.games });
+      }
     }
 
+    return res.status(400).json({ error: "Date not in range" });
+  }
 
-    static async postBet(req, res) {
-        //post a new bet that is played
-        const x_tok = req.headers['x-token'];
-        if (!x_tok) { res.status(400).json(); return;}
-        const usr_id = await redisClient.get(`auth_${x_tok}`);
-        if (!usr_id) {
-            res.status(401).json({"error": "Unauthorized"});
-            return;
-        }
-        const user = await (await dbClient.client.db().collection('users'))
-        .findOne({ "_id": ObjectID(usr_id) });
-        if (!user) { res.status(400).json(); return;}
+  // PLACE BET
+  static async postBet(req, res) {
+    const token = req.headers["x-token"];
+    if (!token)
+      return res.status(401).json({ error: "Unauthorized" });
 
-        const stakeAmt = req.body.stakeAmt;
-        const betTime = req.body.betTime;
-        const gameStatus = req.body.gameStatus;
-        const outcome = req.body.outcome;
-        const totalOdd = req.body.totalOdd;
-        const expReturns = req.body.expReturns;
-        const games = req.body.games;
-        if (parseFloat(stakeAmt) > parseFloat(user.account_balance)) {res.status(400).json({'error': 'balance insufficient'}); return;}
-        if (!stakeAmt || !betTime || !gameStatus || !outcome
-        || !totalOdd || !expReturns || !games) {res.status(400).json({}); return;}
-        const result = await (await dbClient.client.db().collection('games'))
-	    .insertOne({"userId": user._id, "stakeAmt": stakeAmt,
-	    "betTime": betTime, "gameStatus": gameStatus, "outcome": outcome,
-        "totalOdd": totalOdd, "expReturns": expReturns,
-        "games": games
-        });
-	    const gameId = result.insertedId.toString();
-        res.status(200).json({"gameId": gameId, "userId": user._id});
-    }
-    
+    const userId = await redisClient.get(`auth_${token}`);
+    if (!userId)
+      return res.status(401).json({ error: "Unauthorized" });
 
-    static async getOpenbet(req, res) {
-        //get open bets for a user with pagination
-        const x_tok = req.headers['x-token'];
-        if (!x_tok) { res.status(400).json(); return;}
-        const usr_id = await redisClient.get(`auth_${x_tok}`);
-        if (!usr_id) {
-            res.status(401).json({"error": "Unauthorized"});
-            return;
-        }
-        const user = await (await dbClient.client.db().collection('users'))
-        .findOne({ "_id": ObjectID(usr_id) });
-        if (!user) { res.status(400).json(); return;}
+    const db = await dbClient.db();
 
-        const page = parseInt(req.params.pg);
-        if (isNaN(page)) {res.status(400).json({"error": "wrong page value"})}
-        if (!page) {res.status(400).json({}); return;}
-        let count = 0;
-        if (page === 1) {
-            const count = await (await dbClient.client.db().collection('games'))
-            .countDocuments({"userId": ObjectID(usr_id), "gameStatus": 'open'});
-        }
+    const user = await db.collection("users").findOne({
+      _id: new ObjectId(userId),
+    });
 
-        const pageSize = 10;
-        const skip = (page - 1) * pageSize;
-        const opengames = await (await dbClient.client.db().collection('games'))
-        .find({"userId": ObjectID(usr_id), "gameStatus": 'open'}).sort({ _id: -1 }).skip(skip).limit(pageSize).toArray();
+    if (!user)
+      return res.status(401).json({ error: "Unauthorized" });
 
-        res.status(200).json({"count": count, "opengames": opengames});
-    }
+    const {
+      stakeAmt,
+      betTime,
+      gameStatus,
+      outcome,
+      totalOdd,
+      expReturns,
+      games,
+    } = req.body;
 
-    static async getClosebet(req, res) {
-        //get closed bets for a user with pagination
-        const x_tok = req.headers['x-token'];
-        if (!x_tok) { res.status(400).json(); return;}
-        const usr_id = await redisClient.get(`auth_${x_tok}`);
-        if (!usr_id) {
-            res.status(401).json({"error": "Unauthorized"});
-            return;
-        }
-        const user = await (await dbClient.client.db().collection('users'))
-        .findOne({ "_id": ObjectID(usr_id) });
-        if (!user) { res.status(400).json(); return;}
+    if (!stakeAmt || !games)
+      return res.status(400).json({});
 
-        const page = parseInt(req.params.pg);
-        if (isNaN(page)) {res.status(400).json({"error": "wrong page value"})}
-        if (!page) {res.status(400).json({}); return;}
-        let count = 0;
-        if (page === 1) {
-            count = await (await dbClient.client.db().collection('games'))
-            .countDocuments({"userId": ObjectID(usr_id), "gameStatus": 'close'});
-        }
+    if (parseFloat(stakeAmt) >
+        parseFloat(user.account_balance))
+      return res
+        .status(400)
+        .json({ error: "balance insufficient" });
 
-        const pageSize = 10;
-        const skip = (page - 1) * pageSize;
-        const closegames = await (await dbClient.client.db().collection('games'))
-        .find({"userId": ObjectID(usr_id), "gameStatus": 'close'}).sort({ _id: -1 }).skip(skip).limit(pageSize).toArray();
+    const result = await db.collection("games").insertOne({
+      userId: new ObjectId(userId),
+      stakeAmt,
+      betTime,
+      gameStatus,
+      outcome,
+      totalOdd,
+      expReturns,
+      games,
+    });
 
-        res.status(200).json({"count": count, "closegames": closegames});
-    }
+    return res.status(200).json({
+      gameId: result.insertedId.toString(),
+      userId,
+    });
+  }
 
+  // OPEN BETS
+  static async getOpenbet(req, res) {
+    const token = req.headers["x-token"];
+    if (!token)
+      return res.status(401).json({ error: "Unauthorized" });
 
-    static async getOdds(req, res) {
-        //get game odds of a particular date as parameter
-        const date = req.params.date;
-        if (!date) {res.status(400).json({}); return;}
-        if (date.length !== 8) {res.status(400).json({}); return;}
-        //check if date supplied is in range
-        let today = new Date();
-		for (let i = 0; i < 8; i++) {
-			const nex = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
-			let dateLst = nex.toLocaleDateString().split('/');
-            if (dateLst[0].length === 1) {dateLst[0] = '0' + dateLst[0];}
-            if (dateLst[1].length === 1) {dateLst[1] = '0' + dateLst[1];}
-			let date_ = dateLst[2] + dateLst[0] + dateLst[1];
-            if (date === date_) {
-                let getOdds = await (await dbClient.client.db().collection('odds'))
-                .findOne({ "date": date_ });
-                if (getOdds) {
-                    res.status(200).json({"odds": getOdds.odds});
-                    return;           
-                }
-            }
-		}
-	    res.status(400).json({"error": "Date not in range"});
-    }
+    const userId = await redisClient.get(`auth_${token}`);
+    if (!userId)
+      return res.status(401).json({ error: "Unauthorized" });
 
+    const db = await dbClient.db();
 
-    static async postOdds(req, res) {
-        //post odds. for admin only
-        const x_tok = req.headers['x-token'];
-        if (!x_tok) { res.status(400).json(); return;}
-        const usr_id = await redisClient.get(`auth_${x_tok}`);
-        if (!usr_id) {
-            res.status(401).json({"error": "Unauthorized"});
-            return;
-        }
-        const user = await (await dbClient.client.db().collection('users'))
-        .findOne({ "_id": ObjectID(usr_id) });
-        if (!user) { res.status(400).json(); return;}
-        if (user.email !== 'richardchekwas@gmail.com') {
-            res.status(403).json({'error': 'Access completely denied'});
-            return;
-        }
-        const date = req.params.date;
-        const odds = req.body.odds;
-        if (!date || !odds) {res.status(400).json({}); return;}
-        //sample of odds [{Eid, homeodd, awayodd, drawodd} ...]
-        for (let i = 0; i < 8; i++) {
-			const nex = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
-			let dateLst = nex.toLocaleDateString().split('/');
-            if (dateLst[0].length === 1) {dateLst[0] = '0' + dateLst[0];}
-            if (dateLst[1].length === 1) {dateLst[1] = '0' + dateLst[1];}
-			let date_ = dateLst[2] + dateLst[0] + dateLst[1];
-            if (date === date_) {
-                let getOdds = await (await dbClient.client.db().collection('odds'))
-                .findOne({ "date": date });
-                const oddsLen = odds.length;
-                for (let i = 0; i < oddsLen; i++) {
-                    let Eid = odds[i].Eid;
-                    getOdds.odds[0].Eid[0].homeodd = odds[i].homeodd;
-                    getOdds.odds[0].Eid[0].awayodd = odds[i].awayodd;
-                    getOdds.odds[0].Eid[0].drawodd = odds[i].drawodd;
-                }
-                await (await dbClient.client.db().collection('odds'))
-                .replaceOne({ "date": date }, getOdds);
-                res.status(200).json({"status": "ok"});
-                return;            
-            }
-		}
-        res.json({}); return;
-    }
+    await resultJob(); // renamed from res()
 
-    static async getSavedgames( req, res) {
-        const id_ = req.params.id;
-        if (!id_) {res.status(400).json({}); return;}
-        const savdgm = await redisClient.get(id_);
-        if (!savdgm) {res.status(200).json({"savedgames": {}}); return;}
-        //console.log(savdgm);
-        res.status(200).json({"savedgames": JSON.parse(savdgm)});
-    }
+    const page = parseInt(req.params.pg || 1);
+    const pageSize = 10;
+    const skip = (page - 1) * pageSize;
 
-    static async postSavedgames( req, res) {
-        const id_ = req.body.id_;
-        const data = req.body.savedgames;
-        if (!id_ || !data) {res.json({}); return;}
-        redisClient.set(id_, JSON.stringify(data), 24 * 60 * 60);
-        res.status(200).json({"status": "ok"});
-    }
+    const count = await db.collection("games")
+      .countDocuments({
+        userId: new ObjectId(userId),
+        gameStatus: "open",
+      });
+
+    const games = await db.collection("games")
+      .find({
+        userId: new ObjectId(userId),
+        gameStatus: "open",
+      })
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(pageSize)
+      .toArray();
+
+    return res.status(200).json({
+      count,
+      opengames: games,
+    });
+  }
+
+  // CLOSED BETS
+  static async getClosebet(req, res) {
+    const token = req.headers["x-token"];
+    if (!token)
+      return res.status(401).json({ error: "Unauthorized" });
+
+    const userId = await redisClient.get(`auth_${token}`);
+    if (!userId)
+      return res.status(401).json({ error: "Unauthorized" });
+
+    const db = await dbClient.db();
+
+    await resultJob();
+
+    const page = parseInt(req.params.pg || 1);
+    const pageSize = 10;
+    const skip = (page - 1) * pageSize;
+
+    const count = await db.collection("games")
+      .countDocuments({
+        userId: new ObjectId(userId),
+        gameStatus: "close",
+      });
+
+    const games = await db.collection("games")
+      .find({
+        userId: new ObjectId(userId),
+        gameStatus: "close",
+      })
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(pageSize)
+      .toArray();
+
+    return res.status(200).json({
+      count,
+      closegames: games,
+    });
+  }
+
+  // GET ODDS
+  static async getOdds(req, res) {
+    const { date } = req.params;
+    if (!date || date.length !== 8)
+      return res.status(400).json({});
+
+    const db = await dbClient.db();
+
+    const odds = await db.collection("odds")
+      .findOne({ date });
+
+    if (!odds)
+      return res.status(400)
+        .json({ error: "Date not in range" });
+
+    return res.status(200).json({
+      odds: odds.odds,
+    });
+  }
+
+  // SAVED GAMES (REDIS)
+  static async getSavedgames(req, res) {
+    const { id } = req.params;
+    if (!id)
+      return res.status(400).json({});
+
+    const saved = await redisClient.get(id);
+
+    return res.status(200).json({
+      savedgames: saved ? JSON.parse(saved) : {},
+    });
+  }
+
+  static async postSavedgames(req, res) {
+    const { id_, savedgames } = req.body;
+    if (!id_ || !savedgames)
+      return res.status(400).json({});
+
+    await redisClient.set(
+      id_,
+      JSON.stringify(savedgames),
+      24 * 60 * 60
+    );
+
+    return res.status(200).json({ status: "ok" });
+  }
 }
 
-
 export default GamesController;
-module.exports = GamesController;

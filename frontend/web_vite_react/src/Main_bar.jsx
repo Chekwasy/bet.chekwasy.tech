@@ -211,7 +211,11 @@ function Main_bar() {
       matchtime: tmEl.textContent + ':' + fd
     };
 
+    console.log("Before:", mainbar.gamesSelected);
+
     let gamesselected = { ...mainbar.gamesSelected };
+
+    console.log("After:", gamesselected);
 
     if (!gamesselected[game_id]) {
       evt.target.classList.add('oddSelected');
@@ -233,7 +237,7 @@ function Main_bar() {
       contentType: 'application/json'
     });
   };
-  
+
   return (
     <div className='main_bar'>
       <div className='main_head'>

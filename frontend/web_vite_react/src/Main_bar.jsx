@@ -14,10 +14,10 @@ const local = '';
 let today = new Date();
 const displayDate = [];
 const curhrs = today.getHours();
-const curmins = today.getMinutes;
-const curday = today.getDay;
-const curmonth = today.getMonth + 1;
-const curyear = today.getFullYear;
+const curmins = today.getMinutes();
+const curday = today.getDay();
+const curmonth = today.getMonth() + 1;
+const curyear = today.getFullYear();
 for (let i = 0; i < 7; i++) {
   const nex = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
   const currday = nex.getDate().toString().padStart(2,'0');
@@ -30,7 +30,7 @@ for (let i = 0; i < 7; i++) {
 const curDay = displayDate[0];
 const cookie_id = uuidv4(); //generating uid for saving games selected id
 let fd = ''; //date to use
-let selectDate = curDay; //current date
+const [selectDate, setSelectDate] = useState(curDay);//current date
 const urlNS = ''; //for making change to https easy
 //let country_lea = ''; //help to align all games with respected countries
 //let gameodds = ''; //all games odds obejects
@@ -54,7 +54,7 @@ function Main_bar() {
   //set use state for date games attribute
   //const [selectDate, setSelectDate] = useState(curDay[2] + curDay[1] + curDay[0]);
   const [country_lea, setCountry_lea]  = useState({});
-  const [gameodds, setGameodds] = useState('');
+  const [gameodds, setGameodds] = useState([]);
   //const [loaded, setLoaded] = useState(false);
   //let gcookieid = Cookie.get('savedgamesid');
   //let savedgamesapi = {};
@@ -172,11 +172,14 @@ function Main_bar() {
 };
   //function to handle a date selected
   const handleDate = (e) => {
-    selectDate = (e.target.value);
-    let dt = selectDate.split('/');
-    fd = (dt[2] + dt[1] + dt[0]);
-    displayFetched(url + fd, url2 + fd);
-  };
+  const newDate = e.target.value;
+  setSelectDate(newDate);
+
+  let dt = newDate.split('/');
+  fd = (dt[2] + dt[1] + dt[0]);
+
+  displayFetched(url + fd, url2 + fd);
+};
   
   //function to take games from cookies and set them
   // const cookieFunction = () => {
@@ -201,15 +204,6 @@ function Main_bar() {
 
 }, []);
 
-  //takes care of current date display of games when page loads finish
-  useEffect(() => {
-    if (fd === '') {
-    const dt = displayDate[0].split('/');
-    fd = (dt[2] + dt[1] + dt[0]);
-    }
-    reload();
-    //setLoaded(true);
-  }, []);
   useEffect(() => {
     setallodd();
   }, [mainbar]);

@@ -1,12 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import $ from 'jquery';
 import Cookie from 'js-cookie';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
-const urlNS = ''; //for making change to https easy
-const local = '';
 
 function Login() {
+
   const [loginemail, setLoginemail] = useState('');
   const [loginpwd, setLoginpwd] = useState('');
   const [loginvalidation1, setLoginvalidation1] = useState(false);
@@ -14,120 +13,162 @@ function Login() {
   const [logininvalid, setLogininvalid] = useState(false);
   const [loginposterror, setLoginposterror] = useState(false);
 
-  const isASCII = (str) => {
-    return /^[\x00-\x7F]*$/.test(str);
-  };
+  const isASCII = (str) => /^[\x00-\x7F]*$/.test(str);
 
-  document.addEventListener('keypress', (evt) => {
-    if (evt.key === 'Enter') {
-    }
-  });
+
+  useEffect(() => {
+    const handler = (evt) => {
+      if (evt.key === 'Enter') {
+        evt.preventDefault();
+        loginsubmit();
+      }
+    };
+
+    document.addEventListener('keypress', handler);
+
+    return () => {
+      document.removeEventListener('keypress', handler);
+    };
+  }, [loginvalidation1, loginvalidation2, loginemail, loginpwd]);
 
   const handleloginemail = (evt) => {
     const nwval = evt.target.value;
     setLoginemail(nwval);
-    if (!nwval.includes('@') || !nwval.includes('.') || !(isASCII(nwval)) || (nwval.includes(':'))) {
+
+    const valid =
+      nwval.includes('@') &&
+      nwval.includes('.') &&
+      isASCII(nwval) &&
+      !nwval.includes(':');
+
+    if (!valid && nwval !== '') {
       evt.target.classList.add('errorshade');
       setLoginvalidation1(false);
-    }
-    else {
+    } else {
       evt.target.classList.remove('errorshade');
-      if (nwval !== '') {
-        setLoginvalidation1(true);
-      }
-    }
-    if (nwval === '') {
-      evt.target.classList.remove('errorshade');
-      setLoginvalidation1(false);
+      setLoginvalidation1(nwval !== '');
     }
   };
 
   const handleloginpwd = (evt) => {
     const nwval = evt.target.value;
     setLoginpwd(nwval);
-    if (!(nwval.length > 5) || !(/\d/.test(nwval)) || !(/[A-Z]/.test(nwval)) || !(/[a-z]/.test(nwval)) || !(isASCII(nwval)) || (nwval.includes(':'))) {
+
+    const valid =
+      nwval.length > 5 &&
+      /\d/.test(nwval) &&
+      /[A-Z]/.test(nwval) &&
+      /[a-z]/.test(nwval) &&
+      isASCII(nwval) &&
+      !nwval.includes(':');
+
+    if (!valid && nwval !== '') {
       evt.target.classList.add('errorshade');
       setLoginvalidation2(false);
     } else {
       evt.target.classList.remove('errorshade');
-      if (nwval !== '') {
-        setLoginvalidation2(true);
-      }
-    }
-    if (nwval === '') {
-      evt.target.classList.remove('errorshade');
-      setLoginvalidation2(false);
+      setLoginvalidation2(nwval !== '');
     }
   };
 
-  const loginposterrfunc = async () => {
+  const loginposterrfunc = () => {
     setLoginposterror(true);
-    await new Promise(resolve => setTimeout(resolve, 5 * 1000));
-    setLoginposterror(false);
+    setTimeout(() => {
+      setLoginposterror(false);
+    }, 5000);
   };
 
-  const loginsubmit = async () => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    if (loginvalidation1 && loginvalidation2) {
-      const email = loginemail.trimEnd();
-      const pwd = loginpwd.trimEnd();
-      const encodestr = btoa(email + ':' + pwd); 
-      $.ajax({
-        type: 'GET',
-        url: `${BASE_URL}/connect`,
-        contentType: 'application/json',
-        headers: {
-          authorization: `encoded ${encodestr}`,
-        },
-        success: function(res) {
-          Cookie.set('x-token', res['token'], { expires: 7, path: '', sameSite: 'strict' });
-          window.location.href = '/home';
-        },
-        error: function(err) {
-          console.log('login error');
-          loginposterrfunc();
-        }
-      });
-    } else {
+  const loginsubmit = () => {
+
+    if (!loginvalidation1 || !loginvalidation2) {
       setLogininvalid(true);
-      await new Promise(resolve => setTimeout(resolve, 5 * 1000));
-      setLogininvalid(false);
+      setTimeout(() => setLogininvalid(false), 5000);
+      return;
     }
+
+    const email = loginemail.trim();
+    const pwd = loginpwd.trim();
+
+    const encodestr = btoa(email + ':' + pwd);
+
+    $.ajax({
+      type: 'GET',
+      url: `${BASE_URL}/connect`,
+      contentType: 'application/json',
+      headers: {
+        authorization: `encoded ${encodestr}`,
+      },
+      success: function(res) {
+
+        Cookie.set('x-token', res.token, {
+          expires: 7,
+          sameSite: 'strict'
+        });
+
+        window.location.href = '/home';
+      },
+      error: function() {
+        loginposterrfunc();
+      }
+    });
   };
 
   return (
     <div className='login_comp'>
       <div className='login_container'>
-        <form action="login" className='login_form'>
+        <form className='login_form' onSubmit={(e) => e.preventDefault()}>
+
           <div className='login_form_item'><h3>Login</h3></div>
-          <div>{(logininvalid && (
+
+          {logininvalid && (
             <div className='logininvalid'>
               Enter a valid email or password (Avoid using ':')
             </div>
-          ))}</div>
-          <div>{(loginposterror && (
+          )}
+
+          {loginposterror && (
             <div className='loginposterror'>
-              An error occured ... <br />
+              An error occurred ... <br />
               No such user found
             </div>
-          ))}</div>
+          )}
+
           <div className='login_form_item'>
-            <input type="email" placeholder='Email' id='loginemail' required onChange={handleloginemail} />
+            <input
+              type="email"
+              placeholder='Email'
+              id='loginemail'
+              required
+              onChange={handleloginemail}
+            />
           </div>
+
           <div className='login_form_item'>
-            <input type="password" placeholder='Password' id='loginpwd' required onChange={handleloginpwd} />
+            <input
+              type="password"
+              placeholder='Password'
+              id='loginpwd'
+              required
+              onChange={handleloginpwd}
+            />
           </div>
+
           <div className='login_form_item'>
             <a href="fpwd">Forgot Password</a>
           </div>
+
           <div className='login_form_item'>
-            <div className='loginbtn' onClick={loginsubmit}>Login</div>
+            <div className='loginbtn' onClick={loginsubmit}>
+              Login
+            </div>
           </div>
+
           <div className='login_form_item'>
             Don't have an account? <a href="reg">Signup</a>
           </div>
-        </form>  
-      </div>  
+
+        </form>
+      </div>
     </div>
   );
 }

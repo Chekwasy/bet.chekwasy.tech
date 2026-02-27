@@ -37,7 +37,7 @@ class GamesController {
     if (!token)
       return res.status(401).json({ error: "Unauthorized" });
 
-    const userId = await redisClient.get(`auth_${token}`);
+    const userId = await redisClient.get(`checks_auth_${token}`);
     if (!userId)
       return res.status(401).json({ error: "Unauthorized" });
 
@@ -92,7 +92,7 @@ class GamesController {
     if (!token)
       return res.status(401).json({ error: "Unauthorized" });
 
-    const userId = await redisClient.get(`auth_${token}`);
+    const userId = await redisClient.get(`checks_auth_${token}`);
     if (!userId)
       return res.status(401).json({ error: "Unauthorized" });
 
@@ -132,7 +132,7 @@ class GamesController {
     if (!token)
       return res.status(401).json({ error: "Unauthorized" });
 
-    const userId = await redisClient.get(`auth_${token}`);
+    const userId = await redisClient.get(`checks_auth_${token}`);
     if (!userId)
       return res.status(401).json({ error: "Unauthorized" });
 

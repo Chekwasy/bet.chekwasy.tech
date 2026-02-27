@@ -58,7 +58,7 @@ class UsersController {
       return res.status(401).json({});
 
     const userId = await redisClient.get(
-      `auth_${token}`
+      `checks_auth_${token}`
     );
 
     if (!userId)
@@ -92,7 +92,7 @@ class UsersController {
         .json({ error: "Unauthorized" });
 
     const userId = await redisClient.get(
-      `auth_${token}`
+      `checks_auth_${token}`
     );
 
     if (!userId)
@@ -139,7 +139,7 @@ class UsersController {
         .json({ error: "Unauthorized" });
 
     const userId = await redisClient.get(
-      `auth_${token}`
+      `checks_auth_${token}`
     );
 
     if (!userId)

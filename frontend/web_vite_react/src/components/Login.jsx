@@ -105,7 +105,7 @@ function Login() {
           sameSite: 'strict'
         });
 
-        window.location.href = '/home';
+        window.location.href = '/';
       },
       error: function() {
         loginposterrfunc();

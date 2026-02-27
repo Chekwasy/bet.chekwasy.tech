@@ -107,7 +107,7 @@ function Side_bar() {
       setRemoveallwarning(true);
     }
   };
-  const notoremoveAllclicked = () => {
+  const notoremoveAllclicked = (evt) => {
     evt.preventDefault();
     setRemoveallwarning(false);
   };
@@ -117,7 +117,7 @@ function Side_bar() {
     setBalancesmall(false);
   }, 5000);
 };
-  const yestoremoveAllclicked = () => {
+  const yestoremoveAllclicked = (evt) => {
     evt.preventDefault();
     const newdt = {};
     for (const key in mainbar.gamesSelected) {
@@ -211,7 +211,7 @@ function Side_bar() {
             const to_save = {'id_': gcookieid, 'savedgames': {}};
             $.ajax({
               type: 'POST',
-              url: `/savedgames`,
+              url: `${BASE_URL}/savedgames`,
               data: JSON.stringify(to_save),
               contentType: 'application/json',
               success: function(res) {
@@ -257,22 +257,29 @@ function Side_bar() {
             </div>
           )}
         <div className='sb_choice'>
-          <ul className='sidebarLst'>{Object.keys(mainbar.gamesSelected).forEach((evt_id) => {
-            <li data-key={evt_id} key={evt_id}>
-              <div className='sb_list_item'>
-                <div className='sb_li_choice'>
-                  <div className='sb_li_select'>{mainbar.gamesSelected[evt_id].staketype}</div>
-                  <div className='sb_li_game'>{`${mainbar.gamesSelected[evt_id].hometeam} vs ${mainbar.gamesSelected[evt_id].awayteam}`}</div>
-                  <div className='sb_li_type'>{mainbar.gamesSelected[evt_id].markettype}</div>
-                </div>
-                <div className='sb_li_odd'>
-                  {mainbar.gamesSelected[evt_id].stakeodd}
-                </div>
-                <div className='sidebar_remove' onClick={removegame}>X</div>
-              </div>
-            </li>
-})}
-          </ul>
+          <ul className='sidebarLst'>
+  {Object.keys(mainbar.gamesSelected || {}).map((evt_id) => (
+    <li data-key={evt_id} key={evt_id}>
+      <div className='sb_list_item'>
+        <div className='sb_li_choice'>
+          <div className='sb_li_select'>
+            {mainbar.gamesSelected[evt_id].staketype}
+          </div>
+          <div className='sb_li_game'>
+            {`${mainbar.gamesSelected[evt_id].hometeam} vs ${mainbar.gamesSelected[evt_id].awayteam}`}
+          </div>
+          <div className='sb_li_type'>
+            {mainbar.gamesSelected[evt_id].markettype}
+          </div>
+        </div>
+        <div className='sb_li_odd'>
+          {mainbar.gamesSelected[evt_id].stakeodd}
+        </div>
+        <div className='sidebar_remove' onClick={removegame}>X</div>
+      </div>
+    </li>
+  ))}
+</ul>
           <div className='betplaced1'>{betplaced && (
             <div className='betplaced'>Selected games has been placed successfully</div>
           )}</div>

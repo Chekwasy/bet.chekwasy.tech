@@ -1,284 +1,239 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookie from 'js-cookie';
 import { v4 as uuidv4 } from 'uuid';
 import $ from 'jquery';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { mainbarUpdate } from './State/mainbarState';
-import { useSelector } from 'react-redux';
 
 const local = '';
 
-
-//setting date items
 let today = new Date();
 const displayDate = [];
+
 const curhrs = today.getHours();
 const curmins = today.getMinutes();
-const curday = today.getDay();
-const curmonth = today.getMonth() + 1;
-const curyear = today.getFullYear();
+
 for (let i = 0; i < 7; i++) {
-  const nex = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
+  const nex = new Date(today.getTime() + (i * 86400000));
   const currday = nex.getDate().toString().padStart(2,'0');
   const currmonth = (nex.getMonth() + 1).toString().padStart(2,'0');
   const curryear = nex.getFullYear().toString();
-  let date_ = currday + '/' + currmonth + '/' + curryear;
-  displayDate.push(date_);
+  displayDate.push(`${currday}/${currmonth}/${curryear}`);
 }
 
 const curDay = displayDate[0];
-const cookie_id = uuidv4(); //generating uid for saving games selected id
-let fd = ''; //date to use
-const [selectDate, setSelectDate] = useState(curDay);//current date
-const urlNS = ''; //for making change to https easy
-//let country_lea = ''; //help to align all games with respected countries
-//let gameodds = ''; //all games odds obejects
-let gcookieid = Cookie.get('savedgamesid'); //cookie id for getting saved games from backend
+
+const cookie_id = uuidv4();
+let fd = '';
+
+let gcookieid = Cookie.get('savedgamesid');
 if (!gcookieid) {
-  Cookie.set('savedgamesid', cookie_id, { expires: 1, path: '', sameSite: 'strict' });
+  Cookie.set('savedgamesid', cookie_id, { expires: 1, sameSite: 'strict' });
   gcookieid = cookie_id;
 }
-  //let savedgamesapi = {}; //saved games from backend which was saved
-//let gamesSelected = {}; //all selected games
+
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
-const url = `${BASE_URL}/games/`; //url for getting games
-const url2 = `${BASE_URL}/odds/`; //url for getting odds
+const url = `${BASE_URL}/games/`;
+const url2 = `${BASE_URL}/odds/`;
 
-
-//main bar component
 function Main_bar() {
+
   const dispatch = useDispatch();
   const mainbar = useSelector(state => state.mainbarState);
-  //console.log('redux', mainbar.gamesSelected);
-  //set use state for date games attribute
-  //const [selectDate, setSelectDate] = useState(curDay[2] + curDay[1] + curDay[0]);
-  const [country_lea, setCountry_lea]  = useState({});
+
+  const [country_lea, setCountry_lea] = useState({});
   const [gameodds, setGameodds] = useState([]);
-  //const [loaded, setLoaded] = useState(false);
-  //let gcookieid = Cookie.get('savedgamesid');
-  //let savedgamesapi = {};
-  //const [gamesSelected, setGamesSelected] = useState(savedgamesapi);
-  //const url = `http://localhost:5000/api/v1/games/`;
-  //const url2 = `http://localhost:5000/api/v1/odds/`;
+  const [selectDate, setSelectDate] = useState(curDay);
 
-  
-
-  //function to set all odds selected
   const setallodd = () => {
-  let newdt = { ...(mainbar.gamesSelected) };
-  let chk = false;
 
-  for (const stkey in mainbar.gamesSelected) {
-    const stvalue = mainbar.gamesSelected[stkey];
-    const timee = stvalue.matchtime;
-    const timeLst = timee.split(':');
+    if (!mainbar?.gamesSelected) return;
 
-    const hrss = parseInt(timeLst[0]);
-    const minss = parseInt(timeLst[1]);
-    const yearr = timeLst[2].substring(0, 4);
-    const monthh = timeLst[2].substring(4, 6);
-    const dayy = timeLst[2].substring(6, 8);
+    let newdt = { ...mainbar.gamesSelected };
+    let chk = false;
 
-    const givendate = dayy + "/" + monthh + "/" + yearr;
+    for (const stkey in mainbar.gamesSelected) {
 
-    if (displayDate.includes(givendate)) {
-      if (
-        (hrss === curhrs && minss > today.getMinutes()) ||
-        hrss > curhrs
-      ) {
+      const stvalue = mainbar.gamesSelected[stkey];
+      if (!stvalue?.matchtime) continue;
+
+      const timeLst = stvalue.matchtime.split(':');
+      if (timeLst.length < 3) continue;
+
+      const hrss = parseInt(timeLst[0]);
+      const minss = parseInt(timeLst[1]);
+
+      const yearr = timeLst[2].substring(0, 4);
+      const monthh = timeLst[2].substring(4, 6);
+      const dayy = timeLst[2].substring(6, 8);
+
+      const givendate = `${dayy}/${monthh}/${yearr}`;
+
+      if (displayDate.includes(givendate)) {
+        if ((hrss === curhrs && minss > curmins) || hrss > curhrs) {
+          const chsel = document.querySelector(
+            `[data-key="${stkey + ":" + stvalue.staketype}"]`
+          );
+          if (chsel) chsel.classList.add("oddSelected");
+        }
+      } else {
+        delete newdt[stkey];
+        chk = true;
+
         const chsel = document.querySelector(
           `[data-key="${stkey + ":" + stvalue.staketype}"]`
         );
-        if (chsel) chsel.classList.add("oddSelected");
+        if (chsel) chsel.classList.remove("oddSelected");
       }
-    } else {
-      delete newdt[stkey];
-      chk = true;
-
-      const chsel = document.querySelector(
-        `[data-key="${stkey + ":" + stvalue.staketype}"]`
-      );
-      if (chsel) chsel.classList.remove("oddSelected");
     }
-  }
 
-  if (chk) {
-    const to_save = { id_: gcookieid, savedgames: newdt };
-
-    dispatch(
-      mainbarUpdate({
+    if (chk) {
+      dispatch(mainbarUpdate({
         gamesSelected: newdt,
-        setalloddsFunction: false,
-      })
-    );
+        setalloddsFunction: false
+      }));
 
-    $.ajax({
-      type: "POST",
-      url: `${BASE_URL}/savedgames`,
-      data: JSON.stringify(to_save),
-      contentType: "application/json",
-    });
-  }
-};
-  //display fetched data from api
+      $.ajax({
+        type: "POST",
+        url: `${BASE_URL}/savedgames`,
+        data: JSON.stringify({ id_: gcookieid, savedgames: newdt }),
+        contentType: "application/json",
+      });
+    }
+  };
+
   const displayFetched = async (urll, urll2) => {
-  try {
-    const [response, response2, sgapi] = await Promise.all([
-      axios.get(urll),
-      axios.get(urll2),
-      axios.get(`${BASE_URL}/savedgames/${gcookieid}`)
-    ]);
+    try {
 
-    const savedgamesapi = sgapi.data;
-    const gamesselected = savedgamesapi.savedgames || {};
+      const [response, response2, sgapi] = await Promise.all([
+        axios.get(urll),
+        axios.get(urll2),
+        axios.get(`${BASE_URL}/savedgames/${gcookieid}`)
+      ]);
 
-    dispatch(
-      mainbarUpdate({
+      const gamesselected = sgapi?.data?.savedgames || {};
+
+      dispatch(mainbarUpdate({
         gamesSelected: gamesselected,
-        setalloddsFunction: false,
-      })
-    );
+        setalloddsFunction: false
+      }));
 
-    const gamesJson = response.data;
-    const oddsJson = response2.data;
+      const gamdd = response?.data?.games;
+      const odds = response2?.data?.odds;
 
-    const gamdd = gamesJson.games;
-    const odds = oddsJson.odds;
+      if (!gamdd?.Stages) return;
 
-    const gameslen = gamdd.Stages.length;
-    let con_dit = {};
+      setGameodds(odds || []);
 
-    setGameodds(odds);
+      let con_dit = {};
 
-    for (let i = 0; i < gameslen; i++) {
-      let con = gamdd.Stages[i].Cnm;
+      gamdd.Stages.forEach(stage => {
+        if (!con_dit[stage.Cnm]) {
+          con_dit[stage.Cnm] = {};
+        }
+        con_dit[stage.Cnm][stage.Snm] = stage.Events;
+      });
 
-      if (!con_dit[con]) {
-        con_dit[con] = {};
-      }
+      setCountry_lea(con_dit);
 
-      con_dit[con][gamdd.Stages[i].Snm] =
-        gamdd.Stages[i].Events;
+      setallodd();
+
+    } catch (err) {
+      console.error("Fetch error:", err);
     }
+  };
 
-    setCountry_lea(con_dit);
-
-    setallodd();
-
-  } catch (err) {
-    console.error("Fetch error:", err);
-  }
-};
-  //function to handle a date selected
   const handleDate = (e) => {
-  const newDate = e.target.value;
-  setSelectDate(newDate);
+    const newDate = e.target.value;
+    setSelectDate(newDate);
 
-  let dt = newDate.split('/');
-  fd = (dt[2] + dt[1] + dt[0]);
+    let dt = newDate.split('/');
+    fd = dt[2] + dt[1] + dt[0];
 
-  displayFetched(url + fd, url2 + fd);
-};
-  
-  //function to take games from cookies and set them
-  // const cookieFunction = () => {
+    displayFetched(url + fd, url2 + fd);
+  };
 
-  // };
-  //function to reload to make games update
   useEffect(() => {
-  if (fd === '') {
-    const dt = displayDate[0].split('/');
-    fd = (dt[2] + dt[1] + dt[0]);
-  }
 
-  displayFetched(url + fd, url2 + fd);
-
-  const interval = setInterval(() => {
-    if (fd !== '') {
-      displayFetched(url + fd, url2 + fd);
+    if (!fd) {
+      let dt = displayDate[0].split('/');
+      fd = dt[2] + dt[1] + dt[0];
     }
-  }, 60000);
 
-  return () => clearInterval(interval);
+    displayFetched(url + fd, url2 + fd);
 
-}, []);
+    const interval = setInterval(() => {
+      if (fd) {
+        displayFetched(url + fd, url2 + fd);
+      }
+    }, 60000);
+
+    return () => clearInterval(interval);
+
+  }, []);
 
   useEffect(() => {
     setallodd();
   }, [mainbar]);
-  // useEffect(() => {
-  //   setallodd();
-  // }, []);
+
   const gameTime = (tm) => {
-    if (tm) {
-      return tm.toString().slice(-6,-4) + ':' + tm.toString().slice(-4,-2);
-    }
+    if (!tm) return '';
+    return tm.toString().slice(-6,-4) + ':' + tm.toString().slice(-4,-2);
   };
 
   const addOdd = (evt) => {
+
     const oddKey = evt.target.dataset.key;
-    const oddItem = evt.target;
-    const txtCnt = evt.target.textContent;
+    if (!oddKey) return;
+
     const det = oddKey.split(':');
     const game_id = det[0];
     const mkt = det[1];
-    const dgame = {};
-    const main_ul = evt.target.closest('ul');
-    const tm = document.querySelector(`[data-key="${game_id + ':0'}"]`).textContent;
+
+    if (!gameodds?.[0]?.[game_id]) return;
+
     const game_det = gameodds[0][game_id];
-    dgame['hometeam'] = game_det[0]['hometeam'];
-    dgame['awayteam'] = game_det[0]['awayteam'];
-    dgame['staketype'] = mkt;
-    dgame['markettype'] = '1x2';
-    dgame['stakeodd'] = parseFloat(txtCnt) || 1;
-    dgame['matchstatus'] = 'NS';
-    dgame['matchresult'] = 'NR';
-    dgame['outcome'] = 'NR';
-    dgame['result'] = 'NR';
-    dgame['matchtime'] = tm + ':' + fd;
-    
-    if (!((mainbar.gamesSelected)[game_id])) {
-      oddItem.classList.add('oddSelected');
-      const gamesselected = {...(mainbar.gamesSelected), [game_id]: dgame};
-      dispatch(mainbarUpdate({'gamesSelected': gamesselected, setalloddsFunction: false}));
-      const to_save = {'id_': gcookieid, 'savedgames': gamesselected};
-      $.ajax({
-        type: 'POST',
-        url: `${BASE_URL}/savedgames`,
-        data: JSON.stringify(to_save),
-        contentType: 'application/json',
-        success: function(res) {
-          //console.log('okay');
-        },
-        error: function(err) {
-          //console.log('error');
-        }
-      });
-    } else {
-      if ((mainbar.gamesSelected)[game_id].staketype === mkt) {
-        oddItem.classList.remove('oddSelected');
-        let gamesselected = {...(mainbar.gamesSelected)};
-        delete gamesselected[game_id];
-        dispatch(mainbarUpdate({'gamesSelected': gamesselected, setalloddsFunction: false}));
-        const to_save = {'id_': gcookieid, 'savedgames': gamesselected};
-        $.ajax({
-          type: 'POST',
-          url: `${BASE_URL}/savedgames`,
-          data: JSON.stringify(to_save),
-          contentType: 'application/json',
-          success: function(res) {
-            //console.log('okay');
-          },
-          error: function(err) {
-            //console.log('error');
-          }
-        });
-      }
+
+    const tmEl = document.querySelector(`[data-key="${game_id}:0"]`);
+    if (!tmEl) return;
+
+    const dgame = {
+      hometeam: game_det[0].hometeam,
+      awayteam: game_det[0].awayteam,
+      staketype: mkt,
+      markettype: '1x2',
+      stakeodd: parseFloat(evt.target.textContent) || 1,
+      matchstatus: 'NS',
+      matchresult: 'NR',
+      outcome: 'NR',
+      result: 'NR',
+      matchtime: tmEl.textContent + ':' + fd
+    };
+
+    let gamesselected = { ...mainbar.gamesSelected };
+
+    if (!gamesselected[game_id]) {
+      evt.target.classList.add('oddSelected');
+      gamesselected[game_id] = dgame;
+    } else if (gamesselected[game_id].staketype === mkt) {
+      evt.target.classList.remove('oddSelected');
+      delete gamesselected[game_id];
     }
+
+    dispatch(mainbarUpdate({
+      gamesSelected: gamesselected,
+      setalloddsFunction: false
+    }));
+
+    $.ajax({
+      type: 'POST',
+      url: `${BASE_URL}/savedgames`,
+      data: JSON.stringify({ id_: gcookieid, savedgames: gamesselected }),
+      contentType: 'application/json'
+    });
   };
-
-
+  
   return (
     <div className='main_bar'>
       <div className='main_head'>

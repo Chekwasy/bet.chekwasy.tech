@@ -4,6 +4,7 @@ import $ from 'jquery';
 import Cookie from 'js-cookie';
 import { useSelector } from 'react-redux';
 let cookietoken = Cookie.get('x-token') || '';
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const urlNS = ''; //for making change to https easy
 
 function Profile() {

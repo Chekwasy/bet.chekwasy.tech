@@ -2,6 +2,7 @@ import { useState } from 'react';
 import $ from 'jquery';
 import { NavLink } from 'react-router-dom';
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const urlNS = ''; //for making change to https easy
 const local = '';
 
@@ -22,11 +23,7 @@ function Register() {
     return /^[\x00-\x7F]*$/.test(str);
   };
 
-  document.addEventListener('keypress', (evt) => {
-    if (evt.key === 'Enter') {
-    }
-  });
-
+  
   const handleregemail = (evt) => {
     const nwval = evt.target.value;
     setRegemail(nwval);
@@ -102,7 +99,7 @@ function Register() {
       const encodestr = btoa(email + ':' + pwd1);
       $.ajax({
         type: 'POST',
-        url: urlNS + `${local}/api/v1/users`,
+        url: `${BASE_URL}/users`,
         contentType: 'application/json',
         data: JSON.stringify({
           emailpwd: `encoded ${encodestr}`,

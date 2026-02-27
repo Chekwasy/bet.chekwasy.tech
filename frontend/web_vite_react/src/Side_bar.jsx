@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import Cookie from 'js-cookie';
 import { navbarUpdate } from './State/navbarState';
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 let cookietoken = Cookie.get('x-token') || '';
 let gcookieid = Cookie.get('savedgamesid');
 const urlNS = ''; //for making change to https easy
@@ -26,10 +27,19 @@ function Side_bar() {
   const [betnotplaced, setBetnotplaced] = useState(false);
   const [balancesmall, setBalancesmall] = useState(false);
 
-  document.addEventListener('keypress', (evt) => {
+  useEffect(() => {
+  const handler = (evt) => {
     if (evt.key === 'Enter') {
+      placebetfunc();
     }
-  });
+  };
+
+  document.addEventListener('keypress', handler);
+
+  return () => {
+    document.removeEventListener('keypress', handler);
+  };
+}, []);
 
   const handleInputChange = (evt1) => {
     setStakeamt(evt1.target.value);
@@ -79,7 +89,7 @@ function Side_bar() {
     const to_save = {'id_': gcookieid, 'savedgames': newdt};
     $.ajax({
       type: 'POST',
-      url: urlNS + `${local}/api/v1/savedgames`,
+      url: `${BASE_URL}/savedgames`,
       data: JSON.stringify(to_save),
       contentType: 'application/json',
       success: function(res) {
@@ -98,14 +108,17 @@ function Side_bar() {
     }
   };
   const notoremoveAllclicked = () => {
+    evt.preventDefault();
     setRemoveallwarning(false);
   };
-  const balancesmallfunc = async () => {
-    setBalancesmall(true);
-    await new Promise(resolve => setTimeout(resolve, 5 * 1000));
+  const balancesmallfunc = () => {
+  setBalancesmall(true);
+  setTimeout(() => {
     setBalancesmall(false);
-  };
+  }, 5000);
+};
   const yestoremoveAllclicked = () => {
+    evt.preventDefault();
     const newdt = {};
     for (const key in mainbar.gamesSelected) {
       const chsel = document.querySelector(`[data-key="${key + ":" + mainbar.gamesSelected[key].staketype}"]`);
@@ -115,7 +128,7 @@ function Side_bar() {
     const to_save = {'id_': gcookieid, 'savedgames': newdt};
     $.ajax({
       type: 'POST',
-      url: urlNS + `${local}/api/v1/savedgames`,
+      url: `${BASE_URL}/savedgames`,
       data: JSON.stringify(to_save),
       contentType: 'application/json',
       success: function(res) {
@@ -128,17 +141,19 @@ function Side_bar() {
     setRemoveallwarning(false);
   };
 
-  const betplacedfunc = async () => {
-    setBetplaced(true);
-    await new Promise(resolve => setTimeout(resolve, 10 * 1000));
+  const betplacedfunc = () => {
+  setBetplaced(true);
+  setTimeout(() => {
     setBetplaced(false);
-  };
+  }, 10000);
+};
 
-  const betnotplacedfunc = async () => {
-    setBetnotplaced(true);
-    await new Promise(resolve => setTimeout(resolve, 5 * 1000));
+  const betnotplacedfunc = () => {
+  setBetnotplaced(true);
+  setTimeout(() => {
     setBetnotplaced(false);
-  };
+  }, 5000);
+};
 
   const placebetfunc = async () => {
     if ((placebet === 'Book bet') && (!displayamtentry) && (Object.keys(mainbar.gamesSelected).length > 0)) {
@@ -146,7 +161,6 @@ function Side_bar() {
       setPlacebet('Place bet');
     }
     if ((placebet === 'Place bet') && (displayamtentry) && (Object.keys(mainbar.gamesSelected).length > 0)) {
-      await new Promise(resolve => setTimeout(resolve, 1000));
       const curdt = new Date();
       const hr = curdt.getHours().toString().padStart(2, '0');
       const mt = curdt.getMinutes().toString().padStart(2, '0');
@@ -168,7 +182,7 @@ function Side_bar() {
       if (parseFloat(stakeamt) <= parseFloat(usrbal)) {
         $.ajax({
           type: 'POST',
-          url: urlNS + `${local}/api/v1/bet`,
+          url: `${BASE_URL}/bet`,
           contentType: 'application/json',
           data: JSON.stringify(tobet),
           headers: {
@@ -184,7 +198,7 @@ function Side_bar() {
             const newbal = parseFloat(navbar.usr.account_balance) - parseFloat(stakeamt);
             $.ajax({
               type: 'PUT',
-              url: urlNS + `${local}/api/v1/bal_res`,
+              url: `${BASE_URL}/bal_res`,
               contentType: 'application/json',
               data: JSON.stringify({newbal: newbal.toString()}),
               headers: {
@@ -197,7 +211,7 @@ function Side_bar() {
             const to_save = {'id_': gcookieid, 'savedgames': {}};
             $.ajax({
               type: 'POST',
-              url: urlNS + `${local}/api/v1/savedgames`,
+              url: `/savedgames`,
               data: JSON.stringify(to_save),
               contentType: 'application/json',
               success: function(res) {
@@ -243,12 +257,12 @@ function Side_bar() {
             </div>
           )}
         <div className='sb_choice'>
-          <ul className='sidebarLst'>{Object.keys(mainbar.gamesSelected).map((evt_id) => (
+          <ul className='sidebarLst'>{Object.keys(mainbar.gamesSelected).forEach((evt_id) => {
             <li data-key={evt_id} key={evt_id}>
               <div className='sb_list_item'>
                 <div className='sb_li_choice'>
                   <div className='sb_li_select'>{mainbar.gamesSelected[evt_id].staketype}</div>
-                  <div className='sb_li_game'>{`${mainbar.gamesSelected[evt_id].hometeam} vs ${mainbar.gamesSelected[evt_id].hometeam}`}</div>
+                  <div className='sb_li_game'>{`${mainbar.gamesSelected[evt_id].hometeam} vs ${mainbar.gamesSelected[evt_id].awayteam}`}</div>
                   <div className='sb_li_type'>{mainbar.gamesSelected[evt_id].markettype}</div>
                 </div>
                 <div className='sb_li_odd'>
@@ -257,7 +271,7 @@ function Side_bar() {
                 <div className='sidebar_remove' onClick={removegame}>X</div>
               </div>
             </li>
-          ))}
+})}
           </ul>
           <div className='betplaced1'>{betplaced && (
             <div className='betplaced'>Selected games has been placed successfully</div>

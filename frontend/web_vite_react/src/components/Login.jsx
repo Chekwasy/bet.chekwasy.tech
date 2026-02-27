@@ -2,6 +2,7 @@ import { useState } from 'react';
 import $ from 'jquery';
 import Cookie from 'js-cookie';
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const urlNS = ''; //for making change to https easy
 const local = '';
 
@@ -73,7 +74,7 @@ function Login() {
       const encodestr = btoa(email + ':' + pwd); 
       $.ajax({
         type: 'GET',
-        url: urlNS + `${local}/api/v1/connect`,
+        url: `${BASE_URL}/connect`,
         contentType: 'application/json',
         headers: {
           authorization: `encoded ${encodestr}`,

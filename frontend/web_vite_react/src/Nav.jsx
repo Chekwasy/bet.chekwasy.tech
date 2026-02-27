@@ -7,6 +7,7 @@ import { navbarUpdate } from './State/navbarState';
 import { useSelector } from 'react-redux';
 
 let cookietoken = Cookie.get('x-token') || '';
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const urlNS = ''; //for making change to https easy
 const local = '';
 
@@ -17,7 +18,7 @@ function Nav() {
   useEffect(() => {
     $.ajax({
       type: 'GET',
-      url: urlNS + `${local}/api/v1/users/me`,
+      url: `${BASE_URL}/users/me`,
       contentType: 'application/json',
       headers: {
         'x-token': cookietoken,
@@ -35,7 +36,7 @@ function Nav() {
   const applybal_res = () => {
     $.ajax({
       type: 'GET',
-      url: urlNS + `${local}/api/v1/users/me`,
+      url: `${BASE_URL}/users/me`,
       contentType: 'application/json',
       headers: {
         'x-token': cookietoken,
@@ -52,7 +53,7 @@ function Nav() {
   const bal_res = () => {
     $.ajax({
       type: 'PUT',
-      url: urlNS + `${local}/api/v1/bal_res`,
+      url: `${BASE_URL}/bal_res`,
       contentType: 'application/json',
       data: JSON.stringify({newbal: 100000}),
       headers: {
@@ -68,7 +69,7 @@ function Nav() {
   const logout = () => {
     $.ajax({
       type: 'GET',
-      url: urlNS + `${local}/api/v1/disconnect`,
+      url: `${BASE_URL}/disconnect`,
       contentType: 'application/json',
       headers: {
         'x-token': cookietoken,

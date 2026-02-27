@@ -6,6 +6,7 @@ import $, { event } from 'jquery';
 import { useSelector } from 'react-redux';
 
 let cookietoken = Cookie.get('x-token') || '';
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const urlNS = ''; //for making change to https easy
 const local = '';
 
@@ -62,7 +63,7 @@ function Ocgames() {
       if (opinp !== '') {
         $.ajax({
           type: 'GET',
-          url: urlNS + `${local}/api/v1/openbet/${opinp.toString()}`,
+          url: `${BASE_URL}/openbet/${opinp.toString()}`,
           contentType: 'application/json',
           headers: {
             'x-token': cookietoken,
@@ -82,7 +83,7 @@ function Ocgames() {
       if (opinp !== '') {
         $.ajax({
           type: 'GET',
-          url: urlNS + `${local}/api/v1/closebet/${opinp.toString()}`,
+          url: `${BASE_URL}/closebet/${opinp.toString()}`,
           contentType: 'application/json',
           headers: {
             'x-token': cookietoken,

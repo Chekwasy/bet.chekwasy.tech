@@ -65,99 +65,111 @@ function Main_bar() {
   
 
   //function to set all odds selected
-  const setallodd = async () => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    let newdt = {...(mainbar.gamesSelected)};
-    let chk = false;
-    for (const stkey in mainbar.gamesSelected) {
-      const stvalue = mainbar.gamesSelected[stkey];
-      const timee = stvalue.matchtime;
-      const timeLst = timee.split(':');
-      const hrss = parseInt(timeLst[0]);
-      const minss = parseInt(timeLst[1]);
-      const yearr = timeLst[2].substring(0, 4);
-      const monthh = timeLst[2].substring(4,6);
-      const dayy = timeLst[2].substring(6, 8);
-      const givendate = dayy + "/" + monthh + "/" + yearr;
-      //const gaOdddt = document.querySelector(`[data-key="${stkey + ':0'}"]`);
-      if ((displayDate.includes(givendate))) {
-        if ((hrss === curhrs) && (minss > curmins)) {
-          const chsel = document.querySelector(`[data-key="${stkey + ":" + stvalue.staketype}"]`);
-          if (chsel) {chsel.classList.add('oddSelected');}
-        }
-        if (hrss > curhrs) {
-          const chsel = document.querySelector(`[data-key="${stkey + ":" + stvalue.staketype}"]`);
-          if (chsel) {chsel.classList.add('oddSelected');}
-        }
-      } else {
-        delete newdt[stkey];
-        chk = true;
-        const chsel = document.querySelector(`[data-key="${stkey + ":" + stvalue.staketype}"]`);
-        if (chsel) {chsel.classList.remove('oddSelected');}
+  const setallodd = () => {
+  let newdt = { ...(mainbar.gamesSelected) };
+  let chk = false;
+
+  for (const stkey in mainbar.gamesSelected) {
+    const stvalue = mainbar.gamesSelected[stkey];
+    const timee = stvalue.matchtime;
+    const timeLst = timee.split(':');
+
+    const hrss = parseInt(timeLst[0]);
+    const minss = parseInt(timeLst[1]);
+    const yearr = timeLst[2].substring(0, 4);
+    const monthh = timeLst[2].substring(4, 6);
+    const dayy = timeLst[2].substring(6, 8);
+
+    const givendate = dayy + "/" + monthh + "/" + yearr;
+
+    if (displayDate.includes(givendate)) {
+      if (
+        (hrss === curhrs && minss > today.getMinutes()) ||
+        hrss > curhrs
+      ) {
+        const chsel = document.querySelector(
+          `[data-key="${stkey + ":" + stvalue.staketype}"]`
+        );
+        if (chsel) chsel.classList.add("oddSelected");
       }
+    } else {
+      delete newdt[stkey];
+      chk = true;
+
+      const chsel = document.querySelector(
+        `[data-key="${stkey + ":" + stvalue.staketype}"]`
+      );
+      if (chsel) chsel.classList.remove("oddSelected");
     }
-    if (chk) {
-      const to_save = {'id_': gcookieid, 'savedgames': newdt};
-      dispatch(mainbarUpdate({'gamesSelected': newdt, setalloddsFunction: false}));
-      $.ajax({
-        type: 'POST',
-        url: `${BASE_URL}/savedgames`,
-        data: JSON.stringify(to_save),
-        contentType: 'application/json',
-        success: function(res) {
-          //console.log('okay');
-        },
-        error: function(err) {
-          //console.log('error');
-        }
-      });
-    }
-  };
+  }
+
+  if (chk) {
+    const to_save = { id_: gcookieid, savedgames: newdt };
+
+    dispatch(
+      mainbarUpdate({
+        gamesSelected: newdt,
+        setalloddsFunction: false,
+      })
+    );
+
+    $.ajax({
+      type: "POST",
+      url: `${BASE_URL}/savedgames`,
+      data: JSON.stringify(to_save),
+      contentType: "application/json",
+    });
+  }
+};
   //display fetched data from api
   const displayFetched = async (urll, urll2) => {
-    let response = {};
-    await axios.get(urll)
-    .then(resp => {
-      response = resp;
-    })
-    .catch(err => {
-    });
-    let response2 = {}; 
-    await axios.get(urll2)
-    .then(resp => {
-      response2 = resp;
-    })
-    .catch(err => {
-    });
-    let sgapi = {};
-    await axios.get(`${BASE_URL}/savedgames/${gcookieid}`)
-    .then(resp => {
-      sgapi = resp;
-    })
-    .catch(err => {
-    });
+  try {
+    const [response, response2, sgapi] = await Promise.all([
+      axios.get(urll),
+      axios.get(urll2),
+      axios.get(`${BASE_URL}/savedgames/${gcookieid}`)
+    ]);
+
     const savedgamesapi = sgapi.data;
-    const gamesselected = (savedgamesapi.savedgames);
-    dispatch(mainbarUpdate({'gamesSelected': gamesselected, setalloddsFunction: false}));
-  	let gamesJson = response.data;
-    let oddsJson = response2.data;
+    const gamesselected = savedgamesapi.savedgames || {};
+
+    dispatch(
+      mainbarUpdate({
+        gamesSelected: gamesselected,
+        setalloddsFunction: false,
+      })
+    );
+
+    const gamesJson = response.data;
+    const oddsJson = response2.data;
+
     const gamdd = gamesJson.games;
     const odds = oddsJson.odds;
+
     const gameslen = gamdd.Stages.length;
     let con_dit = {};
+
     setGameodds(odds);
-    
+
     for (let i = 0; i < gameslen; i++) {
       let con = gamdd.Stages[i].Cnm;
+
       if (!con_dit[con]) {
         con_dit[con] = {};
       }
-      con_dit[con][gamdd.Stages[i].Snm] = gamdd.Stages[i].Events;
+
+      con_dit[con][gamdd.Stages[i].Snm] =
+        gamdd.Stages[i].Events;
     }
+
     setCountry_lea(con_dit);
-    //await new Promise(resolve => setTimeout(resolve, 1000));
+
     setallodd();
-  };
+
+  } catch (err) {
+    console.error("Fetch error:", err);
+  }
+};
   //function to handle a date selected
   const handleDate = (e) => {
     selectDate = (e.target.value);
@@ -171,14 +183,23 @@ function Main_bar() {
 
   // };
   //function to reload to make games update
-  const reload = async () => { 
-    while (1) {
-      if(fd !== '') {
-        displayFetched(url + fd, url2 + fd);
-      }
-      await new Promise(resolve => setTimeout(resolve, 1 * 60 * 1000));
+  useEffect(() => {
+  if (fd === '') {
+    const dt = displayDate[0].split('/');
+    fd = (dt[2] + dt[1] + dt[0]);
+  }
+
+  displayFetched(url + fd, url2 + fd);
+
+  const interval = setInterval(() => {
+    if (fd !== '') {
+      displayFetched(url + fd, url2 + fd);
     }
-  };
+  }, 60000);
+
+  return () => clearInterval(interval);
+
+}, []);
 
   //takes care of current date display of games when page loads finish
   useEffect(() => {
